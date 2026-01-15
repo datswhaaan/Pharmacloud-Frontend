@@ -1,0 +1,98 @@
+"use client";
+
+import { useState } from "react";
+
+type RiskLevel = "green" | "yellow" | "red";
+
+function getRiskLevel(score: number): RiskLevel {
+  if (score >=70) return "green";
+  if (score >=50) return "yellow";
+  return "red";
+}
+
+type DrugProps = {
+  id: string;
+  name: string;
+  unit: string;
+  quantity: number;
+  confidential: number;
+  showCheckbox?: boolean;
+  checked?: boolean;
+  locked?: boolean;
+  onCheckChange?: (id: string, checked: boolean) => void;
+};
+
+export default function Drug({
+  id,
+  name,
+  unit,
+  quantity,
+  confidential,
+  showCheckbox = false,
+  checked = false,
+  locked = false,
+  onCheckChange,
+}: DrugProps) {
+  const [qty, setQty] = useState(quantity);
+
+  const level = getRiskLevel(confidential);
+  const isSafe = level === "green";
+
+  const colorMap: Record<RiskLevel, string> = {
+    green: "bg-green-50 text-green-700",
+    yellow: "bg-yellow-50 text-yellow-700",
+    red: "bg-red-50 text-red-700",
+  };
+
+  return (
+    <div
+      className={`flex items-center justify-between gap-4 p-3 rounded-lg ${colorMap[level]}`}
+    >
+        {showCheckbox && (
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={(e) =>
+              onCheckChange?.(id, e.target.checked)
+            }
+            className="w-4 h-4 accent-white"
+          />
+        )}
+      <div className="flex-1 w-full">
+        <div className="font-medium">{name}</div>
+        {!isSafe && getRiskLevel(confidential) === "yellow" && (
+          <p className="text-xs text-yellow-600">ความมั่นใจต่ำ</p>
+        )}
+        {!isSafe && getRiskLevel(confidential) === "red" && (
+          <p className="text-xs text-red-600">ยาผิด</p>
+        )}
+      </div>
+
+      <div className="flex items-center justify-end gap-2">
+        {showCheckbox ? (
+          <div className="flex items-center gap-2 w-16">
+            <span className="text-right tabular-nums font-medium">
+              {qty}
+            </span>
+            <span className="text-sm">{unit}</span>
+          </div>
+          
+        ) : (
+          
+          <div className="flex items-center gap-2 w-28">
+            <input
+              type="number"
+              value={qty}
+              min={0}
+              onChange={(e) => setQty(Number(e.target.value))}
+              disabled={locked}
+              className="w-16 px-2 py-1 text-right border rounded-md disabled:cursor-not-allowed "
+            />
+            <span className="text-sm">{unit}</span>
+          </div>
+          
+        )}
+      </div>
+    </div>
+  );
+}
