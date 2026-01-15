@@ -42,7 +42,15 @@ const drugData = [
 export default function Detection() {
   const [deviceId, setDeviceId] = useState<string>();
   const webcamRef = useRef<WebcamCaptureHandle>(null);
-  const [checkedDrugs, setCheckedDrugs] = useState<Record<string, boolean>>({});
+  const [checkedDrugs, setCheckedDrugs] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    drugData.forEach((drug) => {
+      if (drug.confidential >= 70) {
+        initial[drug.id] = true;
+      }
+    });
+    return initial;
+  });
   
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-16 px-16 py-6 h-screen items-center justify-between">
@@ -51,7 +59,6 @@ export default function Detection() {
       </Card>
       <ScrollSync>
         <div className="flex flex-col gap-2 justify-between w-full  min-h-0">
-
           <div className="flex gap-2 w-full flex-1 min-h-0">
             <div className="aspect-4/3">
               <WebcamDisplay ref={webcamRef} deviceId={deviceId} onCapture={(img) => console.log("Captured:", img)}/>
