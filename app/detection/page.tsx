@@ -39,6 +39,20 @@ const drugData = [
   },
 ];
 
+const patientData = {
+    hn: '1234567',
+    vn: '87654321',
+    name: 'นายบัตร ออกหน่วย',
+    age: '28 ปี 2 เดือน 28 วัน',
+    gender: 'ชาย',
+    diagnosis: 'ขออุปกรณ์ทำแผล (Z760)',
+    rights: 'ฟรี',
+    allergies: 'ไม่มี',
+    doctor: 'ไม่มี',
+    dateTime: '15/01/2568 เวลา 14:30 น.',
+    severity: 'ขาว'
+  };
+
 export default function Detection() {
   const [deviceId, setDeviceId] = useState<string>();
   const webcamRef = useRef<WebcamCaptureHandle>(null);
@@ -54,51 +68,96 @@ export default function Detection() {
   
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-16 px-16 py-6 h-screen items-center justify-between">
+      
       <Card>
-        <InfoCard />
+        <InfoCard patientData={patientData}/>
       </Card>
-      <ScrollSync>
-        <div className="flex flex-col gap-2 justify-between w-full  min-h-0">
-          <div className="flex gap-2 w-full flex-1 min-h-0">
-            <div className="aspect-4/3">
-              <WebcamDisplay ref={webcamRef} deviceId={deviceId} onCapture={(img) => console.log("Captured:", img)}/>
-            </div>
-              <Card title="ใบสั่งยา" className="flex-1  min-h-0" >
-                <ScrollSyncPane
-                  group={[
-                    'default'
-                  ]}
-                >
-                  <DrugList 
-                    drugs={drugData} 
-                    showCheckbox={true}
-                    checkedMap={checkedDrugs}
-                    onCheckChange={(id, checked) =>
-                      setCheckedDrugs((prev) => ({ ...prev, [id]: checked }))
-                    } />
-                </ScrollSyncPane>
-              </Card>
-          </div>
 
-          <div className="flex gap-2 w-full flex-1 min-h-0">
-            <div className="aspect-4/3">
-              <WebcamDisplay deviceId={deviceId}/>
-            </div>
-              <Card title="ตรวจพบ" className="flex-1  min-h-0" >
-                <ScrollSyncPane
-                  group={[
-                    'default'
-                  ]}
-                >
-                  <DrugList
-                    drugs={drugData}
-                    lockedMap={checkedDrugs} 
-                  />
-                </ScrollSyncPane>
-              </Card>
-          </div>
+      <div className="flex gap-2 w-full h-full min-h-0">
+        
+        <div className="flex flex-col gap-2 h-full w-fit">
+
+              <WebcamDisplay
+                ref={webcamRef}
+                deviceId={deviceId}
+                className="flex-1 h-full min-h-0"
+              />
+
+              <WebcamDisplay
+                deviceId={deviceId}
+                className="flex-1 h-full min-h-0"
+              />
+
         </div>
-      </ScrollSync>
+
+        <Card title="ผลการตรวจสอบ" className="flex flex-col min-h-0" scrollable>
+
+          {/* container ของ 2 drug lists */}
+          <div className="flex gap-2 flex-1 min-h-0 pb-5 border-b">
+
+            {/* ซ้าย */}
+            <div className="flex flex-col flex-1 min-h-0 ">
+              <p>รายการยาที่เลือก</p>
+              <div className="flex-1 overflow-auto">
+                <DrugList
+                  drugs={drugData}
+                  showCheckbox
+                  checkedMap={checkedDrugs}
+                  onCheckChange={(id, checked) =>
+                    setCheckedDrugs((prev) => ({ ...prev, [id]: checked }))
+                  }
+                />
+              </div>
+            </div>
+
+            {/* ขวา */}
+            <div className="flex flex-col flex-1 min-h-0 ">
+              <p>ยาที่ถูกล็อก</p>
+              <div className="flex-1 overflow-auto">
+                <DrugList
+                  drugs={drugData}
+                  lockedMap={checkedDrugs}
+                />
+              </div>
+            </div>
+
+          </div>
+          
+          {/* container ของ 2 drug lists */}
+          <div className="flex gap-2 flex-1 min-h-0 pt-5">
+
+            {/* ซ้าย */}
+            <div className="flex flex-col flex-1 min-h-0 ">
+              <p>รายการยาที่ไม่ตรวจพบ</p>
+              <div className="flex-1 overflow-auto">
+                <DrugList
+                  drugs={drugData}
+                  showCheckbox
+                  checkedMap={checkedDrugs}
+                  onCheckChange={(id, checked) =>
+                    setCheckedDrugs((prev) => ({ ...prev, [id]: checked }))
+                  }
+                  risk={true}
+                />
+              </div>
+            </div>
+
+            {/* ขวา */}
+            <div className="flex flex-col flex-1 min-h-0 ">
+              <p>ยาที่ตรวจพบนอกเหนือจากใบสั่งยา</p>
+              <div className="flex-1 overflow-auto">
+                <DrugList
+                  drugs={drugData}
+                  lockedMap={checkedDrugs}
+                  risk={true}
+                />
+              </div>
+            </div>
+
+          </div>
+        </Card>
+
+      </div>
 
       <div className="flex w-full justify-between">
         
@@ -122,6 +181,7 @@ export default function Detection() {
           />
         </div>
       </div>
+
     </div> 
   );
 }

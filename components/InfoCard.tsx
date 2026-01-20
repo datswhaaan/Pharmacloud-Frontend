@@ -1,4 +1,5 @@
 import React from 'react';
+import Badges from './Badges';
 
 interface PatientData {
     hn: string;
@@ -11,6 +12,7 @@ interface PatientData {
     allergies: string;
     doctor: string;
     dateTime: string;
+    severity: string;
 }
 
 interface InfoFieldProps {
@@ -31,48 +33,38 @@ interface PatientInfoHeaderProps {
 }
 
 const InfoCard: React.FC<PatientInfoHeaderProps> = ({ patientData }) => {
-  const defaultData: PatientData = {
-    hn: '1234567',
-    vn: '87654321',
-    name: 'นายบัตร ออกหน่วย',
-    age: '28 ปี 2 เดือน 28 วัน',
-    gender: 'ชาย',
-    diagnosis: 'ขออุปกรณ์ทำแผล (Z760)',
-    rights: 'ฟรี',
-    allergies: 'ไม่มี',
-    doctor: 'ไม่มี',
-    dateTime: '15/01/2568 เวลา 14:30 น.'
-  };
-
-  const data = patientData || defaultData;
-
   return (
     <div>
-      {/* Header with title and timestamp */}
-      <div className="flex justify-between items-start pb-4">
-    
-        <div className="flex flex-col items-start">
-            <h2 className="text-2xl font-bold text-gray-800">{data.name}</h2>
-            <div className="flex items-center gap-2">
-                <p>ระดับความรุนแรง: </p>
-                <span className="px-12 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">
-                ขาว
-                </span>
+      {patientData &&(
+        <div>
+        
+        {/* Header with title and timestamp */}
+          <div className="flex justify-between items-start pb-4">
+        
+            <div className="flex flex-col items-start">
+                <h1 className="text-gray-800">{patientData.name}</h1>
+                <div className="flex items-center gap-2">
+                    <p className='text-sm text-gray-500'>ระดับความรุนแรง</p>
+                    <Badges 
+                      varient="severity"
+                      level={patientData.severity}
+                    />
+                </div>
             </div>
+            <span className="text-sm text-gray-500">รับบริการ {patientData.dateTime}</span>
+          </div>
+
+          {/* Patient Information Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-6 ">
+            <InfoField label="HN" value={patientData.hn} />
+            <InfoField label="VN" value={patientData.vn} />
+            <InfoField label="อายุ" value={patientData.age} />
+            <InfoField label="การวินิจฉัย (Dx)" value={patientData.diagnosis} />
+            <InfoField label="สิทธิ์" value={patientData.rights}/>
+            <InfoField label="แพทย์" value={patientData.doctor} />
+          </div>
         </div>
-        <span className="text-sm text-gray-600">รับบริการ {data.dateTime}</span>
-      </div>
-
-      {/* Patient Information Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-6 ">
-        <InfoField label="HN" value={data.hn} />
-        <InfoField label="VN" value={data.vn} />
-        <InfoField label="อายุ" value={data.age} />
-        <InfoField label="การวินิจฉัย (Dx)" value={data.diagnosis} />
-        <InfoField label="สิทธิ์" value={data.rights}/>
-        <InfoField label="แพทย์" value={data.doctor} />
-      </div>
-
+        )}
     </div>
   );
 };

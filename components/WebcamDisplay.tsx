@@ -11,10 +11,11 @@ export type WebcamCaptureHandle = {
 type WebcamDisplayProps = {
   deviceId?: string;
   onCapture?: (image: string) => void;
+  className?: string;
 };
 
 const WebcamDisplay = forwardRef<WebcamCaptureHandle, WebcamDisplayProps>(
-  ({ deviceId, onCapture }, ref) => {
+  ({ deviceId, onCapture, className }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -88,16 +89,16 @@ const WebcamDisplay = forwardRef<WebcamCaptureHandle, WebcamDisplayProps>(
     };
 
   return (
-    <div className="position-relative w-full max-w-lg rounded-xl">
+    <div className= {`position-relative aspect-3/4 rounded-xl ${className}`}>
         <>
           {capturedImage ? (
             <img src={capturedImage}
-            className="w-full rounded-xl" />
+            className="w-full h-full object-cover rounded-xl" />
           ) : (
             <video ref={videoRef} autoPlay muted 
-            className="w-full rounded-xl" />
+            className="w-full h-full object-cover rounded-xl" />
           )}
-        <canvas ref={canvasRef} className="hidden rounded-xl" />
+        <canvas ref={canvasRef} className="hidden" />
         </>
     </div>
   );

@@ -1,14 +1,15 @@
 "use client";
 
+import { cn } from "@/utils/cn";
 import { useState } from "react";
 
 type RiskLevel = "green" | "yellow" | "red";
 
-function getRiskLevel(score: number): RiskLevel {
-  if (score >=70) return "green";
-  if (score >=50) return "yellow";
+const getRiskLevel = (score: number) => {
+  if (score >= 70) return "green";
+  if (score >= 50) return "yellow";
   return "red";
-}
+};
 
 type DrugProps = {
   id: string;
@@ -20,6 +21,7 @@ type DrugProps = {
   checked?: boolean;
   locked?: boolean;
   onCheckChange?: (id: string, checked: boolean) => void;
+  risk?: boolean;
 };
 
 export default function Drug({
@@ -32,8 +34,10 @@ export default function Drug({
   checked = false,
   locked = false,
   onCheckChange,
+  risk,
 }: DrugProps) {
   const [qty, setQty] = useState(quantity);
+  const [edited, setEdited] = useState(false);
 
   const level = getRiskLevel(confidential);
   const isSafe = level === "green";
@@ -45,8 +49,9 @@ export default function Drug({
   };
 
   return (
+    
     <div
-      className={`flex items-center justify-between gap-4 p-3 rounded-lg ${colorMap[level]}`}
+      className={`flex items-center justify-between min-h-14 gap-4 p-3 rounded-lg ${colorMap[level]}`}
     >
         {showCheckbox && (
           <input
@@ -84,9 +89,18 @@ export default function Drug({
               type="number"
               value={qty}
               min={0}
-              onChange={(e) => setQty(Number(e.target.value))}
+              onChange={(e) => {
+                setQty(Number(e.target.value));
+                setEdited(true);
+              }}
               disabled={locked}
-              className="w-16 px-2 py-1 text-right border rounded-md disabled:cursor-not-allowed "
+              className={cn(
+                "w-16 px-2 py-1 text-right border rounded-md transition-colors",
+                edited
+                  ? "text-gray-700 bg-white border-gray-300"
+                  : "text-gray-400 bg-gray-100 border-gray-200",
+                locked && "disabled:cursor-not-allowed"
+              )}
             />
             <span className="text-sm">{unit}</span>
           </div>

@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --color-grey-50: #FAFAFA;
+  
+  --color-blue-500: #0084FF;
 }
 
 @theme inline {
@@ -11,7 +15,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-primary-gray: #F9F9FB;
+  --color-primary-gray: var(--color-grey-50);
+  --color-primary-blue: var(--color-blue-500);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -20,6 +25,21 @@
     --foreground: #ededed;
   }
 } */
+
+@layer base{
+  h1 {
+    @apply  font-semibold text-2xl;
+  }
+  h2 {
+    @apply  font-semibold text-xl;
+  }
+  h3 {
+    @apply  font-medium text-lg;
+  }
+  body {
+    @apply  font-medium text-base;
+  }
+}
 
 body {
   background: var(--background);

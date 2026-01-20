@@ -1,7 +1,16 @@
-export default function Card(
-    { title, className = "", children } : 
-    { title?: string; className?: string; children?: React.ReactNode }
-) {
+type CardProps = {
+    title?: string;
+    className?: string;
+    children?: React.ReactNode;
+    scrollable?: boolean;
+};
+
+export default function Card({ 
+  title, 
+  className = "", 
+  children, 
+  scrollable = false 
+}: CardProps) {
   return (
     <div
       className={`
@@ -12,12 +21,12 @@ export default function Card(
     >
       
       {title && (
-        <h2 className="text-2xl font-semibold mb-3">
+        <h2>
           {title}
         </h2>
       )}
 
-      <div className="flex-1 text-sm text-gray-600 min-h-0">
+      <div className={`flex-1 text-gray-600 min-h-0 ${scrollable ? "overflow-y-auto overflow-x-hidden" : ""}`}>
         {children ?? "No data"}
       </div>
 
