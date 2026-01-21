@@ -67,7 +67,7 @@ export default function Detection() {
   });
   
   return (
-    <div className="flex flex-col bg-primary-gray gap-4 pt-16 px-16 py-6 h-screen items-center justify-between">
+    <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">
       
       <Card>
         <InfoCard patientData={patientData}/>

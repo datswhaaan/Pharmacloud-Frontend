@@ -2,7 +2,7 @@ import Image from "next/image";
 
 type ButtonProps = {
   className?: string;
-  logo?: string;
+  logo?: string ;
   text?: string;
   onClick?: () => void;
   disabled?: boolean;

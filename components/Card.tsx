@@ -14,7 +14,7 @@ export default function Card({
   return (
     <div
       className={`
-        w-full rounded-xl border border-primary-gray bg-white shadow-sm
+        w-full rounded-xl ring-1 ring-secondary bg-white shadow-sm
         flex flex-col p-5
         ${className}
       `}

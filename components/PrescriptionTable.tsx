@@ -1,0 +1,90 @@
+"use client";
+import { useMemo, useState } from "react";
+import { DotsVertical } from "@untitledui/icons";
+import type { SortDescriptor } from "react-aria-components";
+import { PaginationPageMinimalCenter } from "@/components/application/pagination/pagination";
+import { Table, TableCard } from "@/components/application/table/table";
+import teamMembers from "@/components/application/table/team-members.json";
+import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import Badges from "./Badges";
+
+export const PrescriptionTable = () => {
+    // const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    //     column: "status",
+    //     direction: "ascending",
+    // });
+
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    // const sortedItems = useMemo(() => {
+    //     return teamMembers.items.sort((a, b) => {
+    //         const first = a[sortDescriptor.column as keyof typeof a];
+    //         const second = b[sortDescriptor.column as keyof typeof b];
+
+    //         // Compare numbers or booleans
+    //         if ((typeof first === "number" && typeof second === "number") || (typeof first === "boolean" && typeof second === "boolean")) {
+    //             return sortDescriptor.direction === "descending" ? second - first : first - second;
+    //         }
+
+    //         // Compare strings
+    //         if (typeof first === "string" && typeof second === "string") {
+    //             let cmp = first.localeCompare(second);
+    //             if (sortDescriptor.direction === "descending") {
+    //                 cmp *= -1;
+    //             }
+    //             return cmp;
+    //         }
+
+    //         return 0;
+    //     });
+    // }, [sortDescriptor]);
+
+    return (
+        <TableCard.Root className="w-full">
+            <Table aria-label="Team members">
+                <Table.Header>
+                    <Table.Head label="ระดับความรุนแรง" isRowHeader/>
+                    <Table.Head label="HN"/>
+                    <Table.Head label="VN"/>
+                    <Table.Head label="ชื่อ-สกุล ผู้ป่วย" />
+                    <Table.Head label="เวลารับบริการ" />
+                    <Table.Head label="สถานะ"/>
+                    <Table.Head label="" />
+                </Table.Header>
+
+                <Table.Body items={teamMembers.items}>
+                    {(item) => (
+                        <Table.Row id={item.HN+item.VN} href={`/prescription/${item.id}`} className="hover:bg-gray-100 hover:cursor-pointer">
+                            <Table.Cell>
+                                <Badges varient="severity" level={item.ระดับความรุนแรง} />
+                            </Table.Cell>
+                            <Table.Cell className="whitespace-nowrap">{item.HN}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap">{item.VN}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap">{item["ชื่อ-สกุล ผู้ป่วย"]}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap">{item["เวลารับบริการ"]}</Table.Cell>
+                            <Table.Cell>
+                                <Badges varient="status" status={item.สถานะ} />
+                            </Table.Cell>
+                            <Table.Cell className="px-4">
+                                <div className="flex justify-end gap-0.5">
+                                    <ButtonUtility size="xs" color="tertiary" tooltip="เพิ่มเติม" icon={DotsVertical} />
+                                </div>
+                            </Table.Cell>
+                        </Table.Row>
+                    )}
+                </Table.Body>
+            </Table>
+
+            <PaginationPageMinimalCenter 
+                rounded={true} 
+                page={currentPage} 
+                total={10} 
+                onPageChange={handlePageChange}
+                className="px-4 py-3 md:px-6 md:pt-3 md:pb-4" />
+        </TableCard.Root>
+    );
+};

@@ -9,15 +9,30 @@ type Props = {
   onOpenLeft: () => void;
 };
 
+function getPageTitle(pathname: string) {
+  if (pageTitleMap[pathname]) return pageTitleMap[pathname];
+
+  // match แบบ prefix
+  const match = Object.keys(pageTitleMap)
+    .sort((a, b) => b.length - a.length) // เอาที่ยาวสุดก่อน
+    .find((path) => pathname.startsWith(path));
+
+  return match ? pageTitleMap[match] : "หน้าหลัก";
+}
+
 const pageTitleMap: Record<string, string> = {
-  "/": "หน้าหลัก",
-  "/dashboard": "แดชบอร์ด",
-  "/dashboard/settings": "ตั้งค่า",
-  "/camera": "ถ่ายภาพ",
+  "/prescription": "รายการใบสั่งยา",
+  "/detection": "ตรวจสอบรายการยา",
+  "/drugs": "บัญชียา",
+  "/statistics": "สถิติการตรวจสอบ",
+  "/settings": "ตั้งค่า",
 };
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const pathname = usePathname();
+  const pageTitle = getPageTitle(pathname);
 
   return (
     <div className="flex flex-col min-h-screen w-full ">
@@ -40,7 +55,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
             >
               <FaIcons.FaBars size={20} className="text-blue-500" />
             </button>
-            <span className="ml-4 text-xl font-bold text-blue-500">ตรวจสอบรายการยา</span>
+            <h1 className="ml-1 text-blue-500">{pageTitle}</h1>
           </nav>
           <div>
             {children}
