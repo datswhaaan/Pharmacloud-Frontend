@@ -112,7 +112,7 @@ export default function Detection() {
 
             {/* ขวา */}
             <div className="flex flex-col flex-1 min-h-0 ">
-              <p>ยาที่ถูกล็อก</p>
+              <p>ยาที่ตรวจพบ</p>
               <div className="flex-1 overflow-auto">
                 <DrugList
                   drugs={drugData}
