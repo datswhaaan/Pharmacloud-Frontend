@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "drugs": [
+      {
+        "name": "TERCO-D ยาเม็ด (DEXTRO 15 MG + GG + TERPIN)",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "NORGESIC ยาเม็ด",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาเม็ด (BROMPHEN 4 MG + PHENYL 10 MG)",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "GAVISCON DUAL ACTION 150 ML",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "M.TUSSIN 120 ML (glass bottle)",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "MCARMICATIVE ยาน้ำ 240 ML",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาน้ำ ชนิดหยด (bromphen 2 MG + phenyl 2.5 MG/1ml)",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาน้ำ (BROMPHEN 4 MG + PHENYL 10 MG/5ml)",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาน้ำ ชนิดหยด (bromphen 2 MG + phenyl 2.5 MG/1ml)",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      }
+    ],
+    "imgsrc": "/drugsImage.jpg",
+    "reviewedBy": "ภก.สุภาวดี รัตนกุล",
+    "reviewDate": "15/01/2568 เวลา 15:00 น.",
+    "status": "ตรวจสอบสำเร็จ"
+  },
+  {
+    "id": 2,
+    "drugs": [
+      {
+        "name": "TERCO-D ยาเม็ด (DEXTRO 15 MG + GG + TERPIN)",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "NORGESIC ยาเม็ด",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาเม็ด (BROMPHEN 4 MG + PHENYL 10 MG)",
+        "quantity": 0,
+        "unit": "เม็ด",
+        "isCorrect": true
+      },
+      {
+        "name": "GAVISCON DUAL ACTION 150 ML",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "M.TUSSIN 120 ML (glass bottle)",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "MCARMICATIVE ยาน้ำ 120 ML",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": false
+      },
+      {
+        "name": "DIMETAP ยาน้ำ ชนิดหยด (bromphen 2 MG + phenyl 2.5 MG/1ml)",
+        "quantity": 0,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาน้ำ (BROMPHEN 4 MG + PHENYL 10 MG/5ml)",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      },
+      {
+        "name": "DIMETAP ยาน้ำ ชนิดหยด (bromphen 2 MG + phenyl 2.5 MG/1ml)",
+        "quantity": 1,
+        "unit": "ขวด",
+        "isCorrect": true
+      }
+    ],
+    "imgsrc": "/drugsImage.jpg",
+    "reviewedBy": "ภก.สุภาวดี รัตนกุล",
+    "reviewDate": "15/01/2568 เวลา 15:00 น.",
+    "status": "ยกเลิก"
+  }
+]

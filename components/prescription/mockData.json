@@ -1,0 +1,22 @@
+{
+  "id": "1",
+  "hn": "1234567",
+  "vn": "87654321",
+  "name": "นายบัตร ออกหน่วย",
+  "age": "28 ปี 2 เดือน 28 วัน",
+  "gender": "ชาย",
+  "diagnosis": "ขออุปกรณ์ทำแผล (Z760)",
+  "rights": "ฟรี",
+  "doctor": "แพทย์ รพช",
+  "dateTime": "15/01/2568 เวลา 14:30 น.",
+  "severity": "ขาว",
+  "status": "รอตรวจสอบ",
+  "symptoms": "ขออุปกรณ์ออกหน่วย (บุษราคัม บัวพรม บันทึก)",
+  "history": "ไม่มี",
+  "familyHistory": "ไม่มี",
+  "drugAllergies": "KETOCONAZOLE, penicillins",
+  "drugAllergyMonitoring": "WARFARIN",
+  "suspectedDrugAllergys": "-",
+  "reviewedBy": "ภก.สุภาวดี รัตนกุล",
+  "reviewDate": "15/01/2568 เวลา 15:00 น."
+}

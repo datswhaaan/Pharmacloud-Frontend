@@ -2,10 +2,10 @@
 import { useState, useRef, useEffect } from "react";
 
 
-export default function ImageDisplay({ capturedImage }: { capturedImage: string | null }) {
+export default function ImageDisplay({ capturedImage, className }: { capturedImage: string | null, className?: string }) {
 
   return (
-    <div className="position-relative w-full max-w-lg">
+    <div className={`position-relative w-full max-w-lg ${className}`}>
         <>
           <img className="w-full h-full object-cover rounded-2xl" src={capturedImage || "drugsImage.jpg"} alt="Captured" />
         </>

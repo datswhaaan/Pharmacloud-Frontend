@@ -3,7 +3,7 @@ import Card from "@/components/Card";
 import WebcamDisplay, { WebcamCaptureHandle } from "@/components/WebcamDisplay";
 import Button from "@/components/Button";
 import InfoCard from "@/components/InfoCard";
-import DrugList from "@/components/prescription/DrugList";
+import DrugList from "@/components/detection/DrugList";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import WebcamSelector from "@/components/WebcamSelector";
 import { useRef, useState } from "react";
@@ -47,11 +47,13 @@ const prescriptionData = {
     gender: 'ชาย',
     diagnosis: 'ขออุปกรณ์ทำแผล (Z760)',
     rights: 'ฟรี',
-    allergies: 'ไม่มี',
-    doctor: 'ไม่มี',
+    doctor: 'แพทย์ รพช',
     dateTime: '15/01/2568 เวลา 14:30 น.',
     severity: 'ขาว',
-    status: 'รอตรวจสอบ'
+    status: 'รอตรวจสอบ',
+    drugAllergies: 'KETOCONAZOLE, penicillins',
+    drugAllergyMonitoring: '"WARFARIN"',
+    suspectedDrugAllergys: '-'
   };
 
 export default function Detection() {

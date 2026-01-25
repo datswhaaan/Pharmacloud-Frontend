@@ -1,70 +1,76 @@
-import { forwardRef } from "react";
-import Drug from "./Drug";
+import Card from "@/components/Card";
 
-type DrugItem = {
-  id: string;
+type ReviewDrug = {
   name: string;
-  unit: string;
   quantity: number;
-  confidential: number;
+  unit: string;
+  iscorrect: boolean;
 };
+
+type DetectedDrug = {
+  name: string;
+  quantity: number;
+  unit: string;
+  detected: boolean;
+};
+
+type Drug = ReviewDrug | DetectedDrug;
 
 type Props = {
-  drugs: DrugItem[];
-  showCheckbox?: boolean;
-  checkedMap?: Record<string, boolean>;
-  lockedMap?: Record<string, boolean>;
-  onCheckChange?: (id: string, checked: boolean) => void;
-  risk?: boolean;
+  drugs: Drug[];
+  title?: boolean;
+  withCard?: boolean;
 };
 
-const getRiskLevel = (score: number) => {
-  if (score >= 70) return "green";
-  if (score >= 50) return "yellow";
-  return "red";
-};
+export default function DrugList({
+  drugs,
+  title = true,
+  withCard = true,
+}: Props) {
+  const content = (
+    <>
+      {title && <h2 className="mb-2 font-medium">รายการยา</h2>}
 
-const DrugList = forwardRef<HTMLDivElement, Props>(
-  ({ drugs, showCheckbox, checkedMap, lockedMap, onCheckChange, risk }, ref) => {
-    const displayedDrugs = drugs.filter(drug => {
-      const level = getRiskLevel(drug.confidential);
-      
-      if (risk) {
-        // ถ้า risk=true: เอาเฉพาะสีแดง (red)
-        return level === "red";
-      } else {
-        // ถ้า risk=false: เอาทุกอันที่ไม่ใช่สีแดง (green, yellow)
-        return level !== "red";
-      }
-    });
+      <div className="flex flex-col">
+        {drugs.map((drug, index) => {
+          const isReview = "iscorrect" in drug;
+          const isDetected = "detected" in drug;
 
-    // แสดงผล "ไม่พบรายการ" ตามผลลัพธ์ที่กรองแล้ว
-    if (displayedDrugs.length === 0) {
-      return (
-        <div className="text-sm text-gray-400 p-4 text-center">
-          {risk ? "ไม่พบรายการยาที่ผิดพลาด" : "ไม่มีรายการยาที่ตรวจสอบแล้ว"}
-        </div>
-      );
-    }
+          const isWrong =
+            (isReview && !drug.iscorrect) ||
+            (isDetected && !drug.detected);
 
-    return (
-      <div
-        ref={ref}
-        className="h-full overflow-y-auto pr-2"
-      >
-        {displayedDrugs.map((drug, index) => (
-          <Drug 
-            key={drug.id || index} 
-            {...drug} 
-            showCheckbox={showCheckbox} 
-            checked={checkedMap?.[drug.id]} 
-            locked={lockedMap?.[drug.id]} 
-            onCheckChange={onCheckChange} 
-            />
-        ))}
+          const baseBg =
+            index % 2 === 0 ? "bg-white" : "bg-gray-100";
+
+          const bgClass =
+            isReview && isWrong ? "bg-red-100" : baseBg;
+
+          return (
+            <div
+              key={index}
+              className={`flex justify-between items-center p-2 ${bgClass}`}
+            >
+              <p>{drug.name}</p>
+
+              <div className="flex items-center gap-2">
+                <p>
+                  {drug.quantity} {drug.unit}
+                </p>
+
+                {/* detected → show badge */}
+                {isDetected && isWrong && (
+                  <span className="text-xs px-2 py-0.5 rounded bg-red-500 text-white">
+                    ไม่ตรง
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
-);
+    </>
+  );
 
-export default DrugList;
+  return withCard ? <Card>{content}</Card> : content;
+}
