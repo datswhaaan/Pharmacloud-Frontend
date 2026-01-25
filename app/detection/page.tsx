@@ -69,10 +69,8 @@ export default function Detection() {
   
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">
-      
-      <Card>
-        <InfoCard prescriptionData={prescriptionData} type="detection"/>
-      </Card>
+
+      <InfoCard prescriptionData={prescriptionData} type="detection"/>
 
       <div className="flex gap-2 w-full h-full min-h-0">
         

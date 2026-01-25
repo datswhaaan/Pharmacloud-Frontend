@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from '@/components/Card';
 import Badges from './Badges';
 
 interface PrescriptionData {
@@ -41,7 +42,7 @@ interface PatientInfoHeaderProps {
 
 const InfoCard: React.FC<PatientInfoHeaderProps> = ({ prescriptionData, type}) => {
   return (
-    <div>
+    <Card>
       {prescriptionData && type === 'detection' && (
         <div>
         {/* Header with title and timestamp */}
@@ -102,7 +103,7 @@ const InfoCard: React.FC<PatientInfoHeaderProps> = ({ prescriptionData, type}) =
           </div>
         </div>
         )}
-    </div>
+    </Card>
   );
 };
 

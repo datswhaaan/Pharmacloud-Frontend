@@ -2,7 +2,7 @@ import Card from "@/components/Card";
 import InfoCard from "@/components/InfoCard";
 
 
-const patientData = {
+const prescriptionData = {
     hn: '1234567',
     vn: '87654321',
     name: 'นายบัตร ออกหน่วย',
@@ -20,9 +20,7 @@ const patientData = {
 export default function PrescriptionDetail() {
     return (
         <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">  
-            <Card>
-            <InfoCard prescriptionData={patientData} type='prescription'/>
-            </Card>
+            <InfoCard prescriptionData={prescriptionData} type='prescription'/>
         </div>
     )
 }
