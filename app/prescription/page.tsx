@@ -1,4 +1,3 @@
-"use client";
 import Filters from "@/components/Filters";
 import SearchBar from "@/components/SearchBar";
 import { PrescriptionTable } from "@/components/PrescriptionTable";

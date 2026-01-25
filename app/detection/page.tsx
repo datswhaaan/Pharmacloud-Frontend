@@ -39,7 +39,7 @@ const drugData = [
   },
 ];
 
-const patientData = {
+const prescriptionData = {
     hn: '1234567',
     vn: '87654321',
     name: 'นายบัตร ออกหน่วย',
@@ -50,7 +50,8 @@ const patientData = {
     allergies: 'ไม่มี',
     doctor: 'ไม่มี',
     dateTime: '15/01/2568 เวลา 14:30 น.',
-    severity: 'ขาว'
+    severity: 'ขาว',
+    status: 'รอตรวจสอบ'
   };
 
 export default function Detection() {
@@ -70,7 +71,7 @@ export default function Detection() {
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">
       
       <Card>
-        <InfoCard patientData={patientData}/>
+        <InfoCard prescriptionData={prescriptionData} type="detection"/>
       </Card>
 
       <div className="flex gap-2 w-full h-full min-h-0">
