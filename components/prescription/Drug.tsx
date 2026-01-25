@@ -87,22 +87,26 @@ export default function Drug({
           <div className="flex items-center gap-2 w-28">
             <input
               type="number"
-              value={qty}
+              value={edited ? qty : quantity}
               min={0}
+              onFocus={(e) => {
+                e.target.select();
+                setEdited(true);
+              }}
               onChange={(e) => {
                 setQty(Number(e.target.value));
                 setEdited(true);
               }}
               disabled={locked}
-              defaultValue={qty}
               className={cn(
                 "w-16 px-2 py-1 text-right border rounded-md transition-colors",
                 edited
                   ? "text-gray-700 bg-white border-gray-300"
                   : "text-gray-300 bg-white border-gray-300",
-                locked && "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+                locked && "cursor-not-allowed bg-gray-100 text-gray-400"
               )}
             />
+
             <span className="text-sm">{unit}</span>
           </div>
           
