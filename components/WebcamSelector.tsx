@@ -67,19 +67,5 @@ export default function WebcamSelector({ onSelect }: WebcamSelectorProps) {
             </Dropdown.Menu>
         </Dropdown.Popover>
     </Dropdown.Root>
-    // <select
-    //   value={selected}
-    //   onChange={(e) => {
-    //     setSelected(e.target.value);
-    //     onSelect(e.target.value);
-    //   }}
-    //   className="px-5 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-    // >
-    //   {cameras.map((cam) => (
-    //     <option key={cam.deviceId} value={cam.deviceId}>
-    //       {cam.label}
-    //     </option>
-    //   ))}
-    // </select>
   );
 }
