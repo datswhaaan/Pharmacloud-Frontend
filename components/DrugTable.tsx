@@ -57,8 +57,10 @@ export const DrugTable = ({ drugs }: { drugs: any[] }) => {
                         <Table.Row id={item.id} href={`/drugs/${item.id}`} className=" hover:bg-gray-100 hover:cursor-pointer">
                             <Table.Cell className="whitespace-nowrap">{item.code}</Table.Cell>
                             <Table.Cell className="whitespace-nowrap">{item.name}</Table.Cell>
-                            <Table.Cell>
-                                <Badges varient="status" status={item.riskLevel} />
+                            <Table.Cell className="w-32">
+                                <div className="flex justify-end gap-0.5">
+                                    <Badges varient="riskLevel" level={item.riskLevel} />
+                                </div>
                             </Table.Cell>
                             <Table.Cell className="px-4">
                                 <div className="flex justify-end gap-0.5">

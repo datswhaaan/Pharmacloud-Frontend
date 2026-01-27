@@ -1,5 +1,5 @@
 type BadgesProps = {
-    varient: "severity" | "status";
+    varient: "severity" | "status" | "riskLevel";
     level?: string;
     status?: string;
 };
@@ -37,17 +37,24 @@ export default function Badges({
                 return "bg-red-100 text-red-800";
         }
     }
+
+    const riskLevelColor = "bg-red-100 text-red-800"
     
     return (
         <div className="w-32">
             {varient === "severity" && (
-                <div className={`${getSeverityColor(level)} text-sm text-center font-medium w-full h-fit rounded-full py-1`}>
+                <div className={`${getSeverityColor(level)} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
                     {level}
                 </div>
             )}
             {varient === "status" && (
-                <div className={`${getStatusColor(status)} text-sm text-center font-medium w-full h-fit rounded-full py-1`}>
+                <div className={`${getStatusColor(status)} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
                     {status}
+                </div>
+            )}
+            {varient === "riskLevel" && level === "high" &&(
+                <div className={`${riskLevelColor} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
+                    เสี่ยงสูง
                 </div>
             )}
         </div>
