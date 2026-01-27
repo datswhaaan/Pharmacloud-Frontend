@@ -3,7 +3,7 @@ import InfoCard from "@/components/InfoCard";
 import DrugList from "@/components/prescription/DrugList";
 import DetectionResult from "@/components/prescription/DetectionResult";
 import prescriptionData from "@/components/prescription/mockData.json";
-import drugs from "@/components/prescription/mockDrugs.json";
+import drugs from "@/components/prescription/mockPrescription.json";
 import detectionResult from "@/components/prescription/mockDetection.json";
 
 export default function DetectionDetail() {

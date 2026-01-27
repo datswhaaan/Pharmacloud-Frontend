@@ -1,7 +1,7 @@
 import InfoCard from "@/components/InfoCard";
 import DetectionResult from "@/components/prescription/DetectionResult";
 import DrugList from "@/components/prescription/DrugList";
-import drugs from "@/components/prescription/mockDrugs.json";
+import drugs from "@/components/prescription/mockPrescription.json";
 import prescriptionData from "@/components/prescription/mockData.json";
 import detectionData from "@/components/prescription/mockDetection.json";
 

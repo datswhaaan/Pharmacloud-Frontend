@@ -1,6 +1,12 @@
+import { DrugTable } from "@/components/DrugTable";
+import mockDrugs from "@/components/mockDrugs.json";
+import SearchBar from "@/components/SearchBar";
+
 export default function Drugs() {
   return (
-    <div className="flex flex-col bg-white gap-4 pt-20 px-16 py-6 h-screen items-center justify-center">
+    <div className="flex flex-col bg-primary-gray gap-4 pt-20 px-16 py-6 h-screen items-center justify-start">
+      <SearchBar />
+      <DrugTable drugs={mockDrugs.data}/>
     </div>
   );
 }

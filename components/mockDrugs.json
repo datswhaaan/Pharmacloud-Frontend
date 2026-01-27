@@ -1,0 +1,70 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "code": "IVNACL45%",
+      "name": "0.45% SODIUM CHLORIDE IV FLUIDS 1000 ML",
+      "riskLevel": null
+    },
+    {
+      "id": 2,
+      "code": "ICALC",
+      "name": "10% Ca. GLUCONATE ขวด HAD**",
+      "riskLevel": null
+    },
+    {
+      "id": 3,
+      "code": "SONB3",
+      "name": "3% NaCl NEBULE 5 ML HAD",
+      "riskLevel": null
+    },
+    {
+      "id": 4,
+      "code": "IVNACL3%",
+      "name": "3% SODIUM CHLORIDE IV FLUIDS 500 ML",
+      "riskLevel": "high"
+    },
+    {
+      "id": 5,
+      "code": "IVACET",
+      "name": "ACETAR IV FLUIDS 1000 ML",
+      "riskLevel": null
+    },
+    {
+      "id": 6,
+      "code": "108150",
+      "name": "ACETAZOLAMIDE โครงการผ่าตัดตา",
+      "riskLevel": null
+    },
+    {
+      "id": 7,
+      "code": "TDIAMO",
+      "name": "ACETAZOLAMIDE ยาเม็ด 250 MG",
+      "riskLevel": null
+    },
+    {
+      "id": 8,
+      "code": "PFLU1",
+      "name": "acetylcysteine ซอง 100 MG/5G",
+      "riskLevel": null
+    },
+    {
+      "id": 9,
+      "code": "PFLU2",
+      "name": "ACETYLCYSTEINE ซอง 200 MG/5G",
+      "riskLevel": null
+    },
+    {
+      "id": 10,
+      "code": "PFLU6",
+      "name": "ACETYLCYSTEINE ซอง 600 MG/5G",
+      "riskLevel": null
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 10,
+    "totalPages": 10,
+    "totalItems": 100
+  }
+}
