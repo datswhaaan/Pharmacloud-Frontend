@@ -9,7 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tailgrids/icons": "^2.0.0",
     "@untitledui/icons": "^0.0.20",
+    "class-variance-authority": "^0.7.1",
     "components": "^0.1.0",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",

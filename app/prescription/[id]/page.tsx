@@ -1,5 +1,3 @@
-import Detection from "@/app/detection/page";
-import Card from "@/components/Card";
 import InfoCard from "@/components/InfoCard";
 import DetectionResult from "@/components/prescription/DetectionResult";
 import DrugList from "@/components/prescription/DrugList";

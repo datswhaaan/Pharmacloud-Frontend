@@ -17,12 +17,12 @@ const statusState = [
   { label: "ยกเลิก", value: "rejected" },
 ];
 
-export default function Filters() {
+export default function Filters({type}: {type: "prescription" | "detection"}) {
   const [severity, setSeverity] = useState("all");
   const [status, setStatus] = useState("all");
 
   const baseClass =
-    "inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium mr-2 mb-2 ring-1 shadow-sm transition";
+    "inline-flex items-center justify-center rounded-full px-3 pt-2 pb-1 text-sm font-medium ring-1 shadow-sm transition";
 
   const selectedClass =
     "bg-blue-100 text-primary-blue ring-blue-100";
@@ -32,9 +32,9 @@ export default function Filters() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <p>ระดับความรุนแรง</p>
-        <div>
+        <div className="flex items-center gap-2">
           {severityState.map((button) => (
             <button
               key={button.value}
@@ -51,24 +51,26 @@ export default function Filters() {
         </div>
       </div>
 
-      <div className="flex gap-2">
-        <p>สถานะ</p>
-        <div>
-          {statusState.map((button) => (
-            <button
-              key={button.value}
-              onClick={() => setStatus(button.value)}
-              className={`${baseClass} ${
-                status === button.value
-                  ? selectedClass
-                  : unselectedClass
-              }`}
-            >
-              {button.label}
-            </button>
-          ))}
+      {type === "prescription" && (
+        <div className="flex items-center gap-2">
+          <p>สถานะ</p>
+          <div className="flex items-center gap-2">
+            {statusState.map((button) => (
+              <button
+                key={button.value}
+                onClick={() => setStatus(button.value)}
+                className={`${baseClass} ${
+                  status === button.value
+                    ? selectedClass
+                    : unselectedClass
+                }`}
+              >
+                {button.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

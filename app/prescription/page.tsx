@@ -9,7 +9,7 @@ export default function Prescription() {
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
       <SearchBar />
       <div className="flex items-end justify-between w-full">
-        <Filters />
+        <Filters type="prescription"/>
         <Button 
           iconLeading={<Camera01 className="w-4 h-4 text-white" />}
           className="flex items-center justify-center"
@@ -18,7 +18,7 @@ export default function Prescription() {
           <p className="text-white">ตรวจสอบรายการยา</p>
         </Button>
       </div>
-      <PrescriptionTable/>
+      <PrescriptionTable type="prescription"/>
     </div>
   );
 }

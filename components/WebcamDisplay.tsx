@@ -89,7 +89,7 @@ const WebcamDisplay = forwardRef<WebcamCaptureHandle, WebcamDisplayProps>(
     };
 
   return (
-    <div className= {`position-relative aspect-3/4 rounded-xl ${className}`}>
+    <div className= {`position-relative rounded-xl ${className}`}>
         <>
           {capturedImage ? (
             <img src={capturedImage}

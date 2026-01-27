@@ -8,7 +8,7 @@ import teamMembers from "@/components/application/table/team-members.json";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
 import Badges from "./Badges";
 
-export const PrescriptionTable = () => {
+export const PrescriptionTable = ({type}: {type: "prescription" | "detection"}) => {
     // const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     //     column: "status",
     //     direction: "ascending",
@@ -58,7 +58,7 @@ export const PrescriptionTable = () => {
 
                 <Table.Body items={teamMembers.items}>
                     {(item) => (
-                        <Table.Row id={item.HN+item.VN} href={`/prescription/${item.id}`} className="hover:bg-gray-100 hover:cursor-pointer">
+                        <Table.Row id={item.HN+item.VN} href={`/${type}/${item.id}`} className="hover:bg-gray-100 hover:cursor-pointer">
                             <Table.Cell>
                                 <Badges varient="severity" level={item.ระดับความรุนแรง} />
                             </Table.Cell>
