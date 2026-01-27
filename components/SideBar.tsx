@@ -17,7 +17,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
         ${isOpen ? "w-[16rem]" : "w-0 overflow-hidden border-none"}
       `}
     >
-      <img src="logo.svg" alt="PharmaCloud Logo" className="w-40 h-16 object-contain mx-auto my-4" />
+      <img src="/logo.svg" alt="PharmaCloud Logo" className="w-40 h-16 object-contain mx-auto my-4" />
       <Profile name="วิวรรณ วรคุณอนันต์" position="เภสัชกร" />
         <div className="border-y border-gray-200 px-0 py-2 my-2 mx-4 justify-start w-fit">
           <SideBarItem route="รายการใบสั่งยา" path="/prescription" />
