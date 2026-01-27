@@ -48,7 +48,7 @@ interface PatientInfoHeaderProps {
   type?: 'detection' | 'prescription' | 'additional';
 }
 
-const InfoCard: React.FC<PatientInfoHeaderProps> = ({ prescriptionData, type}) => {
+const PrescriptionInfo: React.FC<PatientInfoHeaderProps> = ({ prescriptionData, type}) => {
   return (
     <Card>
       {prescriptionData && type === 'detection' && (
@@ -144,4 +144,4 @@ const InfoCard: React.FC<PatientInfoHeaderProps> = ({ prescriptionData, type}) =
   );
 };
 
-export default InfoCard;
+export default PrescriptionInfo;

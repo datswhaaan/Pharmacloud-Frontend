@@ -2,7 +2,7 @@
 import Card from "@/components/Card";
 import WebcamDisplay, { WebcamCaptureHandle } from "@/components/WebcamDisplay";
 import Button from "@/components/Button";
-import InfoCard from "@/components/InfoCard";
+import PrescriptionInfo from "@/components/PrescriptionInfo";
 import DrugList from "@/components/detection/DrugList";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import WebcamSelector from "@/components/WebcamSelector";
@@ -72,7 +72,7 @@ export default function Detection() {
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">
 
-      <InfoCard prescriptionData={prescriptionData} type="detection"/>
+      <PrescriptionInfo prescriptionData={prescriptionData} type="detection"/>
 
       <div className="flex gap-2 w-full h-full min-h-0">
         

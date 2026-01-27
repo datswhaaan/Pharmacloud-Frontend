@@ -1,0 +1,69 @@
+{
+  "id": "4",
+  "code": "IVNACL3%",
+  "riskLevel": "high",
+  "riskLabel": "เสี่ยงสูง",
+
+  "names": {
+    "generic": "SODIUM CHLORIDE",
+    "trade": "3% NaCl 500 ML",
+    "thai": "3% SODIUM CHLORIDE IV FLUIDS 500 ML"
+  },
+
+  "categories": {
+    "therapeutic": "1.1.1 ยาและสารอาหารทางหลอดเลือด (Drugs and Parenteral Nutrition)",
+    "pharmacological": "1.1.1 ยาและสารอาหารทางหลอดเลือด (Drugs and Parenteral Nutrition)",
+    "standard": "03 ยาและสารอาหารทางเส้นเลือด"
+  },
+
+  "usage": {
+    "route": "IV INFUSION",
+    "duration": null,
+    "quantity": "0 ถุง",
+    "detail": "ห้าม IV push",
+    "warning": "ขอให้ระมัดระวังสารละลายความเข้มข้นสูง",
+    "indication": "ยาเสี่ยงสูง"
+  },
+
+  "flags": {
+    "isHighAlertDrug": true,
+    "isNewDrug": false,
+    "hasImages": true
+  },
+
+  "images": [
+    {
+      "id": "img_001",
+      "url": "https://cdn.example.com/drugs/ivnacl3/front.jpg",
+      "type": "front",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    },
+    {
+      "id": "img_002",
+      "url": "https://cdn.example.com/drugs/ivnacl3/side.jpg",
+      "type": "side",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    },
+    {
+      "id": "img_003",
+      "url": "https://cdn.example.com/drugs/ivnacl3/back.jpg",
+      "type": "back",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    },
+    {
+      "id": "img_004",
+      "url": "https://cdn.example.com/drugs/ivnacl3/label.jpg",
+      "type": "label",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    }
+  ],
+
+  "meta": {
+    "createdAt": "2025-01-10T09:00:00Z",
+    "updatedAt": "2025-01-12T10:22:00Z",
+    "createdBy": {
+      "userId": "user_001",
+      "name": "วิจิตร วรกุลอนันต์"
+    }
+  }
+}

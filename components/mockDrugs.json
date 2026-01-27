@@ -41,29 +41,11 @@
       "code": "TDIAMO",
       "name": "ACETAZOLAMIDE ยาเม็ด 250 MG",
       "riskLevel": null
-    },
-    {
-      "id": 8,
-      "code": "PFLU1",
-      "name": "acetylcysteine ซอง 100 MG/5G",
-      "riskLevel": null
-    },
-    {
-      "id": 9,
-      "code": "PFLU2",
-      "name": "ACETYLCYSTEINE ซอง 200 MG/5G",
-      "riskLevel": null
-    },
-    {
-      "id": 10,
-      "code": "PFLU6",
-      "name": "ACETYLCYSTEINE ซอง 600 MG/5G",
-      "riskLevel": null
     }
   ],
   "pagination": {
     "page": 1,
-    "pageSize": 10,
+    "pageSize": 7,
     "totalPages": 10,
     "totalItems": 100
   }
