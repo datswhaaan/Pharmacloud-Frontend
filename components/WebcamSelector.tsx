@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Button } from "@/components/base/buttons/button";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown } from "@untitledui/icons";
 
 type Camera = {
   deviceId: string;
@@ -13,7 +16,8 @@ type WebcamSelectorProps = {
 
 export default function WebcamSelector({ onSelect }: WebcamSelectorProps) {
   const [cameras, setCameras] = useState<Camera[]>([]);
-  const [selected, setSelected] = useState<string>("");
+  const [selected, setSelected] = useState<Camera | null>(null);
+
 
   useEffect(() => {
     const getCameras = async () => {
@@ -31,7 +35,7 @@ export default function WebcamSelector({ onSelect }: WebcamSelectorProps) {
       setCameras(videoDevices);
 
       if (videoDevices.length > 0) {
-        setSelected(videoDevices[0].deviceId);
+        setSelected(videoDevices[0]);
         onSelect(videoDevices[0].deviceId);
       }
     };
@@ -40,19 +44,42 @@ export default function WebcamSelector({ onSelect }: WebcamSelectorProps) {
   }, [onSelect]);
 
   return (
-    <select
-      value={selected}
-      onChange={(e) => {
-        setSelected(e.target.value);
-        onSelect(e.target.value);
-      }}
-      className="px-5 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-    >
-      {cameras.map((cam) => (
-        <option key={cam.deviceId} value={cam.deviceId}>
-          {cam.label}
-        </option>
-      ))}
-    </select>
+        <Dropdown.Root>
+            <Button className="group w-62 justify-between" color="secondary" iconTrailing={ChevronDown}>
+                {selected?.label ?? "เลือกกล้อง"}
+            </Button>
+ 
+        <Dropdown.Popover>
+            <Dropdown.Menu>
+                <Dropdown.Section>
+                  {cameras.map((cam) => (
+                    <Dropdown.Item
+                      key={cam.deviceId}
+                      onClick={() => {
+                        setSelected(cam);
+                        onSelect(cam.deviceId);
+                      }}
+                    >
+                        {cam.label}
+                      </Dropdown.Item>
+                      ))}
+                </Dropdown.Section>
+            </Dropdown.Menu>
+        </Dropdown.Popover>
+    </Dropdown.Root>
+    // <select
+    //   value={selected}
+    //   onChange={(e) => {
+    //     setSelected(e.target.value);
+    //     onSelect(e.target.value);
+    //   }}
+    //   className="px-5 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+    // >
+    //   {cameras.map((cam) => (
+    //     <option key={cam.deviceId} value={cam.deviceId}>
+    //       {cam.label}
+    //     </option>
+    //   ))}
+    // </select>
   );
 }
