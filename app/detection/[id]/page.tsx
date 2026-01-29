@@ -7,6 +7,7 @@ import DrugList from "@/components/detection/DrugList";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import WebcamSelector from "@/components/WebcamSelector";
 import { useRef, useState } from "react";
+import prescriptionData from "@/components/prescription/mockData.json"
 
 const drugData = [
   {
@@ -38,23 +39,6 @@ const drugData = [
     confidential: 1,
   },
 ];
-
-const prescriptionData = {
-    hn: '1234567',
-    vn: '87654321',
-    name: 'นายบัตร ออกหน่วย',
-    age: '28 ปี 2 เดือน 28 วัน',
-    gender: 'ชาย',
-    diagnosis: 'ขออุปกรณ์ทำแผล (Z760)',
-    rights: 'ฟรี',
-    doctor: 'แพทย์ รพช',
-    dateTime: '15/01/2568 เวลา 14:30 น.',
-    severity: 'ขาว',
-    status: 'รอตรวจสอบ',
-    drugAllergies: 'KETOCONAZOLE, penicillins',
-    drugAllergyMonitoring: '"WARFARIN"',
-    suspectedDrugAllergys: '-'
-  };
 
 export default function Detection() {
   const [deviceId, setDeviceId] = useState<string>();
@@ -118,6 +102,7 @@ export default function Detection() {
                 <DrugList
                   drugs={drugData}
                   lockedMap={checkedDrugs}
+                  description
                 />
               </div>
             </div>
@@ -151,6 +136,7 @@ export default function Detection() {
                   drugs={drugData}
                   lockedMap={checkedDrugs}
                   risk={true}
+                  description
                 />
               </div>
             </div>

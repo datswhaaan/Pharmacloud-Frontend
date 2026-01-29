@@ -16,6 +16,7 @@ type Props = {
   lockedMap?: Record<string, boolean>;
   onCheckChange?: (id: string, checked: boolean) => void;
   risk?: boolean;
+  description?: boolean;
 };
 
 const getRiskLevel = (score: number) => {
@@ -25,7 +26,7 @@ const getRiskLevel = (score: number) => {
 };
 
 const DrugList = forwardRef<HTMLDivElement, Props>(
-  ({ drugs, showCheckbox, checkedMap, lockedMap, onCheckChange, risk }, ref) => {
+  ({ drugs, showCheckbox, checkedMap, lockedMap, onCheckChange, risk, description = false }, ref) => {
     const displayedDrugs = drugs.filter(drug => {
       const level = getRiskLevel(drug.confidential);
       
@@ -59,7 +60,8 @@ const DrugList = forwardRef<HTMLDivElement, Props>(
             showCheckbox={showCheckbox} 
             checked={checkedMap?.[drug.id]} 
             locked={lockedMap?.[drug.id]} 
-            onCheckChange={onCheckChange} 
+            onCheckChange={onCheckChange}
+            description={description}
             />
         ))}
       </div>

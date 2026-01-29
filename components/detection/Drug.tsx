@@ -22,6 +22,7 @@ type DrugProps = {
   locked?: boolean;
   onCheckChange?: (id: string, checked: boolean) => void;
   risk?: boolean;
+  description?: boolean;
 };
 
 export default function Drug({
@@ -35,6 +36,7 @@ export default function Drug({
   locked = false,
   onCheckChange,
   risk,
+  description,
 }: DrugProps) {
   const [qty, setQty] = useState(quantity);
   const [edited, setEdited] = useState(false);
@@ -51,7 +53,7 @@ export default function Drug({
   return (
     
     <div
-      className={`flex items-center justify-between min-h-14 gap-4 p-3 rounded-lg ${colorMap[level]}`}
+      className={`flex items-center justify-between min-h-15 gap-4 px-3 rounded-lg ${colorMap[level]}`}
     >
         {showCheckbox && (
           <input
@@ -63,13 +65,13 @@ export default function Drug({
             className="w-4 h-4 accent-white"
           />
         )}
-      <div className="flex-1 w-full">
+      <div className="flex-1">
         <div className="font-medium">{name}</div>
-        {!isSafe && getRiskLevel(confidential) === "yellow" && (
+        {!isSafe && getRiskLevel(confidential) === "yellow" && description &&(
           <p className="text-xs text-yellow-600">ความมั่นใจต่ำ</p>
         )}
-        {!isSafe && getRiskLevel(confidential) === "red" && (
-          <p className="text-xs text-red-600">ยาผิด</p>
+        {!isSafe && getRiskLevel(confidential) === "red" && description &&(
+          <p className="text-xs text-red-600 ">ยาผิด</p>
         )}
       </div>
 
@@ -99,7 +101,7 @@ export default function Drug({
               }}
               disabled={locked}
               className={cn(
-                "w-16 px-2 py-1 text-right border rounded-md transition-colors",
+                "w-12 py-1 px-2 text-right border rounded-md transition-colors",
                 edited
                   ? "text-gray-700 bg-white border-gray-300"
                   : "text-gray-300 bg-white border-gray-300",
