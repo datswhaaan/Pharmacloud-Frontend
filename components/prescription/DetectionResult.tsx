@@ -8,15 +8,8 @@ import { useState } from "react";
 // import { Link } from "react-aria-components";
 import Link from "next/link";
 
-export default function DetectionResult({ detectionData, pagination = false, prescriptionId }: { detectionData: any[], pagination?: boolean, prescriptionId?: string }) {
-    const [currentPage, setCurrentPage] = useState(1);
-    
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
-
-    let currentItem;
-    pagination ? currentItem = detectionData[currentPage - 1] : currentItem = detectionData[0];
+export default function DetectionResult({ detectionData, page, onPageChange }: { detectionData: any[], page: number, onPageChange: (page: number) => void; }) {
+    let currentItem = detectionData[page - 1]
     return (
         <Card>
             <div className="flex items-end flex-col gap-2">
@@ -41,20 +34,12 @@ export default function DetectionResult({ detectionData, pagination = false, pre
                         <DrugList drugs={currentItem?.drugs} title={false} withCard={false}/>
                     </div>
                 </div>
-                {pagination ? (
                     <PaginationPageMinimalCenter 
                         rounded={true} 
-                        page={currentPage} 
+                        page={page} 
                         total={detectionData.length} 
-                        onPageChange={handlePageChange}
+                        onPageChange={onPageChange}
                         className="border-0" />
-                ) : (
-                    <Link href={`/prescription/${prescriptionId}/detection`}
-                        className="text-blue-500 cursor-pointer underline">
-                        ดูเพิ่มเติม
-                    </Link>
-                )}
-                
                 </div>
         </Card>
     )

@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react";
 import PrescriptionInfo from "@/components/PrescriptionInfo";
 import DetectionResult from "@/components/prescription/DetectionResult";
 import DrugList from "@/components/prescription/DrugList";
@@ -7,12 +10,20 @@ import detectionData from "@/components/prescription/mockDetection.json";
 
 
 export default function PrescriptionDetail() {
+    const [page, setPage] = useState(1);
+    const pageSize = 10;
+
     return (
         <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">  
             <PrescriptionInfo prescriptionData={prescriptionData} type='prescription'/>
             <PrescriptionInfo prescriptionData={prescriptionData} type='additional'/>
-            <DrugList drugs={drugs}/>
-            <DetectionResult detectionData={detectionData} prescriptionId={prescriptionData.id}/>
+            <DrugList 
+                drugs={drugs[page-1].drugs}
+            />
+            <DetectionResult 
+                detectionData={detectionData}
+                page={page}
+                onPageChange={setPage}/>
         </div>
     )
 }

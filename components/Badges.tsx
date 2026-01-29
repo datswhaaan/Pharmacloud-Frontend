@@ -1,5 +1,5 @@
 type BadgesProps = {
-    varient: "severity" | "status" | "riskLevel";
+    varient: "severity" | "status" | "riskLevel" | "prescription";
     level?: string;
     status?: string;
 };
@@ -10,6 +10,8 @@ export default function Badges({
     status,
 } : BadgesProps  
 ) {
+    const base = "text-sm text-center font-medium w-full h-full rounded-full pt-0.5"
+
     const getSeverityColor = (level?: string) => {
         switch (level) {
             case "แดง":
@@ -39,24 +41,31 @@ export default function Badges({
     }
 
     const riskLevelColor = "bg-red-100 text-red-800"
+
+    const prescriptionColor = "bg-blue-100 text-blue-800 border-1 border-blue-800"
     
     return (
-        <div className="w-32">
+        <div className=" flex w-32 h-6 justify-center items-center">
             {varient === "severity" && (
-                <div className={`${getSeverityColor(level)} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
+                <div className={`${getSeverityColor(level)} ${base}`}>
                     {level}
                 </div>
             )}
             {varient === "status" && (
-                <div className={`${getStatusColor(status)} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
+                <div className={`${getStatusColor(status)} ${base}`}>
                     {status}
                 </div>
             )}
             {varient === "riskLevel" && level === "high" &&(
-                <div className={`${riskLevelColor} text-sm text-center font-medium w-full h-fit rounded-full pt-1 pb-0.5`}>
+                <div className={`${riskLevelColor} ${base}`}>
                     เสี่ยงสูง
                 </div>
             )}
+            {(varient === "prescription" && (
+                <div className={`${prescriptionColor} ${base}`}>
+                    ขาด
+                </div>
+            ))}
         </div>
     )
 }

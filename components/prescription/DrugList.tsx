@@ -1,10 +1,11 @@
 import Card from "@/components/Card";
+import Badges from "../Badges";
 
 type ReviewDrug = {
   name: string;
   quantity: number;
   unit: string;
-  iscorrect: boolean;
+  isCorrect: boolean;
 };
 
 type DetectedDrug = {
@@ -33,11 +34,11 @@ export default function DrugList({
 
       <div className="flex flex-col">
         {drugs.map((drug, index) => {
-          const isReview = "iscorrect" in drug;
+          const isReview = "isCorrect" in drug;
           const isDetected = "detected" in drug;
 
           const isWrong =
-            (isReview && !drug.iscorrect) ||
+            (isReview && !drug.isCorrect) ||
             (isDetected && !drug.detected);
 
           const baseBg =
@@ -54,16 +55,12 @@ export default function DrugList({
               <p>{drug.name}</p>
 
               <div className="flex items-center gap-2">
+                {isDetected && isWrong && (
+                  <Badges varient="prescription"/>
+                )}
                 <p>
                   {drug.quantity} {drug.unit}
                 </p>
-
-                {/* detected → show badge */}
-                {isDetected && isWrong && (
-                  <span className="text-xs px-2 py-0.5 rounded bg-red-500 text-white">
-                    ไม่ตรง
-                  </span>
-                )}
               </div>
             </div>
           );
