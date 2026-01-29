@@ -100,8 +100,6 @@ const DrugInfo: React.FC<DrugInfoHeaderProps> = ({ drugData, type}) => {
             <h2 className="pb-4">รายละเอียดการใช้ยา</h2>
             <div className="grid grid-cols-3 gap-6">
               <InfoField label="วิธีการใช้" value={drugData.usage.route || '-'} />
-              <InfoField label="ใช้เวลา" value={drugData.usage.duration || '-'} />
-              <InfoField label="ปริมาณที่ใช้" value={drugData.usage.quantity || '-'} />
               <InfoField label="คำเตือน" value={drugData.usage.warning || '-'} />
               <InfoField label="รายละเอียด" value={drugData.usage.detail || '-'} />
               <InfoField label="ข้อบ่งชี้การใช้ยา" value={drugData.usage.indication || '-'} />
