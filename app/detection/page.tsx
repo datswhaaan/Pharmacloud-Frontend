@@ -30,9 +30,7 @@ export default function DetectionPage() {
               ) : (
                 <div className="flex flex-col gap-4 w-full h-full">
                   <SearchBar />
-                  <div className="flex items-end justify-between w-full">
-                    <Filters type="detection"/>
-                  </div>
+
                   <PrescriptionTable type="detection"/>
                 </div>
               )}

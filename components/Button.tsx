@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type ButtonProps = {
   className?: string;
@@ -31,7 +32,9 @@ export default function Button({
                 height={16}
             />
         }
-        {text}
+        <Link href="/detection">
+            {text}
+            </Link>
     </button>
   );
 }

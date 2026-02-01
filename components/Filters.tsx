@@ -2,14 +2,6 @@
 
 import { useState } from "react";
 
-const severityState = [
-  { label: "ทั้งหมด", value: "all" },
-  { label: "สูงสุด", value: "high" },
-  { label: "สูง", value: "medium" },
-  { label: "ปานกลาง", value: "low" },
-  { label: "ต่ำ", value: "very-low" },
-];
-
 const statusState = [
   { label: "ทั้งหมด", value: "all" },
   { label: "ตรวจสอบสำเร็จ", value: "success" },
@@ -17,8 +9,7 @@ const statusState = [
   { label: "ยกเลิก", value: "rejected" },
 ];
 
-export default function Filters({type}: {type: "prescription" | "detection"}) {
-  const [severity, setSeverity] = useState("all");
+export default function Filters() {
   const [status, setStatus] = useState("all");
 
   const baseClass =
@@ -33,14 +24,14 @@ export default function Filters({type}: {type: "prescription" | "detection"}) {
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex items-center gap-2">
-        <p>ระดับความรุนแรง</p>
+        <p>สถานะ</p>
         <div className="flex items-center gap-2">
-          {severityState.map((button) => (
+          {statusState.map((button) => (
             <button
               key={button.value}
-              onClick={() => setSeverity(button.value)}
+              onClick={() => setStatus(button.value)}
               className={`${baseClass} ${
-                severity === button.value
+                status === button.value
                   ? selectedClass
                   : unselectedClass
               }`}
@@ -50,27 +41,6 @@ export default function Filters({type}: {type: "prescription" | "detection"}) {
           ))}
         </div>
       </div>
-
-      {type === "prescription" && (
-        <div className="flex items-center gap-2">
-          <p>สถานะ</p>
-          <div className="flex items-center gap-2">
-            {statusState.map((button) => (
-              <button
-                key={button.value}
-                onClick={() => setStatus(button.value)}
-                className={`${baseClass} ${
-                  status === button.value
-                    ? selectedClass
-                    : unselectedClass
-                }`}
-              >
-                {button.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
