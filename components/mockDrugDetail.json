@@ -34,25 +34,37 @@
   "images": [
     {
       "id": "img_001",
-      "url": "https://cdn.example.com/drugs/ivnacl3/front.jpg",
+      "url": "/drugImage/TACR_front_7.jpg",
       "type": "front",
       "uploadedAt": "2025-01-12T10:22:00Z"
     },
     {
       "id": "img_002",
-      "url": "https://cdn.example.com/drugs/ivnacl3/side.jpg",
+      "url": "/drugImage/TACR_side_7.jpg",
       "type": "side",
       "uploadedAt": "2025-01-12T10:22:00Z"
     },
     {
       "id": "img_003",
-      "url": "https://cdn.example.com/drugs/ivnacl3/back.jpg",
+      "url": "/drugImage/TACR_top_7.jpg",
       "type": "back",
       "uploadedAt": "2025-01-12T10:22:00Z"
     },
     {
       "id": "img_004",
-      "url": "https://cdn.example.com/drugs/ivnacl3/label.jpg",
+      "url": "/drugImage/TACR_front_8.jpg",
+      "type": "label",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    },
+    {
+      "id": "img_005",
+      "url": "/drugImage/TACR_side_8.jpg",
+      "type": "back",
+      "uploadedAt": "2025-01-12T10:22:00Z"
+    },
+    {
+      "id": "img_006",
+      "url": "/drugImage/TACR_top_8.jpg",
       "type": "label",
       "uploadedAt": "2025-01-12T10:22:00Z"
     }

@@ -60,7 +60,7 @@ const InfoField: React.FC<InfoFieldProps> = ({ label, value, color = 'text-gray-
 
 interface DrugInfoHeaderProps {
   drugData?: DrugData;
-  type?: 'detection' | 'prescription' | 'additional';
+  type?: 'detection' | 'additional' | 'images';
 }
 
 const DrugInfo: React.FC<DrugInfoHeaderProps> = ({ drugData, type}) => {
