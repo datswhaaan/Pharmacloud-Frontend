@@ -1,5 +1,14 @@
+"use client"
+
+import { useState } from 'react';
 import Card from '@/components/Card';
+import SearchBar from '@/components/SearchBar';
 import BaseChart from '@/components/statistics/BaseChart';
+import DropdownButton from '@/components/dropdown/DropdownButton';
+import {
+  TIME_RANGE_OPTIONS,
+  type TimeRange,
+} from "@/components/dropdown/dropdown.options";
 
 const data = {
   label: ["ตรวจสอบสำเร็จ", "รอตรวจสอบ", "ยกเลิก"],
@@ -20,8 +29,15 @@ const lineData = {
 };
 
 export default function Statistics() {
+    const [range, setRange] = useState<TimeRange>("year");
+
     return (
-        <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
+        <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-end justify-start">
+            <DropdownButton 
+                value={range}
+                options={TIME_RANGE_OPTIONS}
+                onChange={setRange}
+            />
             <div className='flex w-full gap-4'>
                 <Card title='ผลการตรวจสอบ'>
                     <BaseChart data={data} type='doughnut'/>
@@ -33,7 +49,7 @@ export default function Statistics() {
                     <BaseChart data={lineData} type='line'/>
                 </Card>
             </div>
+            <SearchBar/>
         </div>
-        
     )
 }
