@@ -77,10 +77,14 @@ export default function PrescriptionTable({ prescription, type }: Props ){
 
   return (
     <BaseTable
-      items={prescription.items}
-      columns={columns}
-      getRowId={(i) => i.id}
-      getRowHref={(i) => `/${type}/${i.id}`}
+        items={prescription.items}
+        columns={columns}
+        getRowId={(i) => i.id}
+        getRowHref={(i) =>
+            type === "statistics"
+            ? `/prescription/${i.id}`
+            : `/${type}/${i.id}`
+        }
     />
   );
 };
