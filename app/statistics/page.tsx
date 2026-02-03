@@ -9,6 +9,14 @@ import {
   TIME_RANGE_OPTIONS,
   type TimeRange,
 } from "@/components/dropdown/dropdown.options";
+import PrescriptionTable from '@/components/PrescriptionTable';
+import prescription from '@/components/application/table/team-members.json'
+
+const mockData = {
+  ...prescription,
+  items: prescription.items.slice(0, -1),
+  total: prescription.total - 1,
+};
 
 const data = {
   label: ["ตรวจสอบสำเร็จ", "รอตรวจสอบ", "ยกเลิก"],
@@ -50,6 +58,7 @@ export default function Statistics() {
                 </Card>
             </div>
             <SearchBar/>
+            <PrescriptionTable prescription={mockData} type='statistics'/>
         </div>
     )
 }

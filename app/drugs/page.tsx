@@ -1,4 +1,4 @@
-import { DrugTable } from "@/components/DrugTable";
+import DrugTable from "@/components/DrugTable";
 import mockDrugs from "@/components/mockDrugs.json";
 import SearchBar from "@/components/SearchBar";
 

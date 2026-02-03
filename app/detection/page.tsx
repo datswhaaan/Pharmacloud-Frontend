@@ -1,7 +1,7 @@
 "use client";
 import Filters from "@/components/Filters";
 import SearchBar from "@/components/SearchBar";
-import { PrescriptionTable } from "@/components/PrescriptionTable";
+import PrescriptionTable from "@/components/PrescriptionTable";
 import  DropdownButton from "@/components/dropdown/DropdownButton";
 import { useState } from "react";
 import WebcamDisplay from "@/components/WebcamDisplay";
@@ -10,7 +10,7 @@ import {
   SELECT_METHOD_OPTIONS,
   type SelectMethod,
 } from "@/components/dropdown/dropdown.options";
-
+import prescription from '@/components/application/table/team-members.json'
 
 export default function DetectionPage() {
   const [method, setMethod] = useState<SelectMethod>("qr");
@@ -40,7 +40,7 @@ export default function DetectionPage() {
               <div className="flex flex-col gap-4 w-full h-full">
                 <SearchBar />
 
-                <PrescriptionTable type="detection"/>
+                <PrescriptionTable prescription={prescription} type="detection"/>
               </div>
             )}
       </div>

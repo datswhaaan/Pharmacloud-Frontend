@@ -1,8 +1,9 @@
 import Filters from "@/components/Filters";
 import SearchBar from "@/components/SearchBar";
-import { PrescriptionTable } from "@/components/PrescriptionTable";
+import PrescriptionTable from "@/components/PrescriptionTable";
 import { Button } from "@/components/base/buttons/button";
 import { Camera01 } from "@untitledui/icons";
+import prescription from "@/components/application/table/team-members.json";
 
 export default function Prescription() {
   return (
@@ -18,7 +19,7 @@ export default function Prescription() {
           <p className="text-white">ตรวจสอบรายการยา</p>
         </Button>
       </div>
-      <PrescriptionTable type="prescription"/>
+      <PrescriptionTable prescription={prescription} type="prescription"/>
     </div>
   );
 }

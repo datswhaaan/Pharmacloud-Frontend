@@ -78,7 +78,7 @@ export default function BaseChart({title, data, type} : Props) {
     };
 
     return (
-        <div className='flex w-full justify-center items-center h-78'>
+        <div className='flex w-full justify-center items-center h-70'>
         {type == 'doughnut' && (
             <Doughnut
                 options={options}
