@@ -1,5 +1,39 @@
+import Card from '@/components/Card';
+import BaseChart from '@/components/statistics/BaseChart';
+
+const data = {
+  label: ["ตรวจสอบสำเร็จ", "รอตรวจสอบ", "ยกเลิก"],
+  value: [40, 25, 20],
+  unit: "รายการ",
+};
+
+const barData = {
+  labels: ["ผิดชื่อยา", "ผิดขนาดยา", "ผิดจำนวน", "ผิดรูปแบบ"],
+  datasets: [120, 80, 45, 30],
+  unit: "รายการ",
+};
+
+const lineData = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  datasets: [30, 45, 40, 60, 55, 70],
+  unit: "รายการ",
+};
+
 export default function Statistics() {
     return (
-        <div>Statistics Page</div>
+        <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
+            <div className='flex w-full gap-4'>
+                <Card title='ผลการตรวจสอบ'>
+                    <BaseChart data={data} type='doughnut'/>
+                </Card>
+                <Card title='ความผิดพลาดที่พบ'>
+                    <BaseChart data={barData} type='bar'/>
+                </Card>
+                <Card title='ความผิดพลาดที่พบ'>
+                    <BaseChart data={lineData} type='line'/>
+                </Card>
+            </div>
+        </div>
+        
     )
 }
