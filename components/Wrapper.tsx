@@ -43,9 +43,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
             isOpen ? "w-64" : "w-0"
           } overflow-hidden`}
         >
-          <div className="w-64">
-              <SideBar isOpen={isOpen} />
-          </div>
+            <SideBar isOpen={isOpen} />
         </aside>
         <main className="flex-1 overflow-y-auto bg-primary-gray min-w-0 transition-all duration-300">
           <nav className="fixed h-16 w-full bg-primary-gray flex items-center px-6 z-50">
