@@ -32,7 +32,12 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
+  const isLoginPage = pathname === "/";
   const pageTitle = getPageTitle(pathname);
+  
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="flex flex-col min-h-screen w-full ">
