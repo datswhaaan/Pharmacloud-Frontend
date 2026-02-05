@@ -3,18 +3,20 @@ type CardProps = {
     className?: string;
     children?: React.ReactNode;
     scrollable?: boolean;
+    width?: 'full' | 'fit'
 };
 
 export default function Card({ 
   title, 
   className = "", 
   children, 
-  scrollable = false 
+  scrollable = false,
+  width = 'full'
 }: CardProps) {
   return (
     <div
       className={`
-        w-full rounded-xl ring-1 ring-secondary bg-white shadow-sm
+        ${width == 'full' ? 'w-full' : 'w-fit'} rounded-xl ring-1 ring-secondary bg-white shadow-sm
         flex flex-col p-5
         ${className}
       `}

@@ -33,7 +33,7 @@ export default function BaseChart({title, data, type} : Props) {
 
     const rawValues = data.value || data.datasets || [];
     
-    const unit = type === 'doughnut' ? '%' : ` ${data.unit}`;// ดึง unit จาก data ถ้าไม่มีให้เป็นค่าว่าง
+    const unit = type === 'doughnut' ? '%' : ` ${data.unit}`;
 
     const formattedData = {
         labels: chartLabels,
@@ -45,8 +45,8 @@ export default function BaseChart({title, data, type} : Props) {
             borderColor: type === 'doughnut' ? "#ffffff" : DEFAULT_COLORS[0],
             borderWidth: type === 'doughnut' ? 2 : 1,
             borderRadius: type === 'bar' ? 8 : 0,
-            barThickness: 70,
-            maxBarThickness: 75,
+            barThickness: 60,
+            maxBarThickness: 65,
             fill: type === 'line',
         },
         ],
@@ -54,9 +54,10 @@ export default function BaseChart({title, data, type} : Props) {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
             legend: {
-                display: type === 'doughnut', // แสดง Legend เฉพาะ Doughnut เพื่อความสวยงาม
+                display: type === 'doughnut',
                 position: "bottom" as const,
                 labels: {
                     usePointStyle: true,
@@ -78,7 +79,7 @@ export default function BaseChart({title, data, type} : Props) {
     };
 
     return (
-        <div className='flex w-full justify-center items-center h-70'>
+        <div className={`flex justify-center items-center h-70 ${type == 'doughnut' ? 'w-fit' : 'w-full'}`}>
         {type == 'doughnut' && (
             <Doughnut
                 options={options}
@@ -89,6 +90,7 @@ export default function BaseChart({title, data, type} : Props) {
             <Bar
                 options={options}
                 data={formattedData}
+                
                 />
         )}
         {type == 'line' && (

@@ -47,13 +47,13 @@ export default function Statistics() {
                 onChange={setRange}
             />
             <div className='flex w-full gap-4'>
-                <Card title='ผลการตรวจสอบ'>
+                <Card title='ผลการตรวจสอบ' className="flex min-w-0 " width='fit'>
                     <BaseChart data={data} type='doughnut'/>
                 </Card>
-                <Card title='ความผิดพลาดที่พบ'>
+                <Card title='ความผิดพลาดที่พบ' className="flex-1 min-w-0 ">
                     <BaseChart data={barData} type='bar'/>
                 </Card>
-                <Card title='ความผิดพลาดที่พบ'>
+                <Card title='ความผิดพลาดที่พบ' className="flex-1 min-w-0 ">
                     <BaseChart data={lineData} type='line'/>
                 </Card>
             </div>
