@@ -40,7 +40,7 @@ export default function Statistics() {
     const [range, setRange] = useState<TimeRange>("year");
 
     return (
-        <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-end justify-start">
+        <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 items-end justify-start overflow-y-auto">
             <DropdownButton 
                 value={range}
                 options={TIME_RANGE_OPTIONS}

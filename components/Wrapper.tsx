@@ -43,14 +43,22 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col min-h-screen w-full ">
 
       <div className="flex flex-1 overflow-hidden">
-        <aside 
-          className={`transition-all duration-300 ease-in-out ${
-            isOpen ? "w-64" : "w-0"
-          } overflow-hidden`}
+        <aside
+          className={`
+            fixed top-0 left-0 h-screen w-64 bg-white z-40
+            transition-transform duration-300 ease-in-out
+            ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          `}
         >
-            <SideBar isOpen={isOpen} />
+          <SideBar isOpen={isOpen} />
         </aside>
-        <main className="flex-1 overflow-y-auto bg-primary-gray min-w-0 transition-all duration-300">
+        <main 
+          className={`
+            flex-1 overflow-y-auto bg-primary-gray min-w-0
+            transition-all duration-300
+            ${isOpen ? "ml-64" : "ml-0"}
+          `}
+        >
           <nav className="fixed h-16 w-full bg-primary-gray flex items-center px-6 z-50">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
