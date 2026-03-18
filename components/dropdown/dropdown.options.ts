@@ -16,3 +16,12 @@ export const TIME_RANGE_OPTIONS: DropdownOption<TimeRange>[] = [
   { value: "month", label: "รายเดือน" },
   { value: "day", label: "รายวัน" },
 ];
+
+/* ---------- System ---------- */
+export type System = "pharmacloud" | "system2" | "system3";
+
+export const SYSTEM_OPTIONS: DropdownOption<System>[] = [
+  { value: "pharmacloud", label: "pharmacloud" },
+  { value: "system2", label: "system2" },
+  { value: "system3", label: "system3" },
+];

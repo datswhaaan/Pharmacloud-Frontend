@@ -105,16 +105,19 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     );
 };
 
-interface DropdownPopoverProps extends AriaPopoverProps {}
+interface DropdownPopoverProps extends AriaPopoverProps {
+  fullWidth?: boolean;
+}
 
-const DropdownPopover = (props: DropdownPopoverProps) => {
+const DropdownPopover = ({ fullWidth, ...props }: DropdownPopoverProps) => {
     return (
         <AriaPopover
             placement="bottom right"
             {...props}
             className={(state) =>
                 cx(
-                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt will-change-transform",
+                    "origin-(--trigger-anchor-point) overflow-auto rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt will-change-transform",
+                    fullWidth ? "w-full min-w-(--trigger-width)" : "w-62",
                     state.isEntering &&
                         "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                     state.isExiting &&
