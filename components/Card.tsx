@@ -3,7 +3,8 @@ type CardProps = {
     className?: string;
     children?: React.ReactNode;
     scrollable?: boolean;
-    width?: 'full' | 'fit'
+    width?: 'full' | 'fit';
+    center?: boolean;
 };
 
 export default function Card({ 
@@ -11,13 +12,14 @@ export default function Card({
   className = "", 
   children, 
   scrollable = false,
-  width = 'full'
+  width = 'full',
+  center = false
 }: CardProps) {
   return (
     <div
       className={`
         ${width == 'full' ? 'w-full' : 'w-fit'} rounded-xl ring-1 ring-secondary bg-white shadow-sm
-        flex flex-col p-5
+        flex ${center? ' ' : 'flex-col p-5'}
         ${className}
       `}
     >

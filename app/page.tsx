@@ -6,7 +6,7 @@ export default function Login() {
     return (
         <div className="flex flex-col bg-primary-gray gap-4 h-screen items-center justify-center">
             <div className="flex flex-col w-lg gap-4 items-center justify-center">
-                <img src="/logo.svg"/>
+                <img src="/logo/logo.svg"/>
                 <h1>เข้าสู่ระบบ</h1>
                 <p>ยินดีต้อนรับ! กรุณากรอกข้อมูลของคุณ</p>
                 <Input 

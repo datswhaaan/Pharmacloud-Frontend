@@ -20,7 +20,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
       `}
     >
       <div className="w-full">
-        <img src="/logoName.svg" alt="PharmaCloud Logo" className="w-full h-16 object-contain mx-auto my-4" />
+        <img src="/logo/logoName.svg" alt="PharmaCloud Logo" className="w-full h-16 object-contain mx-auto my-4" />
 
         <Profile name="วิวรรณ วรคุณอนันต์" position="เภสัชกร" />
         <div className="flex flex-col border-t border-gray-200 py-2 my-2 justify-center w-ful gap-2">

@@ -32,10 +32,10 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
-  const isLoginPage = pathname === "/";
+  const isShown = pathname === "/" || pathname === "/entry";
   const pageTitle = getPageTitle(pathname);
   
-  if (isLoginPage) {
+  if (isShown) {
     return <>{children}</>;
   }
 
