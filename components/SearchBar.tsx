@@ -19,6 +19,7 @@ export default function SearchBar() {
                     <circle cx="11" cy="11" r="7" />
                 </svg>
             </div>
+            
             <button
                 type="button"
                 className="inline-flex items-center gap-2 rounded-md ring-1 ring-secondary shadow-sm

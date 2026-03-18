@@ -23,16 +23,16 @@ export default function SideBar({ isOpen }: SideBarProps) {
         <img src="/logoName.svg" alt="PharmaCloud Logo" className="w-full h-16 object-contain mx-auto my-4" />
 
         <Profile name="วิวรรณ วรคุณอนันต์" position="เภสัชกร" />
-        <div className="flex flex-col border-y border-gray-200 py-2 my-2 justify-center w-ful gap-2">
+        <div className="flex flex-col border-t border-gray-200 py-2 my-2 justify-center w-ful gap-2">
           <SideBarItem route="รายการใบสั่งยา" path="/prescription" Icon={File05}/>
           <SideBarItem route="ตรวจสอบรายการยา" path="/detection" Icon={Edit05}/>
           <SideBarItem route="บัญชียา" path="/drugs" Icon={BookOpen01}/>
           <SideBarItem route="สถิติการตรวจสอบ" path="/statistics" Icon={BarChart12}/>
         </div>
 
-        <div className="justify-center w-full">
+        {/* <div className="justify-center w-full">
           <SideBarItem route="ตั้งค่า" path="/settings" Icon={Settings01}/>
-        </div>
+        </div> */}
       </div>
 
       <div className="justify-center w-full">
@@ -46,7 +46,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
         <SideBarItem 
           activeStyle="fixed"
           route="ออกจากระบบ" 
-          path="/login" 
+          path="/" 
           Icon={LogOut03}
           variant="destructive"
         />

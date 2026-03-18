@@ -1,5 +1,5 @@
 "use client";
-import Filters from "@/components/Filters";
+
 import SearchBar from "@/components/SearchBar";
 import PrescriptionTable from "@/components/PrescriptionTable";
 import  DropdownButton from "@/components/dropdown/DropdownButton";
@@ -13,7 +13,7 @@ import {
 import prescription from '@/components/application/table/team-members.json'
 
 export default function DetectionPage() {
-  const [method, setMethod] = useState<SelectMethod>("qr");
+  const [method, setMethod] = useState<SelectMethod>("manual");
 
   return (
       <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
