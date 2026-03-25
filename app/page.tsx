@@ -9,16 +9,18 @@ import { Eye, EyeOff } from "@untitledui/icons";
 import { loginUser } from "@/lib/api/auth";
 
 interface LoginFormState {
-    email: string;
+    username: string;
     password: string;
+    remember_me: boolean;
 }
 
 export default function Login() {
     const router = useRouter();
     
     const [formData, setFormData] = useState<LoginFormState>({
-        email: "",
+        username: "",
         password: "",
+        remember_me: false
     });
     
     const [isLoading, setIsLoading] = useState(false);
@@ -40,13 +42,21 @@ export default function Login() {
         setErrorMessage(null);
 
         try {
-            const data = await loginUser(formData)
+            const data = await loginUser(formData);
             
-            console.log("Login Success:", data);
-            localStorage.setItem("token", data.access_token);
-            router.push("/entry");
+            if (data.access_token) {
+                localStorage.setItem("token", data.access_token);
+                
+                if (formData.remember_me) {
+                    localStorage.setItem("remembered_username", formData.username);
+                } else {
+                    localStorage.removeItem("remembered_username");
+                }
+
+                router.push("/entry");
+            }
         } catch (err) {
-            setErrorMessage("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+            setErrorMessage("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         } finally {
             setIsLoading(false);
         }
@@ -67,8 +77,8 @@ export default function Login() {
                     isRequired 
                     label="ชื่อผู้ใช้"  
                     placeholder="ชื่อผู้ใช้" 
-                    value={formData.email}
-                    onChange={(value) => setFormData(prev => ({ ...prev, email: value }))}
+                    value={formData.username}
+                    onChange={(value) => setFormData(prev => ({ ...prev, username: value }))}
                 />
                 <div className="relative w-full">
                     <Input 
@@ -89,7 +99,12 @@ export default function Login() {
                     </button>
                 </div>
                 <div className="flex w-full justify-between">
-                    <Checkbox label="จดจำการเข้าสู่ระบบ 30 วัน" size="sm" />
+                    <Checkbox 
+                        label="จดจำการเข้าสู่ระบบ 30 วัน" 
+                        size="sm" 
+                        isSelected={formData.remember_me}
+                        onChange={(checked) => setFormData(prev => ({ ...prev, remember_me: checked }))}
+                    />
                     <p className="text-sm text-blue-500 font-semibold hover:cursor-pointer">
                         ลืมรหัสผ่าน
                     </p>
