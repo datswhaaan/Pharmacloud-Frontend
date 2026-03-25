@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DropdownButton from "./dropdown/DropdownButton";
 import {
@@ -8,19 +7,19 @@ import {
   type System,
 } from "@/components/dropdown/dropdown.options";
 
-export default function SystemSelector() {
+type Props = {
+  currentSystem: System;
+}
+
+export default function SystemSelector( { currentSystem} : Props ) {
   const router = useRouter();
-  const [system, setSystem] = useState<System>("pharmacloud");
 
   const handleChange = (value: System) => {
-
-    if (value === system) return;
-
-    setSystem(value);
+    if (value === currentSystem) return;
 
     const systemPaths: Record<System, string> = {
       pharmacloud: "/prescription",
-      system2: "/entry",
+      drug: "/drugs",
       system3: "/entry",
     };
 
@@ -30,7 +29,7 @@ export default function SystemSelector() {
   return (
     <DropdownButton
       expand
-      value={system}
+      value={currentSystem}
       options={SYSTEM_OPTIONS}
       onChange={handleChange}
       className="mb-4"

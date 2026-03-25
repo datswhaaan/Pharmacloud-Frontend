@@ -2,19 +2,19 @@ import Card from "../Card";
 import Link from "next/link";
 
 type SystemSelectionProps = {
-  system: "Pharmacloud" | "system2" | "system3";
+  system: "Pharmacloud" | "Drug" | "system3";
 };
 
 const systemConfig = {
   Pharmacloud: {
     logo: "/logo/logo.svg",
-    name: "/logo/name.svg",
+    name: "PharmaCloud",
     path: "/prescription"
   },
-  system2: {
-    logo: "/logo2.svg",
-    name: "/name2.svg",
-    path: "#"
+  Drug: {
+    logo: "/logo/logo.svg",
+    name: "DrugMaster",
+    path: "/drugs"
   },
   system3: {
     logo: "/logo3.svg",
@@ -28,17 +28,13 @@ export default function SystemSelectionButton({ system }: SystemSelectionProps) 
     
     return (
         <Link href={config.path}>
-            <Card center className="flex w-xs h-64 justify-center items-center p-10">
-                <img
-                    src={config.logo}
-                    alt={`${system} logo`}
-                    className="w-full h-12 object-contain"
-                />
-                <img
-                    src={config.name}
-                    alt={`${system} name`}
-                    className="h-10 object-contain"
-                />
+            <Card center className="w-xs h-75 flex justify-center items-center p-10">
+              <img src={config.logo} className="w-full h-12 object-contain" />
+              <div className="w-full flex justify-center items-center">
+                <p className="text-primary-blue text-4xl">
+                  {config.name}
+                </p>
+              </div>
             </Card>
         </Link>
     );

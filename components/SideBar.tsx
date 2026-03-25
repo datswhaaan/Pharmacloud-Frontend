@@ -1,18 +1,37 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import * as AiIcons from "react-icons/ai";
-import Link from "next/link";
 import SideBarItem from "./SideBarItem";
 import Profile from "./Profile";
-import { File05, Edit05, BookOpen01, BarChart12, Settings01, HelpCircle, LogOut03 } from "@untitledui/icons";
+import { File05, Edit05, BookOpen01, BarChart12, HelpCircle, LogOut03 } from "@untitledui/icons";
 import SystemSelector from "./SystemSelector";
+import { System } from "@/components/dropdown/dropdown.options";
 
 type SideBarProps = {
   isOpen: boolean;
 };
 
+const MENU_CONFIG: Record<System, { route: string; path: string; Icon: React.FC<any> }[]> = {
+  pharmacloud: [
+    { route: "รายการใบสั่งยา", path: "/prescription", Icon: File05 },
+    { route: "ตรวจสอบรายการยา", path: "/detection", Icon: Edit05 },
+    { route: "สถิติการตรวจสอบ", path: "/statistics", Icon: BarChart12 },
+  ],
+  drug: [
+    { route: "บัญชียา", path: "/drugs", Icon: BookOpen01 },
+  ],
+  system3: [],
+};
 
 export default function SideBar({ isOpen }: SideBarProps) {
+  const pathname = usePathname();
+  const system: System = pathname.startsWith("/drugs") 
+    ? "drug" 
+    : pathname.startsWith("/entry") 
+    ? "system3" 
+    : "pharmacloud";
+
+  const currentMenu = MENU_CONFIG[system];
   
   return (
     <nav 
@@ -23,16 +42,20 @@ export default function SideBar({ isOpen }: SideBarProps) {
       <div className="w-full">
         <div className="flex flex-col mb-4">
           <img src="/logo/logoName.svg" alt="PharmaCloud Logo" className="w-full h-16 object-contain mx-auto mt-4" />
-          <SystemSelector/>
+          <SystemSelector currentSystem={system}/>
         </div>
 
         <Profile name="วิวรรณ วรคุณอนันต์" position="เภสัชกร" />
         
         <div className="flex flex-col border-t border-gray-200 py-2 justify-center w-full gap-2">
-          <SideBarItem route="รายการใบสั่งยา" path="/prescription" Icon={File05}/>
-          <SideBarItem route="ตรวจสอบรายการยา" path="/detection" Icon={Edit05}/>
-          <SideBarItem route="บัญชียา" path="/drugs" Icon={BookOpen01}/>
-          <SideBarItem route="สถิติการตรวจสอบ" path="/statistics" Icon={BarChart12}/>
+          {currentMenu.map((item) => (
+            <SideBarItem 
+              key={item.path} 
+              route={item.route} 
+              path={item.path} 
+              Icon={item.Icon} 
+            />
+          ))}
         </div>
         
 
