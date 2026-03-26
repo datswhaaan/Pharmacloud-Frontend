@@ -96,7 +96,6 @@ export default function Login() {
                         placeholder={showPassword ? "รหัสผ่าน" : "••••••••"} 
                         value={formData.password}
                         onChange={(value) => setFormData(prev => ({ ...prev, password: value }))}
-                        isInvalid={!!errorMessage}
                     />
                     <button
                         type="button"
