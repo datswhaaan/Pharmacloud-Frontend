@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Eye, EyeOff } from "@untitledui/icons";
 
 import { loginUser } from "@/lib/api/auth";
+import { useAuth } from "@/providers/auth-provider";
 
 interface LoginFormState {
     username: string;
@@ -36,6 +37,8 @@ export default function Login() {
         }));
     };
 
+    const { setUser } = useAuth();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
@@ -55,6 +58,11 @@ export default function Login() {
 
                 router.push("/entry");
             }
+
+            if (data.user) {
+                setUser(data.user);
+            }
+
         } catch (err) {
             setErrorMessage("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         } finally {

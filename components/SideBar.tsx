@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import { File05, Edit05, BookOpen01, BarChart12, HelpCircle, LogOut03 } from "@untitledui/icons";
 import SystemSelector from "./SystemSelector";
 import { System } from "@/components/dropdown/dropdown.options";
+import { useAuth } from "@/providers/auth-provider";
 
 type SideBarProps = {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
     : "pharmacloud";
 
   const currentMenu = MENU_CONFIG[system];
+  const user = useAuth()
   
   return (
     <nav 
@@ -45,7 +47,9 @@ export default function SideBar({ isOpen }: SideBarProps) {
           <SystemSelector currentSystem={system}/>
         </div>
 
-        <Profile name="วิวรรณ วรคุณอนันต์" position="เภสัชกร" />
+        {user.user ? 
+        <Profile name={user.user?.firstname + " " + user.user?.lastname} position={user.user.authentication} /> :
+        <Profile name="ชื่อ-นามสกุล" position="เภสัชกร" />}
         
         <div className="flex flex-col border-t border-gray-200 py-2 justify-center w-full gap-2">
           {currentMenu.map((item) => (
