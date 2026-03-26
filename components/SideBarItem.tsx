@@ -28,22 +28,24 @@ export default function SideBarItem({
   path,
   Icon,
   activeStyle = 'auto',
-  variant = 'default'
+  variant = 'default',
+  onClick
 }: {
   route: string;
   path: string;
   Icon?: React.ComponentType<{ className?: string }>;
   activeStyle?: ActiveStyle;
   variant?: Variant;
+  onClick?: () => void;
 }) {
   const pathname = usePathname();
   const isActive = pathname === path;
   const shouldHighlight = activeStyle === "auto" && isActive;
   const styles = VariantStyles[variant];
 
-  return (
-    <Link href={path}>
-      <div
+  const content = (
+    <div
+        onClick={onClick}
         className={`w-full flex items-end gap-3 px-5 py-3  text-sm text-black rounded-lg
                    hover:bg-gray-200 cursor-pointer
                    ${shouldHighlight ? styles.bg : ''}`}
@@ -55,6 +57,11 @@ export default function SideBarItem({
         )}
         <span className={shouldHighlight ? styles.active : styles.text}>{route}</span>
       </div>
-    </Link>
-  );
+  )
+
+  if (path) {
+    return <Link href={path}>{content}</Link>;
+  }
+
+  return content;
 }

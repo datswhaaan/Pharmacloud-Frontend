@@ -1,3 +1,4 @@
+import { useAuth } from "@/providers/auth-provider";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function loginUser(formData: any) {
@@ -18,4 +19,11 @@ export async function loginUser(formData: any) {
   }
 
   return data;
+}
+
+export async function logout() {
+  await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include"
+  })
 }

@@ -7,6 +7,7 @@ import { File05, Edit05, BookOpen01, BarChart12, HelpCircle, LogOut03 } from "@u
 import SystemSelector from "./SystemSelector";
 import { System } from "@/components/dropdown/dropdown.options";
 import { useAuth } from "@/providers/auth-provider";
+import { logout } from "@/lib/api/auth";
 
 type SideBarProps = {
   isOpen: boolean;
@@ -34,6 +35,14 @@ export default function SideBar({ isOpen }: SideBarProps) {
 
   const currentMenu = MENU_CONFIG[system];
   const user = useAuth()
+
+  const { setUser } = useAuth();
+  
+  const handleLogout = async () => {
+    await logout()
+
+    setUser(null);
+  }
   
   return (
     <nav 
@@ -82,6 +91,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
           path="/" 
           Icon={LogOut03}
           variant="destructive"
+          onClick={handleLogout}
         />
       </div>
     </nav>
