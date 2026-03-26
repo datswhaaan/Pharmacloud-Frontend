@@ -42,6 +42,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
     await logout()
 
     setUser(null);
+    localStorage.removeItem("token");
   }
   
   return (
