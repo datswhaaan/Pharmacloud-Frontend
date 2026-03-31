@@ -22,6 +22,7 @@ type Props<T extends object> = {
   currentPage?: number;
   setCurrentPage?: (page: number) => void;
   totalPages?: number;
+  rowNumber?: number;
 };
 
 export default function BaseTable<T extends object>({
@@ -32,8 +33,21 @@ export default function BaseTable<T extends object>({
   currentPage,
   setCurrentPage,
   totalPages,
+  rowNumber = 6,
 }: Props<T>) {
 
+  type RowType<T> =
+    | { type: "data"; value: T }
+    | { type: "empty"; id: string };
+  const emptyCount = Math.max(0, rowNumber - items.length);
+
+  const filledItems: RowType<T>[] = [
+    ...items.map((item) => ({ type: "data" as const, value: item })),
+    ...Array.from({ length: emptyCount }, (_, i) => ({
+      type: "empty" as const,
+      id: `empty-${i}`,
+    })),
+  ];
   return (
     <TableCard.Root className="w-full">
       <Table aria-label="data table">
@@ -43,30 +57,46 @@ export default function BaseTable<T extends object>({
               key={col.key}
               label={col.label}
               isRowHeader={col.isRowHeader}
+              className={col.className}
             />
           ))}
             <Table.Head label="" />
         </Table.Header>
 
-        <Table.Body items={items}>
-          {(item) => (
-            <Table.Row
-              id={getRowId(item)}
-              href={getRowHref?.(item)}
-              className="hover:bg-gray-100 hover:cursor-pointer"
-            >
-              {columns.map((col) => (
-                <Table.Cell key={col.key} className={col.className}>
-                  {col.render(item)}
+        <Table.Body items={filledItems}>
+          {(row) => {
+            if (row.type === "empty") {
+              return (
+                <Table.Row id={row.id}>
+                  {columns.map((col) => (
+                    <Table.Cell key={col.key} className={`${col.className} `} />
+                  ))}
+                  <Table.Cell />
+                </Table.Row>
+              );
+            }
+
+            const item = row.value;
+
+            return (
+              <Table.Row
+                id={getRowId(item)}
+                href={getRowHref?.(item)}
+                className="hover:bg-gray-100 hover:cursor-pointer"
+              >
+                {columns.map((col) => (
+                  <Table.Cell key={col.key} className={col.className}>
+                    {col.render(item)}
+                  </Table.Cell>
+                ))}
+                <Table.Cell className="px-4">
+                  <div className="flex justify-end gap-0.5">
+                    <ButtonUtility size="xs" color="tertiary" tooltip="เพิ่มเติม" icon={DotsVertical} />
+                  </div>
                 </Table.Cell>
-              ))}
-              <Table.Cell className="px-4">
-                    <div className="flex justify-end gap-0.5">
-                        <ButtonUtility size="xs" color="tertiary" tooltip="เพิ่มเติม" icon={DotsVertical} />
-                    </div>
-                </Table.Cell>
-            </Table.Row>
-          )}
+              </Table.Row>
+            );
+          }}
         </Table.Body>
       </Table>
 

@@ -33,6 +33,7 @@ export default function DrugTable({
             key: "code",
             label: "รหัส",
             isRowHeader: true,
+            className: "w-32",
             render: (d) => d.drug_code,
         },
         {
@@ -60,6 +61,7 @@ export default function DrugTable({
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
+            rowNumber={7}
         />
     );
 };
