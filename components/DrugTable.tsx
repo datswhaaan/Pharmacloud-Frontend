@@ -4,17 +4,28 @@ import BaseTable, { Column } from "@/components/BaseTable";
 import Badges from "./Badges";
 
 type Drug = {
-  id: number;
-  code: string;
-  name: string;
-  riskLevel: string | null;
+  drug_id: number;
+  drug_code: string;
+  drug_common_name: string;
+  high_alert: string | null;
 };
 
-export default function DrugTable({ drugs }: { drugs: Drug[] }){
+interface DrugTableProps {
+    drugs: Drug[];
+    currentPage?: number;
+    setCurrentPage?: (page: number) => void;
+    totalPages?: number;
+}
 
+export default function DrugTable({ 
+    drugs,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+}: DrugTableProps){
     const normalizedDrugs: Drug[] = drugs.map(d => ({
         ...d,
-        riskLevel: d.riskLevel ?? "unknown",
+        high_alert: d.high_alert ?? "unknown",
     }));
 
     const columns: Column<Drug>[] = [
@@ -22,19 +33,19 @@ export default function DrugTable({ drugs }: { drugs: Drug[] }){
             key: "code",
             label: "รหัส",
             isRowHeader: true,
-            render: (d) => d.code,
+            render: (d) => d.drug_code,
         },
         {
             key: "name",
             label: "ชื่อทั่วไป",
-            render: (d) => d.name,
+            render: (d) => d.drug_common_name,
         },
         {
             key: "risk",
             label: "",
             render: (d) => (
                 <div className="flex justify-end">
-                <Badges varient="riskLevel" level={d.riskLevel || undefined} />
+                <Badges varient="riskLevel" level={d.high_alert || undefined} />
                 </div>
             ),
         },
@@ -44,8 +55,11 @@ export default function DrugTable({ drugs }: { drugs: Drug[] }){
         <BaseTable
             items={normalizedDrugs}
             columns={columns}
-            getRowId={(d: Drug) => d.id}
-            getRowHref={(d: Drug) => `/drugs/${d.id}`}
+            getRowId={(d: Drug) => d.drug_id}
+            getRowHref={(d: Drug) => `/drugs/${d.drug_id}`}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
         />
     );
 };

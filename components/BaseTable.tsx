@@ -19,6 +19,9 @@ type Props<T extends object> = {
   columns: Column<T>[];
   getRowId: (item: T) => number;
   getRowHref?: (item: T) => string;
+  currentPage?: number;
+  setCurrentPage?: (page: number) => void;
+  totalPages?: number;
 };
 
 export default function BaseTable<T extends object>({
@@ -26,8 +29,10 @@ export default function BaseTable<T extends object>({
   columns,
   getRowId,
   getRowHref,
+  currentPage,
+  setCurrentPage,
+  totalPages,
 }: Props<T>) {
-  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <TableCard.Root className="w-full">
@@ -68,7 +73,7 @@ export default function BaseTable<T extends object>({
       <PaginationPageMinimalCenter
         rounded
         page={currentPage}
-        total={10}
+        total={totalPages}
         onPageChange={setCurrentPage}
         className="px-4 py-3 md:px-6 md:pt-3 md:pb-4"
       />

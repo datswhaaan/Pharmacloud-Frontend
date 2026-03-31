@@ -38,6 +38,7 @@ const lineData = {
 
 export default function Statistics() {
     const [range, setRange] = useState<TimeRange>("year");
+    const [search, setSearch] = useState("");
 
     return (
         <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 items-end justify-start overflow-y-auto">
@@ -57,7 +58,10 @@ export default function Statistics() {
                     <BaseChart data={lineData} type='line'/>
                 </Card>
             </div>
-            <SearchBar/>
+            <SearchBar 
+                search={search}
+                setSearch={setSearch}
+            />
             <PrescriptionTable prescription={mockData} type='statistics'/>
         </div>
     )

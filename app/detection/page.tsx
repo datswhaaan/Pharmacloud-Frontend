@@ -14,6 +14,7 @@ import prescription from '@/components/application/table/team-members.json'
 
 export default function DetectionPage() {
   const [method, setMethod] = useState<SelectMethod>("manual");
+  const [search, setSearch] = useState("");
 
   return (
       <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
@@ -38,7 +39,10 @@ export default function DetectionPage() {
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full h-full">
-                <SearchBar />
+                <SearchBar 
+                  search={search}
+                  setSearch={setSearch}
+                />
 
                 <PrescriptionTable prescription={prescription} type="detection"/>
               </div>
