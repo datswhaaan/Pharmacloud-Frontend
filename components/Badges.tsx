@@ -56,7 +56,7 @@ export default function Badges({
                     {status}
                 </div>
             )}
-            {varient === "riskLevel" && level &&(
+            {varient === "riskLevel" && level === "high" &&(
                 <div className={`${riskLevelColor} ${base}`}>
                     เสี่ยงสูง
                 </div>

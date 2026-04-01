@@ -23,7 +23,6 @@ export default function Drugs() {
 
   useEffect(() => {
     handleSearch();
-    console.log("Fetching drugs with params: ", { search, highAlert, skip, limit })
   }, [search, highAlert, currentPage]);
 
   const handleSearch = async () => {
@@ -36,8 +35,6 @@ export default function Drugs() {
       });
       setDrugs(data.drugs);
       setTotalPages(Math.ceil(data.total / limit));
-      console.log("Fetched drugs: ", data);
-      console.log("total pages: ", Math.ceil(data.total / limit))
     } catch (err) {
       console.error(err);
     }

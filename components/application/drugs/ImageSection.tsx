@@ -15,16 +15,10 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Button } from "@/components/base/buttons/button";
 import { Pencil01 } from "@untitledui/icons";
 import UploadImageModal from "./UploadImageModal";
+import { DrugImages } from "@/types/drug";
 
 interface Props {
     images: DrugImages[];
-}
-
-interface DrugImages {
-  id: string,
-  url: string,
-  type: string,
-  uploadedAt: string,
 }
 
 export default function ImageSection({images} : Props) {
@@ -35,7 +29,7 @@ export default function ImageSection({images} : Props) {
 
 
     const slides = images.map((img) => ({
-        src: img.url,
+        src: img.image_url,
     }));
 
     const toggleSelect = (id: string) => {
@@ -106,7 +100,7 @@ export default function ImageSection({images} : Props) {
                     >
                         {/* รูป */}
                         <img
-                        src={img.url}
+                        src={img.image_url}
                         alt={`drug-${img.id}`}
                         className={`w-full h-full object-cover transition
                             ${isEdit && isSelected ? "opacity-70" : ""}

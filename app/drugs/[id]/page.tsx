@@ -1,13 +1,38 @@
-import mockDrugDetail from "@/components/mockDrugDetail.json"
+"use client"
+
+import { useState, useEffect } from "react"
 import DrugInfo from "@/components/DrugInfo"
 import ImageSection from "@/components/application/drugs/ImageSection"
 
+import { fetchDrugDetail } from "@/lib/api/drug";
+import { DrugResponse } from "@/types/drug";
+import { useParams } from "next/navigation";
+
 export default function DrugDetail() {
+    const { id } = useParams();
+    const [drugData, setDrugData] = useState<DrugResponse | null>(null);;
+
+    useEffect(() => {
+        if (!id) return;
+
+        fetchDrugDetail(String(id))
+        .then(setDrugData)
+        .catch(console.error);
+    }, [id]);
+
+    if (!drugData) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
-            <DrugInfo drugData={mockDrugDetail} type="detection"/>
-            <DrugInfo drugData={mockDrugDetail} type="additional"/>
-            <ImageSection images={mockDrugDetail.images}/>
+            {drugData && (
+                <>
+                    <DrugInfo drugData={drugData} type="detection" />
+                    <DrugInfo drugData={drugData} type="additional" />
+                    <ImageSection images={drugData.images}/>
+                </>
+            )}
         </div>
     )
 }

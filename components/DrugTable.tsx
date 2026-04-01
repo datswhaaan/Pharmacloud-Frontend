@@ -46,7 +46,7 @@ export default function DrugTable({
             label: "",
             render: (d) => (
                 <div className="flex justify-end">
-                <Badges varient="riskLevel" level={d.high_alert || undefined} />
+                <Badges varient="riskLevel" level={d.high_alert ? "high" : ""} />
                 </div>
             ),
         },

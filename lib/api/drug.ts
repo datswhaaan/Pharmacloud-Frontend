@@ -30,3 +30,20 @@ export async function fetchDrugs({
 
     return data;
 }
+
+export async function fetchDrugDetail(drugId: string) {
+    const response = await fetch(`${API_URL}/drugs/${drugId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลยาได้")
+    }
+
+    return data;
+}

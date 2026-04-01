@@ -1,43 +1,7 @@
 import React from 'react';
 import Card from '@/components/Card';
 import Badges from './Badges';
-
-interface DrugData {
-  id: string,
-  code: string,
-  riskLevel: string, 
-  names: DrugNames,
-  categories: DrugCategories,
-  usage: DrugUsage,
-  flags: DrugFlags,
-}
-
-interface DrugNames {
-  generic: string | null,
-  trade: string | null,
-  thai: string | null,
-}
-
-interface DrugCategories {
-  therapeutic: string | null,
-  pharmacological: string | null,
-  standard: string | null,
-}
-
-interface DrugUsage {
-  route: string | null,
-  duration: string | null,
-  quantity: string | null,
-  detail: string | null,
-  warning: string | null,
-  indication: string | null,
-}
-
-interface DrugFlags {
-  isHighAlertDrug: boolean,
-  isNewDrug: boolean,
-  hasImages: boolean,
-}
+import { DrugResponse } from '@/types/drug';
 
 interface InfoFieldProps {
   label: string;
@@ -59,11 +23,13 @@ const InfoField: React.FC<InfoFieldProps> = ({ label, value, color = 'text-gray-
 );
 
 interface DrugInfoHeaderProps {
-  drugData?: DrugData;
+  drugData?: DrugResponse;
   type?: 'detection' | 'additional' | 'images';
 }
 
+
 const DrugInfo: React.FC<DrugInfoHeaderProps> = ({ drugData, type}) => {
+
   return (
     <Card>
       {drugData && type === 'detection' && (
@@ -73,10 +39,10 @@ const DrugInfo: React.FC<DrugInfoHeaderProps> = ({ drugData, type}) => {
         
             <div className="flex flex-col items-start">
                 <div className="flex items-center gap-2">
-                  <h1 className="text-gray-800">{drugData.names.thai}</h1>
+                  <h1 className="text-gray-800">{drugData.names.generic}</h1>
                     <Badges 
                       varient="riskLevel"
-                      level={drugData.riskLevel}
+                      level={drugData.flags.is_high_alert ? "high" : ""}
                     />
                 </div>
                   <InfoField inline label="รหัส" value={drugData.code || '-'} />
@@ -99,10 +65,10 @@ const DrugInfo: React.FC<DrugInfoHeaderProps> = ({ drugData, type}) => {
           <div>
             <h2 className="pb-4">รายละเอียดการใช้ยา</h2>
             <div className="grid grid-cols-3 gap-6">
-              <InfoField label="วิธีการใช้" value={drugData.usage.route || '-'} />
-              <InfoField label="คำเตือน" value={drugData.usage.warning || '-'} />
-              <InfoField label="รายละเอียด" value={drugData.usage.detail || '-'} />
-              <InfoField label="ข้อบ่งชี้การใช้ยา" value={drugData.usage.indication || '-'} />
+              <InfoField label="วิธีการใช้" value={drugData.instructions.instruction || '-'} />
+              <InfoField label="คำเตือน" value={drugData.instructions.caution || '-'} />
+              <InfoField label="รายละเอียด" value={drugData.instructions.description || '-'} />
+              <InfoField label="ข้อบ่งชี้การใช้ยา" value={drugData.instructions.special_prescription || '-'} />
             </div>
           </div>
         )}
