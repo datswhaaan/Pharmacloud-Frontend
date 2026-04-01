@@ -50,7 +50,7 @@ export default function ImageSection({images} : Props) {
             <div className="flex w-full justify-between items-center">
                 <h2 className="pb-4">ภาพยา</h2>
                 
-                {!isEdit ? (
+                {images && images.length > 0 ? (!isEdit ? (
                     <Button
                         iconLeading={<Pencil01 className="w-4 h-4 text-white" />}
                         className="flex items-center justify-center"
@@ -83,10 +83,10 @@ export default function ImageSection({images} : Props) {
                             เสร็จสิ้น
                         </Button>
                     </div>
-                    )}
+                    )) : null}
             </div>
 
-            <div className="grid grid-cols-3 gap-6 mt-4">
+            {images && images.length > 0 ? (<div className="grid grid-cols-3 gap-6 mt-4">
                 {images.map((img, i) => {
                     const isSelected = selected.includes(img.id);
 
@@ -130,8 +130,18 @@ export default function ImageSection({images} : Props) {
                         )}
                     </div>
                     );
-                })}
-            </div>
+                }) }
+            </div>) : (
+                    <div className="flex flex-col items-center justify-center gap-4 py-20">
+                        <h2 className="text-primary-blue">ไม่พบภาพยา</h2>
+                        <Button
+                            className="flex items-center justify-center"
+                            onClick={() => {setIsUploadOpen(true); console.log(isUploadOpen)}}
+                        >   
+                            เพิ่มรูปภาพ
+                        </Button>
+                    </div>
+                )}
 
             <Lightbox
                 slides={slides}
