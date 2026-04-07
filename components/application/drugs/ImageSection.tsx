@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "@/components/Card"
 
 import Lightbox from "yet-another-react-lightbox";
@@ -17,6 +17,9 @@ import { Pencil01 } from "@untitledui/icons";
 import UploadImageModal from "./UploadImageModal";
 import { DrugImages } from "@/types/drug";
 
+import { uploadDrugImages } from "@/lib/api/drug";
+import { ImageInput } from "@/types/drug";
+
 interface Props {
     images: DrugImages[];
 }
@@ -27,9 +30,14 @@ export default function ImageSection({images} : Props) {
     const [selected, setSelected] = useState<string[]>([]);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
 
+    const [localImages, setLocalImages] = useState<DrugImages[]>(images);
 
-    const slides = images.map((img) => ({
-        src: img.image_url,
+    useEffect(() => {
+        setLocalImages(images);
+    }, [images]);
+
+    const slides = localImages.map((img) => ({
+        src: img.url,
     }));
 
     const toggleSelect = (id: string) => {
@@ -40,10 +48,9 @@ export default function ImageSection({images} : Props) {
         );
     };
     
-    const handleFilesUploaded = (files: File[]) => {
-        // Handle uploaded files here
-        console.log(files);
-    }; 
+    const handleUploaded = (uploaded: DrugImages[]) => {
+        setLocalImages(prev => [...prev, ...uploaded]);
+    };
 
     return (
         <Card>
@@ -86,8 +93,8 @@ export default function ImageSection({images} : Props) {
                     )) : null}
             </div>
 
-            {images && images.length > 0 ? (<div className="grid grid-cols-3 gap-6 mt-4">
-                {images.map((img, i) => {
+            {localImages && localImages.length > 0 ? (<div className="grid grid-cols-3 gap-6 mt-4">
+                {localImages.map((img, i) => {
                     const isSelected = selected.includes(img.id);
 
                     return (
@@ -100,8 +107,8 @@ export default function ImageSection({images} : Props) {
                     >
                         {/* รูป */}
                         <img
-                        src={img.image_url}
-                        alt={`drug-${img.id}`}
+                        src={img.url}
+                        alt={img.id}
                         className={`w-full h-full object-cover transition
                             ${isEdit && isSelected ? "opacity-70" : ""}
                         `}
@@ -111,7 +118,7 @@ export default function ImageSection({images} : Props) {
                         {isEdit && (
                         <button
                             onClick={(e) => {
-                            e.stopPropagation(); // ไม่ให้ click ทะลุไปโดนรูป
+                            e.stopPropagation();
                             toggleSelect(img.id);
                             }}
                             className={`
@@ -153,8 +160,9 @@ export default function ImageSection({images} : Props) {
             
             {isUploadOpen && (
                 <UploadImageModal 
-                    onFilesUploaded={handleFilesUploaded}
-                    onClose={() => setIsUploadOpen(false)}/>
+                    onUploaded={handleUploaded}
+                    onClose={() => setIsUploadOpen(false)}
+                />
             )}
 
         </Card>

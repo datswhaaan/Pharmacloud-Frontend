@@ -18,7 +18,7 @@ export type DrugFlags = {
 
 export type DrugImages = {
   id: string;
-  image_url: string;
+  url: string;
   view_type?: string;
   position?: number;
   lighting?: string;
@@ -40,4 +40,12 @@ export type DrugResponse = {
   flags: DrugFlags;
   images: DrugImages[];
   instructions: DrugInstruction;
+};
+
+export type ImageInput = {
+  file: File;
+  preview: string;
+  view_type?: string;
+  position?: number;
+  lighting?: string;
 };
