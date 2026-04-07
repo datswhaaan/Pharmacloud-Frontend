@@ -17,8 +17,7 @@ import { Pencil01 } from "@untitledui/icons";
 import UploadImageModal from "./UploadImageModal";
 import { DrugImages } from "@/types/drug";
 
-import { uploadDrugImages } from "@/lib/api/drug";
-import { ImageInput } from "@/types/drug";
+import { deleteDrugImages } from "@/lib/api/drug";
 
 interface Props {
     images: DrugImages[];
@@ -29,6 +28,7 @@ export default function ImageSection({images} : Props) {
     const [isEdit, setIsEdit] = useState(false);
     const [selected, setSelected] = useState<string[]>([]);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [localImages, setLocalImages] = useState<DrugImages[]>(images);
 
@@ -50,6 +50,23 @@ export default function ImageSection({images} : Props) {
     
     const handleUploaded = (uploaded: DrugImages[]) => {
         setLocalImages(prev => [...prev, ...uploaded]);
+    };
+
+    const handleDeleted = async () => {
+        try {
+            setIsDeleting(true);
+            await deleteDrugImages(selected);
+
+            setLocalImages(prev =>
+                prev.filter(img => !selected.includes(img.id))
+            );
+
+            setSelected([]);
+        } catch (err) {
+            alert("ลบรูปไม่สำเร็จ");
+        } finally {
+            setIsDeleting(false);
+        }
     };
 
     return (
@@ -75,10 +92,8 @@ export default function ImageSection({images} : Props) {
                         </Button>
 
                         <Button
-                            disabled={selected.length === 0}
-                            onClick={() => {
-                                /* handle delete image */
-                            }}
+                            disabled={selected.length === 0 || isDeleting}
+                            onClick={handleDeleted}
                         >
                             ลบ ({selected.length})
                         </Button>

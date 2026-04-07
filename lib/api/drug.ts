@@ -76,3 +76,18 @@ export async function uploadDrugImages(drugId: string, images: ImageInput[]) {
     }
     return data.images
 }
+
+export async function deleteDrugImages(image_ids: string[]) {
+    const response = await fetch(`${API_URL}/drugs/images`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ image_ids }),
+    });
+
+    if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || data.message || "ไม่สามารถลบรูปภาพได้");
+    }
+}
