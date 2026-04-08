@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { PaginationPageMinimalCenter } from "@/components/application/pagination/pagination";
 import { Table, TableCard } from "@/components/application/table/table";
 import { ButtonUtility } from "./base/buttons/button-utility";
@@ -23,6 +22,7 @@ type Props<T extends object> = {
   setCurrentPage?: (page: number) => void;
   totalPages?: number;
   rowNumber?: number;
+  getRowClassName?: (item: T) => string;
 };
 
 export default function BaseTable<T extends object>({
@@ -34,6 +34,7 @@ export default function BaseTable<T extends object>({
   setCurrentPage,
   totalPages,
   rowNumber = 6,
+  getRowClassName,
 }: Props<T>) {
 
   type RowType<T> =
@@ -82,7 +83,10 @@ export default function BaseTable<T extends object>({
               <Table.Row
                 id={getRowId(item)}
                 href={getRowHref?.(item)}
-                className="hover:bg-gray-100 hover:cursor-pointer"
+                className={`
+                  hover:bg-gray-100 hover:cursor-pointer
+                  ${getRowClassName?.(item) ?? ""}
+                `}
               >
                 {columns.map((col) => (
                   <Table.Cell key={col.key} className={col.className}>

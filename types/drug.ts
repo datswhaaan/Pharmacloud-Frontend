@@ -12,7 +12,6 @@ export type DrugCategory = {
 
 export type DrugFlags = {
   is_high_alert: boolean;
-  is_new_drug: boolean;
   has_images: boolean;
 };
 
@@ -37,7 +36,6 @@ export type DrugResponse = {
   code: string;
   names: DrugName;
   categories: DrugCategory;
-  flags: DrugFlags;
   images: DrugImages[];
   instructions: DrugInstruction;
 };
@@ -48,4 +46,11 @@ export type ImageInput = {
   view_type?: string;
   position?: number;
   lighting?: string;
+};
+
+export type Drug = {
+  drug_id: number;
+  drug_code: string;
+  drug_common_name: string;
+  flags: DrugFlags
 };

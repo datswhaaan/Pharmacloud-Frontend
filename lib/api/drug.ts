@@ -34,6 +34,7 @@ export async function fetchDrugs({
 }
 
 export async function fetchDrugDetail(drugId: string) {
+    console.log(drugId)
     const response = await fetch(`${API_URL}/drugs/${drugId}`, {
         method: "GET",
         headers: {

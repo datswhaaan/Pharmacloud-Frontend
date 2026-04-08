@@ -2,13 +2,7 @@
 
 import BaseTable, { Column } from "@/components/BaseTable";
 import Badges from "./Badges";
-
-type Drug = {
-  drug_id: number;
-  drug_code: string;
-  drug_common_name: string;
-  high_alert: string | null;
-};
+import { Drug } from "@/types/drug";
 
 interface DrugTableProps {
     drugs: Drug[];
@@ -23,10 +17,6 @@ export default function DrugTable({
     setCurrentPage,
     totalPages,
 }: DrugTableProps){
-    const normalizedDrugs: Drug[] = drugs.map(d => ({
-        ...d,
-        high_alert: d.high_alert ?? "unknown",
-    }));
 
     const columns: Column<Drug>[] = [
         {
@@ -46,7 +36,7 @@ export default function DrugTable({
             label: "",
             render: (d) => (
                 <div className="flex justify-end">
-                <Badges varient="riskLevel" level={d.high_alert ? "high" : ""} />
+                <Badges varient="riskLevel" level={d.flags?.is_high_alert ? "high" : ""} />
                 </div>
             ),
         },
@@ -54,7 +44,7 @@ export default function DrugTable({
 
     return (
         <BaseTable
-            items={normalizedDrugs}
+            items={drugs}
             columns={columns}
             getRowId={(d: Drug) => d.drug_id}
             getRowHref={(d: Drug) => `/drugs/${d.drug_id}`}
@@ -62,6 +52,7 @@ export default function DrugTable({
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
             rowNumber={7}
+            getRowClassName={(d: Drug) => !d.flags.has_images ? "bg-gray-100" : ""}
         />
     );
 };
