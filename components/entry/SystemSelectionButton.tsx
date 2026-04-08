@@ -2,18 +2,18 @@ import Card from "../Card";
 import Link from "next/link";
 
 type SystemSelectionProps = {
-  system: "Pharmacloud" | "Drug" | "system3";
+  system: "pharmasee" | "pharmacast" | "system3";
 };
 
 const systemConfig = {
-  Pharmacloud: {
+  pharmasee: {
     logo: "/logo/logo.svg",
-    name: "PharmaCloud",
+    name: "PharmaSee",
     path: "/prescription"
   },
-  Drug: {
+  pharmacast: {
     logo: "/logo/logo.svg",
-    name: "DrugMaster",
+    name: "PharmaCast",
     path: "/drugs"
   },
   system3: {

@@ -14,12 +14,12 @@ type SideBarProps = {
 };
 
 const MENU_CONFIG: Record<System, { route: string; path: string; Icon: React.FC<any> }[]> = {
-  pharmacloud: [
+  pharmasee: [
     { route: "รายการใบสั่งยา", path: "/prescription", Icon: File05 },
     { route: "ตรวจสอบรายการยา", path: "/detection", Icon: Edit05 },
     { route: "สถิติการตรวจสอบ", path: "/statistics", Icon: BarChart12 },
   ],
-  drug: [
+  pharmacast: [
     { route: "บัญชียา", path: "/drugs", Icon: BookOpen01 },
   ],
   system3: [],
@@ -28,10 +28,10 @@ const MENU_CONFIG: Record<System, { route: string; path: string; Icon: React.FC<
 export default function SideBar({ isOpen }: SideBarProps) {
   const pathname = usePathname();
   const system: System = pathname.startsWith("/drugs") 
-    ? "drug" 
+    ? "pharmacast" 
     : pathname.startsWith("/entry") 
     ? "system3" 
-    : "pharmacloud";
+    : "pharmasee";
 
   const currentMenu = MENU_CONFIG[system];
   const user = useAuth()
@@ -53,7 +53,10 @@ export default function SideBar({ isOpen }: SideBarProps) {
     >
       <div className="w-full">
         <div className="flex flex-col mb-4">
-          <img src="/logo/logoName.svg" alt="PharmaCloud Logo" className="w-full h-16 object-contain mx-auto mt-4" />
+          <div className="flex w-full mx-auto my-4 gap-4 justify-center items-center">
+            <img src={`/logo/logo.svg`} alt="System Logo" className="h-8 object-contain" />
+            <img src={`/logo/${system}.svg`} alt="System Logo" className="h-6 object-contain" />
+          </div>
           <SystemSelector currentSystem={system}/>
         </div>
 

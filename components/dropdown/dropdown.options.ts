@@ -18,10 +18,10 @@ export const TIME_RANGE_OPTIONS: DropdownOption<TimeRange>[] = [
 ];
 
 /* ---------- System ---------- */
-export type System = "pharmacloud" | "drug" | "system3";
+export type System = "pharmasee" | "pharmacast" | "system3";
 
 export const SYSTEM_OPTIONS: DropdownOption<System>[] = [
-  { value: "pharmacloud", label: "PharmaCloud" },
-  { value: "drug", label: "Drug" },
+  { value: "pharmasee", label: "PharmaSee" },
+  { value: "pharmacast", label: "PharmaCast" },
   { value: "system3", label: "System3" },
 ];

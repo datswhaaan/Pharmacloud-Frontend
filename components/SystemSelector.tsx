@@ -18,8 +18,8 @@ export default function SystemSelector( { currentSystem} : Props ) {
     if (value === currentSystem) return;
 
     const systemPaths: Record<System, string> = {
-      pharmacloud: "/prescription",
-      drug: "/drugs",
+      pharmasee: "/prescription",
+      pharmacast: "/drugs",
       system3: "/entry",
     };
 
