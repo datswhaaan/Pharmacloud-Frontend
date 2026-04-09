@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Card from "@/components/Card"
 
 import Lightbox from "yet-another-react-lightbox";
@@ -21,9 +21,16 @@ import { deleteDrugImages } from "@/lib/api/drug";
 
 interface Props {
     images: DrugImages[];
+    renderUploadModal: (props: { 
+        onUploaded: (uploaded: DrugImages[]) => void; 
+        onClose: () => void; 
+    }) => React.ReactNode;
 }
 
-export default function ImageSection({images} : Props) {
+export default function ImageSection({
+    images,
+    renderUploadModal
+} : Props) {
     const [index, setIndex] = useState(-1);
     const [isEdit, setIsEdit] = useState(false);
     const [selected, setSelected] = useState<string[]>([]);
@@ -173,12 +180,10 @@ export default function ImageSection({images} : Props) {
                 plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
             />
             
-            {isUploadOpen && (
-                <UploadImageModal 
-                    onUploaded={handleUploaded}
-                    onClose={() => setIsUploadOpen(false)}
-                />
-            )}
+            {isUploadOpen && renderUploadModal({
+                onUploaded: handleUploaded, // ส่ง function ใน ImageSection ให้ Page ใช้งาน
+                onClose: () => setIsUploadOpen(false)
+            })}
 
         </Card>
     )

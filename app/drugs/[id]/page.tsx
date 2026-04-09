@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import DrugInfo from "@/components/DrugInfo"
 import ImageSection from "@/components/application/drugs/ImageSection"
+import UploadImageModal from "@/components/application/drugs/UploadImageModal"
 
 import { fetchDrugDetail } from "@/lib/api/drug";
 import { DrugResponse } from "@/types/drug";
@@ -30,7 +31,16 @@ export default function DrugDetail() {
                 <>
                     <DrugInfo drugData={drugData} type="detection" />
                     <DrugInfo drugData={drugData} type="additional" />
-                    <ImageSection images={drugData.images}/>
+                    <ImageSection 
+                        images={drugData.images}
+                        renderUploadModal={({ onUploaded, onClose }) => (
+                            <UploadImageModal 
+                                trade={drugData.names.trade} // ส่งค่าจาก Page เข้าไปตรงๆ
+                                onUploaded={onUploaded} // รับค่าจาก ImageSection กลับไปจัดการ
+                                onClose={onClose}
+                            />
+                        )}
+                    />
                 </>
             )}
         </div>
