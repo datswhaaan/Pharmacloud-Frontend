@@ -16,7 +16,7 @@ export type Column<T> = {
 type Props<T extends object> = {
   items: T[];
   columns: Column<T>[];
-  getRowId: (item: T) => number;
+  getRowId: (item: T) => string;
   getRowHref?: (item: T) => string;
   currentPage?: number;
   setCurrentPage?: (page: number) => void;

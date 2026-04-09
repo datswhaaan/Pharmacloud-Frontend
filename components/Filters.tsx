@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
-
 const statusState = [
   { label: "ทั้งหมด", value: "all" },
-  { label: "ตรวจสอบสำเร็จ", value: "success" },
-  { label: "รอตรวจสอบ", value: "waited" },
-  { label: "ยกเลิก", value: "rejected" },
+  { label: "ตรวจสอบสำเร็จ", value: "completed" },
+  { label: "รอตรวจสอบ", value: "waiting" },
+  { label: "ยกเลิก", value: "cancelled" },
 ];
 
-export default function Filters() {
-  const [status, setStatus] = useState("all");
+interface FiltersProps {
+  status: string;
+  setStatus: (status: string) => void;
+}
+
+export default function Filters({
+  status,
+  setStatus
+} : FiltersProps) {
 
   const baseClass =
     "inline-flex items-center justify-center rounded-full px-3 pt-2 pb-1 text-sm font-medium ring-1 shadow-sm transition";

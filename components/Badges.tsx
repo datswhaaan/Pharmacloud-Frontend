@@ -29,14 +29,23 @@ export default function Badges({
 
     const getStatusColor = (status?: string) => {
         switch (status) {
-            case "ตรวจสอบสำเร็จ":
+            case "completed":
                 return "bg-green-100 text-green-800";
-            case "รอตรวจสอบ":
+            case "waiting":
                 return "bg-blue-100 text-blue-800";
-            case "ตรวจสอบใหม่":
-                return "bg-blue-100 text-blue-800";
-            case "ยกเลิก":
+            case "cancelled":
                 return "bg-red-100 text-red-800";
+        }
+    }
+
+    const getStatusLabel = (status?: string) => {
+        switch (status) {
+            case "completed":
+                return "ตรวจสอบสำเร็จ";
+            case "waiting":
+                return "รอตรวจสอบ";
+            case "cancelled":
+                return "ยกเลิก";
         }
     }
 
@@ -53,7 +62,7 @@ export default function Badges({
             )}
             {varient === "status" && (
                 <div className={`${getStatusColor(status)} ${base}`}>
-                    {status}
+                    {getStatusLabel(status)}
                 </div>
             )}
             {varient === "riskLevel" && level === "high" &&(

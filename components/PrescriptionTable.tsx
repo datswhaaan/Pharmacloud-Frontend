@@ -2,54 +2,53 @@
 
 import BaseTable, { Column } from "@/components/BaseTable";
 import Badges from "./Badges";
-
-type Item = {
-    id: number,
-    severity: string,
-    HN: number,
-    VN: number,
-    name: string,
-    date: string,
-    status: string,
-    reviewedBy?: string
-};
+import { PrescriptionType } from "@/types/prescription"
 
 interface Paginated<T> {
   items: T[];
   total: number;
 }
 interface Props {
-    prescription: Paginated<Item>,
-    type: "prescription" | "detection" | "statistics"
+    prescription: PrescriptionType[];
+    type: "prescription" | "detection" | "statistics";
+    currentPage?: number;
+    setCurrentPage?: (page: number) => void;
+    totalPages?: number;
 }
 
-export default function PrescriptionTable({ prescription, type }: Props ){
-  const columns: Column<Item>[] = [
+export default function PrescriptionTable({ 
+  prescription, 
+  type,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+} : Props ){
+  const columns: Column<PrescriptionType>[] = [
 
-    ...(type !== "statistics"
-      ? [
-          {
-            key: "severity",
-            label: "ระดับความรุนแรง",
-            isRowHeader: true,
-            render: (item) => (
-              <Badges varient="severity" level={item.severity} />
-            ),
-          } as Column<Item>,
-        ]
-    : []),
+    // ...(type !== "statistics"
+    //   ? [
+    //       {
+    //         key: "severity",
+    //         label: "ระดับความรุนแรง",
+    //         isRowHeader: true,
+    //         render: (item) => (
+    //           <Badges varient="severity" level={item.severity} />
+    //         ),
+    //       } as Column<Prescription>,
+    //     ]
+    // : []),
 
-    { key: "HN", label: "HN", isRowHeader: true, render: (item) => item.HN },
-    { key: "VN", label: "VN", render: (item) => item.VN },
+    { key: "HN", label: "HN", isRowHeader: true, render: (item) => item.visit_hn },
+    { key: "VN", label: "VN", render: (item) => item.visit_vn },
     {
       key: "name",
       label: "ชื่อ-สกุล ผู้ป่วย",
-      render: (item) => item.name,
+      render: (item) => item.patient_name,
     },
     {
       key: "time",
       label: "เวลารับบริการ",
-      render: (item) => item.date,
+      render: (item) => item.visit_begin_visit_time,
     },
 
     ...(type !== "statistics"
@@ -60,31 +59,35 @@ export default function PrescriptionTable({ prescription, type }: Props ){
             render: (item) => (
               <Badges varient="status" status={item.status} />
             ),
-          } as Column<Item>,
+          } as Column<PrescriptionType>,
         ]
     : []),
 
-    ...(type == "statistics"
-      ? [
-          {
-            key: "reviewedby",
-            label: "ผู้รับผิดชอบ",
-            render: (item) => item.reviewedBy
-          } as Column<Item>,
-        ]
-    : []),
+    // ...(type == "statistics"
+    //   ? [
+    //       {
+    //         key: "reviewedby",
+    //         label: "ผู้รับผิดชอบ",
+    //         render: (item) => item.verified_by
+    //       } as Column<PrescriptionType>,
+    //     ]
+    // : []),
   ];
 
   return (
     <BaseTable
-        items={prescription.items}
+        items={prescription}
         columns={columns}
-        getRowId={(i) => i.id}
+        getRowId={(i) => i.visit_id}
         getRowHref={(i) =>
             type === "statistics"
-            ? `/prescription/${i.id}`
-            : `/${type}/${i.id}`
+            ? `/prescription/${i.visit_id}`
+            : `/${type}/${i.visit_id}`
         }
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        rowNumber={6}
     />
   );
 };

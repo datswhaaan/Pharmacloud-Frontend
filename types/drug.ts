@@ -49,7 +49,7 @@ export type ImageInput = {
 };
 
 export type Drug = {
-  drug_id: number;
+  drug_id: string;
   drug_code: string;
   drug_common_name: string;
   flags: DrugFlags
