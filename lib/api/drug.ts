@@ -51,7 +51,7 @@ export async function fetchDrugDetail(drugId: string) {
     return data;
 }
 
-export async function uploadDrugImages(drugId: string, images: ImageInput[]) {
+export async function uploadDrugImages(drugId: string, images: ImageInput[], customTradeName: string) {
   const formData = new FormData();
 
   images.forEach(img => {
@@ -66,7 +66,7 @@ export async function uploadDrugImages(drugId: string, images: ImageInput[]) {
 
   formData.append("metadatas", JSON.stringify(metadatas));
 
-  const response = await fetch(`${API_URL}/drugs/${drugId}/images`, {
+  const response = await fetch(`${API_URL}/drugs/${drugId}/images?trade_name=${customTradeName}`, {
     method: "POST",
     body: formData,
   });

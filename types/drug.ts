@@ -38,6 +38,7 @@ export type DrugResponse = {
   categories: DrugCategory;
   images: DrugImages[];
   instructions: DrugInstruction;
+  flags: DrugFlags;
 };
 
 export type ImageInput = {

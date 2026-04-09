@@ -69,7 +69,7 @@ export default function UploadImageModal({
         
     const handleFilesUploaded = async () => {
         try {
-            const uploaded = await uploadDrugImages(String(id), images);
+            const uploaded = await uploadDrugImages(String(id), images, customTradeName);
 
             onUploaded(uploaded);
             setImages([]);
@@ -91,6 +91,7 @@ export default function UploadImageModal({
         <Card
             title='เพิ่มรูปภาพ'
             className="flex flex-col justify-between relative z-10 my-100 mx-50 w-full h-full max-h-[80vh]"
+            scrollable
         >
             <div className="flex flex-col h-full">
                 <div className=" flex-1 flex flex-col">
