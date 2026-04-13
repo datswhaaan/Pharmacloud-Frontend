@@ -1,51 +1,94 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
 import PrescriptionTable from "@/components/PrescriptionTable";
-import  DropdownButton from "@/components/dropdown/DropdownButton";
-import { useState } from "react";
-import WebcamDisplay from "@/components/WebcamDisplay";
-import Alert from "@/components/tailgrids/core/alert";
-import {
-  SELECT_METHOD_OPTIONS,
-  type SelectMethod,
-} from "@/components/dropdown/dropdown.options";
-import prescription from '@/components/application/table/team-members.json'
+import { fetchPrescriptions } from "@/lib/api/prescription";
+import { useNotification } from "@/providers/notification-provider";
 
 export default function DetectionPage() {
-  const [method, setMethod] = useState<SelectMethod>("manual");
   const [search, setSearch] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [order, setOrder] = useState("desc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [prescriptions, setPrescriptions] = useState([]);
+  
+  const limit = 7;
+  const skip = (currentPage - 1) * limit;
+  const status = "waiting"
+
+  const stateRef = useRef({ currentPage, search, status });
+
+  const { showNotification } = useNotification();
+
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, search, status]);
+
+  useEffect(() => {
+    stateRef.current = { currentPage, search, status };
+  }, [currentPage, search, status]);
+
+  useEffect(() => {
+    if (currentPage === 1) {
+      showNotification("มีใบสั่งยาใหม่", "info")
+    }
+  }, [currentPage, status]);
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8000/ws");
+
+    ws.onmessage = async (event) => {
+      const data = JSON.parse(event.data);
+      const { currentPage, status } = stateRef.current;
+
+      if (data.event === "NEW_PRESCRIPTION") {
+        console.log("new prescription")
+        if (currentPage === 1 && status === "all") {
+          console.log(String(currentPage) + status)
+          await handleSearch();
+        } else {
+          showNotification("มีใบสั่งยาใหม่", "info")
+        }
+      }
+    };
+
+    return () => ws.close();
+  }, []);
+  
+  const handleSearch = async () => {
+    try {
+      const data = await fetchPrescriptions({
+        search,
+        startTime,
+        endTime,
+        skip,
+        limit,
+        order,
+        status
+      });
+      setPrescriptions(data.prescriptions);
+      setTotalPages(Math.ceil(data.total / limit));
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
-      <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
-            <div className="flex items-center justify-end w-full">
-              <DropdownButton 
-                value={method}
-                options={SELECT_METHOD_OPTIONS}
-                onChange={setMethod}
-              />
-            </div>
-            {method === "qr" ? (
-              <div className="flex flex-col items gap-2 h-full w-fit">
-                <WebcamDisplay
-                  className="aspect-4/3 w-full h-full min-h-0"
-                />
-                <Alert
-                  variant="info"
-                  title="แสดงใบสั่งยาเพื่อทำการตรวจสอบ"
-                  message="กรุณานำใบสั่งยามาแสดงต่อหน้ากล้องให้เห็นอย่างชัดเจน โปรดจัดตำแหน่งเอกสารให้อยู่ภายในกรอบ ภาพคมชัด ไม่เบลอ และมีแสงสว่างเพียงพอ"
-                  withIcon
-                />
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4 w-full h-full">
-                <SearchBar 
-                  search={search}
-                  setSearch={setSearch}
-                />
-
-                <PrescriptionTable prescription={prescription} type="detection"/>
-              </div>
-            )}
-      </div>
+    <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
+      <SearchBar 
+        search={search}
+        setSearch={setSearch}
+      />
+      <PrescriptionTable 
+        prescription={prescriptions} 
+        type="prescription"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        rowNumber={limit}
+      />
+    </div>
 )}

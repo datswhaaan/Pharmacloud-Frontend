@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import PrescriptionTable from "@/components/PrescriptionTable";
 import { Button } from "@/components/base/buttons/button";
 import { Camera01 } from "@untitledui/icons";
+import { useNotification } from "@/providers/notification-provider";
 
 import { fetchPrescriptions } from "@/lib/api/prescription";
 
@@ -18,12 +19,13 @@ export default function Prescription() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [prescriptions, setPrescriptions] = useState([]);
-  const [newPrescription, setNewPrescription] = useState(false);
   
   const limit = 6;
   const skip = (currentPage - 1) * limit;
 
   const stateRef = useRef({ currentPage, search, status });
+
+  const { showNotification, removeAllNotifications } = useNotification()
 
   useEffect(() => {
     handleSearch();
@@ -35,7 +37,7 @@ export default function Prescription() {
 
   useEffect(() => {
     if (currentPage === 1 || status === "all") {
-      setNewPrescription(false);
+      removeAllNotifications();
     }
   }, [currentPage, status]);
 
@@ -52,7 +54,7 @@ export default function Prescription() {
           console.log(String(currentPage) + status)
           await handleSearch();
         } else {
-          setNewPrescription(true);
+          showNotification("มีใบสั่งยาใหม่", "info");
         }
       }
     };
@@ -90,9 +92,6 @@ export default function Prescription() {
          setStatus={setStatus}
         />
         <div className="flex items-center w-fit">
-          {newPrescription && (currentPage != 1 || status != "all") &&
-            <p className="text-primary-blue font-semibold w-30">มีใบสั่งยาใหม่</p>
-          }
           <Button 
             iconLeading={<Camera01 className="w-4 h-4 text-white" />}
             className="flex items-center justify-center"

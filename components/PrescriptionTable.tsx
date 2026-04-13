@@ -14,6 +14,7 @@ interface Props {
     currentPage?: number;
     setCurrentPage?: (page: number) => void;
     totalPages?: number;
+    rowNumber?: number;
 }
 
 export default function PrescriptionTable({ 
@@ -22,6 +23,7 @@ export default function PrescriptionTable({
   currentPage,
   setCurrentPage,
   totalPages,
+  rowNumber,
 } : Props ){
   const columns: Column<PrescriptionType>[] = [
 
@@ -87,7 +89,7 @@ export default function PrescriptionTable({
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
-        rowNumber={6}
+        rowNumber={rowNumber}
     />
   );
 };
