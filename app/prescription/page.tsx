@@ -1,13 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Filters from "@/components/Filters";
 import SearchBar from "@/components/SearchBar";
 import PrescriptionTable from "@/components/PrescriptionTable";
 import { Button } from "@/components/base/buttons/button";
 import { Camera01 } from "@untitledui/icons";
-
-import { PrescriptionType } from "@/types/prescription";
 
 import { fetchPrescriptions } from "@/lib/api/prescription";
 
@@ -20,31 +18,65 @@ export default function Prescription() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [prescriptions, setPrescriptions] = useState([]);
+  const [newPrescription, setNewPrescription] = useState(false);
   
   const limit = 6;
   const skip = (currentPage - 1) * limit;
 
+  const stateRef = useRef({ currentPage, search, status });
+
   useEffect(() => {
-      handleSearch();
-    }, [search, currentPage, status]);
-  
-    const handleSearch = async () => {
-      try {
-        const data = await fetchPrescriptions({
-          search,
-          startTime,
-          endTime,
-          skip,
-          limit,
-          order,
-          status
-        });
-        setPrescriptions(data.prescriptions);
-        setTotalPages(Math.ceil(data.total / limit));
-      } catch (err) {
-        console.error(err);
-      }
+    handleSearch();
+  }, [currentPage, search, status]);
+
+  useEffect(() => {
+    stateRef.current = { currentPage, search, status };
+  }, [currentPage, search, status]);
+
+  useEffect(() => {
+    if (currentPage === 1 || status === "all") {
+      setNewPrescription(false);
     }
+  }, [currentPage, status]);
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8000/ws");
+
+    ws.onmessage = async (event) => {
+      const data = JSON.parse(event.data);
+      const { currentPage, status } = stateRef.current;
+
+      if (data.event === "NEW_PRESCRIPTION") {
+        console.log("new prescription")
+        if (currentPage === 1 && status === "all") {
+          console.log(String(currentPage) + status)
+          await handleSearch();
+        } else {
+          setNewPrescription(true);
+        }
+      }
+    };
+
+    return () => ws.close();
+  }, []);
+  
+  const handleSearch = async () => {
+    try {
+      const data = await fetchPrescriptions({
+        search,
+        startTime,
+        endTime,
+        skip,
+        limit,
+        order,
+        status
+      });
+      setPrescriptions(data.prescriptions);
+      setTotalPages(Math.ceil(data.total / limit));
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-start">
@@ -52,18 +84,23 @@ export default function Prescription() {
         search={search}
         setSearch={setSearch}
       />
-      <div className="flex items-end justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         <Filters
          status={status}
          setStatus={setStatus}
         />
-        <Button 
-          iconLeading={<Camera01 className="w-4 h-4 text-white" />}
-          className="flex items-center justify-center"
-          href="/detection"
-        >
-          <p className="text-white">ตรวจสอบรายการยา</p>
-        </Button>
+        <div className="flex items-center w-fit">
+          {newPrescription && (currentPage != 1 || status != "all") &&
+            <p className="text-primary-blue font-semibold w-30">มีใบสั่งยาใหม่</p>
+          }
+          <Button 
+            iconLeading={<Camera01 className="w-4 h-4 text-white" />}
+            className="flex items-center justify-center"
+            href="/detection"
+          >
+            <p className="text-white">ตรวจสอบรายการยา</p>
+          </Button>
+        </div>
       </div>
       <PrescriptionTable 
         prescription={prescriptions} 
