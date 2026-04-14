@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import PrescriptionTable from "@/components/PrescriptionTable";
 import { fetchPrescriptions } from "@/lib/api/prescription";
 import { useNotification } from "@/providers/notification-provider";
+import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
 
 export default function DetectionPage() {
   const [search, setSearch] = useState("");
@@ -19,21 +20,21 @@ export default function DetectionPage() {
   const skip = (currentPage - 1) * limit;
   const status = "waiting"
 
-  const stateRef = useRef({ currentPage, search, status });
+  const stateRef = useRef({ currentPage, search, status, startTime, endTime, order });
 
-  const { showNotification } = useNotification();
+  const { showNotification, removeAllNotifications } = useNotification();
 
   useEffect(() => {
     handleSearch();
-  }, [currentPage, search, status]);
+  }, [currentPage, search, status, startTime, endTime, order]);
 
   useEffect(() => {
-    stateRef.current = { currentPage, search, status };
-  }, [currentPage, search, status]);
+    stateRef.current = { currentPage, search, status, startTime, endTime, order };
+  }, [currentPage, search, status, startTime, endTime, order]);
 
   useEffect(() => {
     if (currentPage === 1) {
-      showNotification("มีใบสั่งยาใหม่", "info")
+      removeAllNotifications();
     }
   }, [currentPage, status]);
 
@@ -81,7 +82,16 @@ export default function DetectionPage() {
       <SearchBar 
         search={search}
         setSearch={setSearch}
-      />
+      >
+          <PrescriptionFilter
+            startTime={startTime}
+            endTime={endTime}
+            order={order}
+            setStartTime={setStartTime}
+            setEndTime={setEndTime}
+            setOrder={setOrder}
+          />
+      </SearchBar>
       <PrescriptionTable 
         prescription={prescriptions} 
         type="prescription"

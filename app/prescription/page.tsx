@@ -9,6 +9,7 @@ import { Camera01 } from "@untitledui/icons";
 import { useNotification } from "@/providers/notification-provider";
 
 import { fetchPrescriptions } from "@/lib/api/prescription";
+import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
 
 export default function Prescription() {
   const [search, setSearch] = useState("");
@@ -23,17 +24,17 @@ export default function Prescription() {
   const limit = 6;
   const skip = (currentPage - 1) * limit;
 
-  const stateRef = useRef({ currentPage, search, status });
+  const stateRef = useRef({ currentPage, search, status, startTime, endTime, order });
 
   const { showNotification, removeAllNotifications } = useNotification()
 
   useEffect(() => {
     handleSearch();
-  }, [currentPage, search, status]);
+  }, [currentPage, search, status, startTime, endTime, order]);
 
   useEffect(() => {
-    stateRef.current = { currentPage, search, status };
-  }, [currentPage, search, status]);
+    stateRef.current = { currentPage, search, status, startTime, endTime, order };
+  }, [currentPage, search, status, startTime, endTime, order]);
 
   useEffect(() => {
     if (currentPage === 1 || status === "all") {
@@ -85,7 +86,16 @@ export default function Prescription() {
       <SearchBar 
         search={search}
         setSearch={setSearch}
-      />
+      >
+        <PrescriptionFilter
+          startTime={startTime}
+          endTime={endTime}
+          order={order}
+          setStartTime={setStartTime}
+          setEndTime={setEndTime}
+          setOrder={setOrder}
+        />
+      </SearchBar>
       <div className="flex items-center justify-between w-full">
         <Filters
          status={status}
