@@ -1,5 +1,5 @@
 type BadgesProps = {
-    varient: "severity" | "status" | "riskLevel" | "prescription";
+    varient: "severity" | "status" | "riskLevel" | "prescription" | "detection";
     level?: string;
     status?: string;
 };
@@ -48,6 +48,17 @@ export default function Badges({
                 return "ยกเลิก";
         }
     }
+    
+    const getDetectionColor = (status?: string) => {
+        switch (status) {
+            case "ตรวจสอบสำเร็จ":
+                return "bg-green-100 text-green-800";
+            case "ถูกแก้ไข":
+                return "bg-yellow-100 text-yellow-800";
+            case "ปฎิเสธ":
+                return "bg-red-100 text-red-800";
+        }
+    }
 
     const riskLevelColor = "bg-red-100 text-red-800"
 
@@ -73,6 +84,11 @@ export default function Badges({
             {(varient === "prescription" && (
                 <div className={`${prescriptionColor} ${base}`}>
                     ขาด
+                </div>
+            ))}
+            {(varient === "detection" && (
+                <div className={`${getDetectionColor(status)} ${base}`}>
+                    {status}
                 </div>
             ))}
         </div>

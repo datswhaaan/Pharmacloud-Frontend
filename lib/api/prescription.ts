@@ -53,3 +53,21 @@ export async function fetchPrescriptionDetail(id: string){
 
     return data;
 }
+
+export async function fetchPrescriptionDetection(id: string){
+    const response = await fetch(`${API_URL}/prescriptions/detection/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลการตรวจสอบ")
+    }
+
+    return data;
+}

@@ -13,10 +13,10 @@ export type RiskFactor = {
 }
 
 export type OrderDrug = {
-    b_item_id: string,
+    t_order_drug_id: string,
     item_common_name: string,
     unit: string,
-    dose: number
+    quantity: number
 }
 
 export type PatientHistory = {
@@ -46,6 +46,35 @@ export type PrescriptionDetail = {
     visit_patient_age: string,
     risk_factors: RiskFactor,
     history: PatientHistory,
-    order_drugs: OrderDrug[]
     drug_allergy: DrugAllergy
 }
+
+export type DrugDetectionItem = {
+    t_order_drug_id: string,
+    detection_item_id: string,
+    item_common_name: string,
+    confidence: number,
+    confidence_level: string,
+    quantity: number,
+    unit: string,
+    is_manually_edited: boolean,
+    match_type: string
+}
+
+export type DetectionItem = {
+    detection_id: string,
+    image_url: string,
+    status: string,
+    verified_by: string,
+    verified_at: string,
+    drug_list: DrugDetectionItem[]
+}
+
+export type DetectionList = {
+    order_drugs: OrderDrug[],
+    detections: DetectionItem[]
+}
+
+export type OrderDrugWithMatch = OrderDrug & {
+  match_type: "matched" | "missing" | "extra";
+};
