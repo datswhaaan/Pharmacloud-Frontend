@@ -30,8 +30,25 @@ export async function fetchPrescriptions({
     const data = await response.json();
     
     if (!response.ok) {
-        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลใบสั่งยาได้"
-        )
+        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลใบสั่งยาได้")
+    }
+
+    return data;
+}
+
+export async function fetchPrescriptionDetail(id: string){
+    const response = await fetch(`${API_URL}/prescriptions/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลใบสั่งยาได้")
     }
 
     return data;

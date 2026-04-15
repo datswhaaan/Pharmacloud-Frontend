@@ -80,11 +80,11 @@ export default function PrescriptionTable({
     <BaseTable
         items={prescription}
         columns={columns}
-        getRowId={(i) => i.visit_id}
+        getRowId={(i) => i.order_id}
         getRowHref={(i) =>
             type === "statistics"
-            ? `/prescription/${i.visit_id}`
-            : `/${type}/${i.visit_id}`
+            ? `/prescription/${i.order_id}`
+            : `/${type}/${i.order_id}`
         }
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
