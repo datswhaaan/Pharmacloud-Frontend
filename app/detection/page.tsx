@@ -6,6 +6,7 @@ import PrescriptionTable from "@/components/PrescriptionTable";
 import { fetchPrescriptions } from "@/lib/api/prescription";
 import { useNotification } from "@/providers/notification-provider";
 import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
+import { createWebSocket } from "@/lib/api/websocket";
 
 export default function DetectionPage() {
   const [search, setSearch] = useState("");
@@ -38,26 +39,23 @@ export default function DetectionPage() {
     }
   }, [currentPage, status]);
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws");
-
-    ws.onmessage = async (event) => {
-      const data = JSON.parse(event.data);
+useEffect(() => {
+  const ws = createWebSocket({
+    onMessage: async (data) => {
       const { currentPage, status } = stateRef.current;
 
       if (data.event === "NEW_PRESCRIPTION") {
-        console.log("new prescription")
         if (currentPage === 1 && status === "all") {
-          console.log(String(currentPage) + status)
           await handleSearch();
         } else {
-          showNotification("มีใบสั่งยาใหม่", "info")
+          showNotification("มีใบสั่งยาใหม่", "info");
         }
       }
-    };
+    },
+  });
 
-    return () => ws.close();
-  }, []);
+  return () => ws.close();
+}, []);
   
   const handleSearch = async () => {
     try {
