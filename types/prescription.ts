@@ -4,7 +4,8 @@ export type PrescriptionType = {
     visit_vn: string,
     patient_name: string,
     visit_begin_visit_time: string,
-    status: string
+    status: string,
+    verified_by: string
 }
 
 export type RiskFactor = {

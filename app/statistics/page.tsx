@@ -1,22 +1,14 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Card from '@/components/Card';
 import SearchBar from '@/components/SearchBar';
 import BaseChart from '@/components/statistics/BaseChart';
-import DropdownButton from '@/components/dropdown/DropdownButton';
-import {
-  TIME_RANGE_OPTIONS,
-  type TimeRange,
-} from "@/components/dropdown/dropdown.options";
 import PrescriptionTable from '@/components/PrescriptionTable';
-import prescription from '@/components/application/table/team-members.json'
-
-const mockData = {
-  ...prescription,
-  items: prescription.items.slice(0, -1),
-  total: prescription.total - 1,
-};
+import { fetchPrescriptions } from "@/lib/api/prescription";
+import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
+import { useNotification } from "@/providers/notification-provider";
+import { createWebSocket } from "@/lib/api/websocket";
 
 const data = {
   label: ["ตรวจสอบสำเร็จ", "รอตรวจสอบ", "ยกเลิก"],
@@ -37,15 +29,81 @@ const lineData = {
 };
 
 export default function Statistics() {
-    const [range, setRange] = useState<TimeRange>("year");
     const [search, setSearch] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [order, setOrder] = useState("desc");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [prescriptions, setPrescriptions] = useState([]);
+
+    const limit = 6;
+    const skip = (currentPage - 1) * limit;
+    const status = "all"
+
+    const stateRef = useRef({ currentPage, search, status, startTime, endTime, order });
+    
+        const { showNotification, removeAllNotifications } = useNotification();
+
+        useEffect(() => {
+        handleSearch();
+        }, [currentPage, search, status, startTime, endTime, order]);
+
+        useEffect(() => {
+        stateRef.current = { currentPage, search, status, startTime, endTime, order };
+        }, [currentPage, search, status, startTime, endTime, order]);
+
+        useEffect(() => {
+        if (currentPage === 1) {
+            removeAllNotifications();
+        }
+        }, [currentPage, status]);
+    
+    useEffect(() => {
+        const ws = createWebSocket({
+            onMessage: async (data) => {
+            const { currentPage, status } = stateRef.current;
+        
+            if (data.event === "NEW_PRESCRIPTION") {
+                if (currentPage === 1 && status === "all") {
+                await handleSearch();
+                } else {
+                showNotification("มีใบสั่งยาใหม่", "info");
+                }
+            }
+            },
+        });
+    
+        return () => ws.close();
+    }, []);
+      
+      const handleSearch = async () => {
+            try {
+            const data = await fetchPrescriptions({
+                search,
+                startTime,
+                endTime,
+                skip,
+                limit,
+                order,
+                status
+            });
+            setPrescriptions(data.prescriptions);
+            setTotalPages(Math.ceil(data.total / limit));
+            } catch (err) {
+            console.error(err);
+            }
+      }
 
     return (
         <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 items-end justify-start overflow-y-auto">
-            <DropdownButton 
-                value={range}
-                options={TIME_RANGE_OPTIONS}
-                onChange={setRange}
+            <PrescriptionFilter
+                startTime={startTime}
+                endTime={endTime}
+                order={order}
+                setStartTime={setStartTime}
+                setEndTime={setEndTime}
+                setOrder={setOrder}
             />
             <div className='flex w-full gap-4'>
                 <Card title='ผลการตรวจสอบ' className="flex min-w-0 " width='fit'>
@@ -62,7 +120,14 @@ export default function Statistics() {
                 search={search}
                 setSearch={setSearch}
             />
-            <PrescriptionTable prescription={mockData} type='statistics'/>
+            <PrescriptionTable 
+                prescription={prescriptions} 
+                type="statistics"
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowNumber={limit}
+            />
         </div>
     )
 }

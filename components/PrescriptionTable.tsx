@@ -27,19 +27,6 @@ export default function PrescriptionTable({
 } : Props ){
   const columns: Column<PrescriptionType>[] = [
 
-    // ...(type !== "statistics"
-    //   ? [
-    //       {
-    //         key: "severity",
-    //         label: "ระดับความรุนแรง",
-    //         isRowHeader: true,
-    //         render: (item) => (
-    //           <Badges varient="severity" level={item.severity} />
-    //         ),
-    //       } as Column<Prescription>,
-    //     ]
-    // : []),
-
     { key: "HN", label: "HN", isRowHeader: true, render: (item) => item.visit_hn },
     { key: "VN", label: "VN", render: (item) => item.visit_vn },
     {
@@ -65,15 +52,15 @@ export default function PrescriptionTable({
         ]
     : []),
 
-    // ...(type == "statistics"
-    //   ? [
-    //       {
-    //         key: "reviewedby",
-    //         label: "ผู้รับผิดชอบ",
-    //         render: (item) => item.verified_by
-    //       } as Column<PrescriptionType>,
-    //     ]
-    // : []),
+    ...(type == "statistics"
+      ? [
+          {
+            key: "reviewedby",
+            label: "ผู้รับผิดชอบ",
+            render: (item) => item.verified_by
+          } as Column<PrescriptionType>,
+        ]
+    : []),
   ];
 
   return (

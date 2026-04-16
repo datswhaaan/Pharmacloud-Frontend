@@ -10,6 +10,7 @@ import { useNotification } from "@/providers/notification-provider";
 
 import { fetchPrescriptions } from "@/lib/api/prescription";
 import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
+import { createWebSocket } from "@/lib/api/websocket";
 
 export default function Prescription() {
   const [search, setSearch] = useState("");
@@ -43,22 +44,19 @@ export default function Prescription() {
   }, [currentPage, status]);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws");
+    const ws = createWebSocket({
+      onMessage: async (data) => {
+        const { currentPage, status } = stateRef.current;
 
-    ws.onmessage = async (event) => {
-      const data = JSON.parse(event.data);
-      const { currentPage, status } = stateRef.current;
-
-      if (data.event === "NEW_PRESCRIPTION") {
-        console.log("new prescription")
-        if (currentPage === 1 && status === "all") {
-          console.log(String(currentPage) + status)
-          await handleSearch();
-        } else {
-          showNotification("มีใบสั่งยาใหม่", "info");
+        if (data.event === "NEW_PRESCRIPTION") {
+          if (currentPage === 1 && status === "all") {
+            await handleSearch();
+          } else {
+            showNotification("มีใบสั่งยาใหม่", "info");
+          }
         }
-      }
-    };
+      },
+    });
 
     return () => ws.close();
   }, []);

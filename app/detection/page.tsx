@@ -39,23 +39,23 @@ export default function DetectionPage() {
     }
   }, [currentPage, status]);
 
-useEffect(() => {
-  const ws = createWebSocket({
-    onMessage: async (data) => {
-      const { currentPage, status } = stateRef.current;
+  useEffect(() => {
+    const ws = createWebSocket({
+      onMessage: async (data) => {
+        const { currentPage, status } = stateRef.current;
 
-      if (data.event === "NEW_PRESCRIPTION") {
-        if (currentPage === 1 && status === "all") {
-          await handleSearch();
-        } else {
-          showNotification("มีใบสั่งยาใหม่", "info");
+        if (data.event === "NEW_PRESCRIPTION") {
+          if (currentPage === 1 && status === "all") {
+            await handleSearch();
+          } else {
+            showNotification("มีใบสั่งยาใหม่", "info");
+          }
         }
-      }
-    },
-  });
+      },
+    });
 
-  return () => ws.close();
-}, []);
+    return () => ws.close();
+  }, []);
   
   const handleSearch = async () => {
     try {
