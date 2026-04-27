@@ -55,7 +55,7 @@ export default function Badges({
                 return "bg-green-100 text-green-800";
             case "ถูกแก้ไข":
                 return "bg-yellow-100 text-yellow-800";
-            case "ปฎิเสธ":
+            case "ปฏิเสธ":
                 return "bg-red-100 text-red-800";
         }
     }

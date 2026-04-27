@@ -7,6 +7,7 @@ import DetectionResult from "@/components/prescription/DetectionResult";
 import DrugList from "@/components/prescription/DrugList";
 import { DetectionList, OrderDrug, OrderDrugWithMatch, DrugDetectionItem } from "@/types/prescription";
 import { fetchPrescriptionDetail, fetchPrescriptionDetection } from "@/lib/api/prescription";
+import { fetchDetectionsByOrderId } from "@/lib/api/detection";
 
 export default function PrescriptionDetail() {
     const { id } = useParams();
@@ -21,7 +22,7 @@ export default function PrescriptionDetail() {
         .then(setPrescriptionData)
         .catch(console.error);
 
-        fetchPrescriptionDetection(String(id))
+        fetchDetectionsByOrderId(String(id))
         .then(setDetectionData)
         .catch(console.error)
     }, [id]);

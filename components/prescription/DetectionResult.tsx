@@ -18,7 +18,6 @@ export default function DetectionResult({
     onPageChange 
 }: Props) {
     let currentItem = detectionData[page - 1]
-    console.log(currentItem?.status)
     return (
         <Card>
             <div className="flex items-end flex-col gap-2">

@@ -27,8 +27,8 @@ export default function DrugList({
 
       <div className="flex flex-col">
         {drugs.map((drug, index) => {
-          const isMissing = drug.match_type === "missing";
-          const isExtra = drug.match_type === "extra";
+          const isMissing = drug.match_type === "MISSING";
+          const isExtra = drug.match_type === "EXTRA";
           const isEdited = drug.is_manually_edited || null;
 
           const baseBg =

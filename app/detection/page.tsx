@@ -92,7 +92,7 @@ export default function DetectionPage() {
       </SearchBar>
       <PrescriptionTable 
         prescription={prescriptions} 
-        type="prescription"
+        type="detection"
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
