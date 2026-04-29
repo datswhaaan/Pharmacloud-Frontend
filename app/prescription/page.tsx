@@ -11,6 +11,7 @@ import { useNotification } from "@/providers/notification-provider";
 import { fetchPrescriptions } from "@/lib/api/prescription";
 import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
 import { createWebSocket } from "@/lib/api/websocket";
+import { PrescriptionType } from "@/types/prescription";
 
 export default function Prescription() {
   const [search, setSearch] = useState("");
@@ -20,7 +21,7 @@ export default function Prescription() {
   const [status, setStatus] = useState("all")
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [prescriptions, setPrescriptions] = useState([]);
+  const [prescriptions, setPrescriptions] = useState<PrescriptionType[]>([]);
   
   const limit = 6;
   const skip = (currentPage - 1) * limit;
@@ -110,11 +111,13 @@ export default function Prescription() {
         </div>
       </div>
       <PrescriptionTable 
-        prescription={prescriptions} 
+        data={prescriptions} 
         type="prescription"
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
+        getRowId={(i) => i.order_id}
+        getRowHref={(i) => `/prescription/${i.order_id}`}
       />
     </div>
   );

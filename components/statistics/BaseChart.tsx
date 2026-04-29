@@ -10,7 +10,8 @@ import {
   LinearScale,
   BarElement,
   PointElement,
-  LineElement
+  LineElement,
+  Filler
 } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
@@ -54,7 +55,7 @@ export default function BaseChart({title, data, type} : Props) {
 
     const options = {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: type === 'doughnut',
@@ -90,7 +91,6 @@ export default function BaseChart({title, data, type} : Props) {
             <Bar
                 options={options}
                 data={formattedData}
-                
                 />
         )}
         {type == 'line' && (

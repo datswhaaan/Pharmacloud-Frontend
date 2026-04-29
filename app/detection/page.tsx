@@ -7,6 +7,7 @@ import { fetchPrescriptions } from "@/lib/api/prescription";
 import { useNotification } from "@/providers/notification-provider";
 import PrescriptionFilter from "@/components/filters/PrescriptionFilter";
 import { createWebSocket } from "@/lib/api/websocket";
+import { PrescriptionType } from "@/types/prescription";
 
 export default function DetectionPage() {
   const [search, setSearch] = useState("");
@@ -15,7 +16,7 @@ export default function DetectionPage() {
   const [order, setOrder] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [prescriptions, setPrescriptions] = useState([]);
+  const [prescriptions, setPrescriptions] = useState<PrescriptionType[]>([]);
   
   const limit = 7;
   const skip = (currentPage - 1) * limit;
@@ -91,12 +92,14 @@ export default function DetectionPage() {
           />
       </SearchBar>
       <PrescriptionTable 
-        prescription={prescriptions} 
+        data={prescriptions} 
         type="detection"
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
         rowNumber={limit}
+        getRowId={(i) => i.order_id}
+        getRowHref={(i) => `/detection/${i.order_id}`}
       />
     </div>
 )}

@@ -2,30 +2,30 @@
 
 import BaseTable, { Column } from "@/components/BaseTable";
 import Badges from "./Badges";
-import { PrescriptionType } from "@/types/prescription"
 
-interface Paginated<T> {
-  items: T[];
-  total: number;
-}
-interface Props {
-    prescription: PrescriptionType[];
-    type: "prescription" | "detection" | "statistics";
-    currentPage?: number;
-    setCurrentPage?: (page: number) => void;
-    totalPages?: number;
-    rowNumber?: number;
+interface Props<T extends Record<string, any>> {
+  data: T[];
+  type: "prescription" | "detection" | "statistics";
+  currentPage?: number;
+  setCurrentPage?: (page: number) => void;
+  totalPages?: number;
+  rowNumber?: number;
+  getRowId: (item: T) => string;
+  getRowHref: (item: T) => string;
 }
 
-export default function PrescriptionTable({ 
-  prescription, 
+export default function PrescriptionTable<T extends Record<string, any>>({
+  data,
   type,
   currentPage,
   setCurrentPage,
   totalPages,
   rowNumber,
-} : Props ){
-  const columns: Column<PrescriptionType>[] = [
+  getRowId,
+  getRowHref,
+}: Props<T>) {
+
+  const columns: Column<T>[] = [
 
     { key: "HN", label: "HN", isRowHeader: true, render: (item) => item.visit_hn },
     { key: "VN", label: "VN", render: (item) => item.visit_vn },
@@ -34,49 +34,49 @@ export default function PrescriptionTable({
       label: "ชื่อ-สกุล ผู้ป่วย",
       render: (item) => item.patient_name,
     },
-    {
-      key: "time",
-      label: "เวลารับบริการ",
-      render: (item) => item.visit_begin_visit_time,
-    },
 
     ...(type !== "statistics"
       ? [
+          {
+            key: "time",
+            label: "เวลารับบริการ",
+            render: (item) => item.visit_begin_visit_time,
+          } as Column<T>, 
           {
             key: "status",
             label: "สถานะ",
             render: (item) => (
               <Badges varient="status" status={item.status} />
             ),
-          } as Column<PrescriptionType>,
+          } as Column<T>,
         ]
     : []),
 
     ...(type == "statistics"
       ? [
           {
+            key: "time",
+            label: "เวลาตรวจสอบ",
+            render: (item) => item.verified_at || "-",
+          } as Column<T>, 
+          {
             key: "reviewedby",
             label: "ผู้รับผิดชอบ",
-            render: (item) => item.verified_by
-          } as Column<PrescriptionType>,
+            render: (item) => item.verified_by || "-"
+          } as Column<T>,
         ]
     : []),
   ];
-
   return (
     <BaseTable
-        items={prescription}
-        columns={columns}
-        getRowId={(i) => i.order_id}
-        getRowHref={(i) =>
-            type === "statistics"
-            ? `/prescription/${i.order_id}`
-            : `/${type}/${i.order_id}`
-        }
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        rowNumber={rowNumber}
+      items={data}
+      columns={columns}
+      getRowId={getRowId}
+      getRowHref={getRowHref}
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      totalPages={totalPages}
+      rowNumber={rowNumber}
     />
   );
 };
