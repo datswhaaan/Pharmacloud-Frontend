@@ -36,7 +36,7 @@ export default function DetectionResult({
                 </div>
                 <div className="flex w-full gap-4">
                     <div className="w-sm">
-                        <ImageDisplay capturedImage="/drugsImage.jpg"/>
+                        <ImageDisplay capturedImage={currentItem?.image_url}/>
                     </div>
                     <div className="flex-1">
                         <DrugList detection drugs={currentItem?.drug_list} title={false} withCard={false}/>
