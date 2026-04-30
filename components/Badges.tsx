@@ -51,12 +51,23 @@ export default function Badges({
     
     const getDetectionColor = (status?: string) => {
         switch (status) {
-            case "ตรวจสอบสำเร็จ":
+            case "APPROVED":
                 return "bg-green-100 text-green-800";
-            case "ถูกแก้ไข":
+            case "MODIFIED":
                 return "bg-yellow-100 text-yellow-800";
-            case "ปฏิเสธ":
+            case "REJECTED":
                 return "bg-red-100 text-red-800";
+        }
+    }
+
+    const getDetectionLabel = (status?: string) => {
+        switch (status) {
+            case "APPROVED":
+                return "ตรวจสอบสำเร็จ";
+            case "MODIFIED":
+                return "ถูกแก้ไข";
+            case "REJECTED":
+                return "ปฎิเสธ";
         }
     }
 
@@ -88,7 +99,7 @@ export default function Badges({
             ))}
             {(varient === "detection" && (
                 <div className={`${getDetectionColor(status)} ${base}`}>
-                    {status}
+                    {getDetectionLabel(status)}
                 </div>
             ))}
         </div>
