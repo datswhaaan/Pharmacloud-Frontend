@@ -25,3 +25,14 @@ export const SYSTEM_OPTIONS: DropdownOption<System>[] = [
   { value: "pharmacast", label: "PharmaCast" },
   { value: "system3", label: "System3" },
 ];
+
+
+/* ---------- Drug error ---------- */
+export type DrugError = "WRONG_DRUG_NAME" | "WRONG_STRENGTH" | "WRONG_QUANTITY" | "WRONG_FORM";
+
+export const DRUG_ERROR_OPTIONS: DropdownOption<DrugError>[] = [
+  { value: "WRONG_DRUG_NAME", label: "ผิดชื่อยา" },
+  { value: "WRONG_STRENGTH", label: "ผิดขนาดยา" },
+  { value: "WRONG_QUANTITY", label: "ผิดจำนวน" },
+  { value: "WRONG_FORM", label: "ผิดรูปแบบ" }
+];

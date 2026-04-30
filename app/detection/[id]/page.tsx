@@ -10,6 +10,8 @@ import { fetchPrescriptionDetail } from "@/lib/api/prescription";
 import { updateDetectionResult, inferDetectionResult } from "@/lib/api/detection";
 import { useParams, useRouter } from "next/navigation";
 import { DetectionInferResult} from "@/types/detection";
+import ReasonModal from "@/components/detection/ReasonModal";
+import { DrugError } from "@/components/dropdown/dropdown.options";
 
 export default function Detection() {
   const router = useRouter();
@@ -30,6 +32,8 @@ export default function Detection() {
   const [loading, setLoading] = useState(false);
   const [matchedQtyMap, setMatchedQtyMap] = useState<Record<string, number>>({});
   const [extraQtyMap, setExtraQtyMap] = useState<Record<string, number>>({});
+  const [reasonMap, setReasonMap] = useState<Record<string, DrugError>>({});
+  const [showReasonModal, setShowReasonModal] = useState(false);
   
   useEffect(() => {
       if (!id) return;
@@ -113,8 +117,21 @@ export default function Detection() {
   const handleSubmit = async (status: "approved" | "rejected") => {
     if (!detectionResult) return;
 
+    const needReason = getDrugsNeedingReason();
+    const missingReason = needReason.some(
+      (drug) => !reasonMap[drug.detection_item_id]
+    );
+
+    if (missingReason) {
+      setShowReasonModal(true);
+      return;
+    }
+
     try {
-      const payload = buildPayload();
+      const payload = buildPayload().map((item) => ({
+        ...item,
+        error_type: reasonMap[item.detection_item_id] || null,
+      }));
 
       await updateDetectionResult({
         detection_id: detectionResult.detection_id,
@@ -127,9 +144,48 @@ export default function Detection() {
       console.error(err);
     }
   };
+
+  const getDrugsNeedingReason = () => {
+    if (!detectionResult) return [];
+
+    const needReason: any[] = [];
+
+    detectionResult.drug_list.forEach((drug) => {
+      // EXTRA
+      if (drug.match_type === "EXTRA") {
+        needReason.push(drug);
+        return;
+      }
+
+      // MATCHED แต่ไม่ได้ check ฝั่ง ordered
+      if (drug.match_type === "MATCHED") {
+        const isChecked = checkedDrugs[drug.t_order_drug_id];
+        if (!isChecked) {
+          needReason.push(drug);
+        }
+      }
+    });
+
+    return needReason;
+  };
   
   return (
     <div className="flex flex-col bg-primary-gray gap-4 pt-18 px-16 py-6 h-screen items-center justify-between">
+      {showReasonModal && (
+        <ReasonModal
+          open={showReasonModal}
+          drugs={getDrugsNeedingReason()}
+          reasonMap={reasonMap}
+          onChange={(id, value) =>
+            setReasonMap((prev) => ({ ...prev, [id]: value }))
+          }
+          onClose={() => setShowReasonModal(false)}
+          onConfirm={() => {
+            setShowReasonModal(false);
+            handleSubmit("approved"); // หรือ flow ที่ต้องการ
+          }}
+        />
+      )}
 
       <PrescriptionInfo prescriptionData={prescriptionData} type="detection"/>
 
@@ -273,7 +329,6 @@ export default function Detection() {
             }}
           >
             <div className="flex items-center gap-2">
-              <img src="/confirm.svg" className=""/>
               <p className="font-medium">ยืนยัน</p>
             </div>
           </Button>
@@ -285,12 +340,11 @@ export default function Detection() {
             }}
           >
             <div className="flex items-center gap-2">
-              <img src="/cancel.svg" className=""/>
               <p className="font-medium">ปฎิเสธ</p>
             </div>
           </Button>
           <Button
-            className="bg-primary-gray border border-red-500 text-red-500 hover:bg-red-100" 
+            className="bg-primary-gray border border-gray-500 text-gray-500 hover:bg-gray-100" 
             onClick={() => {
               router.push("/detection"); 
             }}

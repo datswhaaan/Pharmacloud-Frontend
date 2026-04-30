@@ -7,7 +7,8 @@ import type { DropdownOption } from "./dropdown.types";
 import { useLayoutEffect, useRef, useState } from "react";
 
 type Props<T extends string> = {
-  value: T;
+  placeholder?: string;
+  value?: T;
   options: DropdownOption<T>[];
   onChange: (value: T) => void;
   className?: string;
@@ -15,6 +16,7 @@ type Props<T extends string> = {
 };
 
 export default function DropdownButton<T extends string>({
+  placeholder,
   value,
   options,
   onChange,
@@ -39,7 +41,7 @@ export default function DropdownButton<T extends string>({
         color="secondary"
         iconTrailing={ChevronDown}
       >
-        {current?.label ?? value}
+        {current?.label ?? placeholder}
       </Button>
 
       <Dropdown.Popover 
