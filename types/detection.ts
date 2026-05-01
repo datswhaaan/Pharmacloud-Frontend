@@ -7,7 +7,6 @@ export type DetectedDrugInfo = {
 export type DetectionUpdateParams = {
     detection_id: string;
     status: string;
-    verified_by: string;
     drug_list: DetectedDrugInfo[];
 }
 

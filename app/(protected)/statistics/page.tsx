@@ -10,7 +10,6 @@ import { useNotification } from "@/providers/notification-provider";
 import { createWebSocket } from "@/lib/api/websocket";
 import { fetchDetectionLogs, fetchStatistics } from '@/lib/api/statistics';
 import { StatisticsData, DetectionLogItem } from '@/types/statistics';
-import { PrescriptionType } from '@/types/prescription';
 
 export default function Statistics() {
     const [search, setSearch] = useState("");
@@ -22,33 +21,33 @@ export default function Statistics() {
     const [detections, setDetections] = useState<DetectionLogItem[]>([]);
     const [statistics, setStatistics] = useState<StatisticsData | null>(null);
     const [tableLoading, setTableLoading] = useState(false);
+    const [status, setStatus] = useState("all")
 
     const limit = 6;
     const skip = (currentPage - 1) * limit;
-    const status = "all"
 
-    const stateRef = useRef({ currentPage, search, status, startTime, endTime, order });
+    const stateRef = useRef({ currentPage, search, startTime, endTime, order });
     
     const { showNotification, removeAllNotifications } = useNotification();
 
     useEffect(() => {
         handleSearch();
-    }, [currentPage, search, status, startTime, endTime, order]);
+    }, [currentPage, search, startTime, endTime, order]);
 
     useEffect(() => {
-        stateRef.current = { currentPage, search, status, startTime, endTime, order };
-    }, [currentPage, search, status, startTime, endTime, order]);
+        stateRef.current = { currentPage, search, startTime, endTime, order };
+    }, [currentPage, search, startTime, endTime, order]);
 
     useEffect(() => {
         if (currentPage === 1) {
             removeAllNotifications();
     }
-    }, [currentPage, status]);
+    }, [currentPage]);
     
     useEffect(() => {
         const ws = createWebSocket({
             onMessage: async (data) => {
-            const { currentPage, status } = stateRef.current;
+            const { currentPage } = stateRef.current;
         
             if (data.event === "NEW_PRESCRIPTION") {
                 if (currentPage === 1 && status === "all") {
@@ -71,7 +70,8 @@ export default function Statistics() {
         try {
             const res = await fetchStatistics({
                 startTime,
-                endTime
+                endTime,
+                status
             });
 
             setStatistics(res);

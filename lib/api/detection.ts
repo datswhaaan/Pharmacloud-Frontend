@@ -1,6 +1,7 @@
 import { DetectionUpdateParams, DetectionInferParams } from "@/types/detection";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const token = localStorage.getItem("token");
 
 export async function fetchDetectionsByOrderId(order_id: string){
     const response = await fetch(`${API_URL}/detection/${order_id}`, {
@@ -8,6 +9,7 @@ export async function fetchDetectionsByOrderId(order_id: string){
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     })
 
@@ -23,7 +25,6 @@ export async function fetchDetectionsByOrderId(order_id: string){
 export async function updateDetectionResult({
     detection_id,
     status,
-    verified_by,
     drug_list,
 }: DetectionUpdateParams) {
     const response = await fetch(`${API_URL}/detection/${detection_id}`, {
@@ -31,11 +32,11 @@ export async function updateDetectionResult({
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         },
         body: JSON.stringify({
             detection_id,
             status,
-            verified_by,
             drug_list,
         }),
     });

@@ -1,4 +1,5 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const token = localStorage.getItem("token");
 
 interface FetchPrescriptionParams {
     search?: string,
@@ -24,6 +25,7 @@ export async function fetchPrescriptions({
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 
@@ -42,6 +44,7 @@ export async function fetchPrescriptionDetail(id: string){
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 
@@ -60,6 +63,7 @@ export async function fetchPrescriptionDetection(id: string){
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 

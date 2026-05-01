@@ -1,6 +1,7 @@
 import { ImageInput } from "@/types/drug";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const token = localStorage.getItem("token");
 
 interface FetchDrugsParams {
   search?: string;
@@ -20,6 +21,7 @@ export async function fetchDrugs({
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 
@@ -40,6 +42,7 @@ export async function fetchDrugDetail(drugId: string) {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
     const data = await response.json();
@@ -52,30 +55,31 @@ export async function fetchDrugDetail(drugId: string) {
 }
 
 export async function uploadDrugImages(drugId: string, images: ImageInput[], customTradeName: string) {
-  const formData = new FormData();
+    const formData = new FormData();
 
-  images.forEach(img => {
-    formData.append("images", img.file);
-  });
+    images.forEach(img => {
+        formData.append("images", img.file);
+    });
 
-  const metadatas = images.map(img => ({
-    view_type: img.view_type,
-    position: img.position,
-    lighting: img.lighting
-  }));
+    const metadatas = images.map(img => ({
+        view_type: img.view_type,
+        position: img.position,
+        lighting: img.lighting
+    }));
 
-  formData.append("metadatas", JSON.stringify(metadatas));
+    formData.append("metadatas", JSON.stringify(metadatas));
 
-  const response = await fetch(`${API_URL}/drugs/${drugId}/images?trade_name=${customTradeName}`, {
-    method: "POST",
-    body: formData,
-  });
-    const data = await response.json();
+    const response = await fetch(`${API_URL}/drugs/${drugId}/images?trade_name=${customTradeName}`, {
+        method: "POST",
+        body: formData,
+        ...(token && { Authorization: token }),
+    });
+        const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลยาได้")
-    }
-    return data.images
+        if (!response.ok) {
+            throw new Error(data.detail || data.message || "ไม่สามารถดึงข้อมูลยาได้")
+        }
+        return data.images
 }
 
 export async function deleteDrugImages(image_ids: string[]) {
@@ -83,6 +87,7 @@ export async function deleteDrugImages(image_ids: string[]) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
+            ...(token && { Authorization: token }),
         },
         body: JSON.stringify({ image_ids }),
     });

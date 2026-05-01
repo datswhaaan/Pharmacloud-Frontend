@@ -1,6 +1,7 @@
 import { DetectionLogResponse } from "@/types/statistics";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const token = localStorage.getItem("token");
 
 interface FetchDetectionLogsParams {
     search?: string
@@ -15,6 +16,7 @@ interface FetchDetectionLogsParams {
 interface FetchStatisticsParams {
     startTime?: string
     endTime?: string
+    status?: string
 }
 
 export async function fetchDetectionLogs({
@@ -31,6 +33,7 @@ export async function fetchDetectionLogs({
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 
@@ -45,13 +48,15 @@ export async function fetchDetectionLogs({
 
 export async function fetchStatistics({
     startTime,
-    endTime
+    endTime,
+    status
 } : FetchStatisticsParams){
-    const response = await fetch(`${API_URL}/statistics/dashboard?start_time=${startTime}&end_time=${endTime}`, {
+    const response = await fetch(`${API_URL}/statistics/dashboard?start_time=${startTime}&end_time=${endTime}&status=${status}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
+            ...(token && { Authorization: token }),
         }
     });
 

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
-import Wrapper from "@/components/Wrapper";
 
 import { RouteProvider } from "@/providers/route-provider";
 import { AuthProvider } from "@/providers/auth-provider";
@@ -26,9 +25,7 @@ export default function RootLayout({
         <AuthProvider>
           <RouteProvider>
             <NotificationProvider>
-                <Wrapper>
                   {children}
-                </Wrapper>
                 <NotificationContainer />
             </NotificationProvider>
           </RouteProvider>

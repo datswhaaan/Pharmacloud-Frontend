@@ -12,8 +12,10 @@ import { useParams, useRouter } from "next/navigation";
 import { DetectionInferResult} from "@/types/detection";
 import ReasonModal from "@/components/detection/ReasonModal";
 import { DrugError } from "@/components/dropdown/dropdown.options";
+import { useRequireAuth } from "@/hooks/use_require_auth";
 
 export default function Detection() {
+  useRequireAuth();
   const router = useRouter();
   const { id } = useParams();
   const [deviceId, setDeviceId] = useState<string>();
@@ -136,7 +138,6 @@ export default function Detection() {
       await updateDetectionResult({
         detection_id: detectionResult.detection_id,
         status,
-        verified_by: "EMP001",
         drug_list: payload,
       });
 
