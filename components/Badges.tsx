@@ -29,22 +29,22 @@ export default function Badges({
 
     const getStatusColor = (status?: string) => {
         switch (status) {
-            case "completed":
+            case "COMPLETED":
                 return "bg-green-100 text-green-800";
-            case "waiting":
+            case "WAITING":
                 return "bg-blue-100 text-blue-800";
-            case "cancelled":
+            case "CANCELLED":
                 return "bg-red-100 text-red-800";
         }
     }
 
     const getStatusLabel = (status?: string) => {
         switch (status) {
-            case "completed":
+            case "COMPLETED":
                 return "ตรวจสอบสำเร็จ";
-            case "waiting":
+            case "WAITING":
                 return "รอตรวจสอบ";
-            case "cancelled":
+            case "CANCELLED":
                 return "ยกเลิก";
         }
     }

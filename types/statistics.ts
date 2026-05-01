@@ -2,17 +2,17 @@ export type StatisticsData = {
   status_summary: {
     label: string[];
     value: number[];
-    unit?: string;
+    unit?: string | "รายการ";
   };
   error_summary: {
     label: string[];
     value: number[];
-    unit?: string;
+    unit?: string | "รายการ";
   };
   annual_error_summary: {
     label: string[];
     value: number[];
-    unit?: string;
+    unit?: string | "รายการ";
   };
 };
 

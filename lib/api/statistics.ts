@@ -11,6 +11,8 @@ interface FetchDetectionLogsParams {
     limit?: number
     order?: string
     status?: string
+    errorType?: string
+    monthKey?: string
 }
 
 interface FetchStatisticsParams {
@@ -26,9 +28,11 @@ export async function fetchDetectionLogs({
     skip,
     limit,
     order,
-    status
+    status,
+    errorType,
+    monthKey
 } : FetchDetectionLogsParams) : Promise<DetectionLogResponse>{
-    const response = await fetch(`${API_URL}/statistics?search=${search}&start_time=${startTime}&end_time=${endTime}&skip=${skip}&limit=${limit}&order=${order}&status=${status}`, {
+    const response = await fetch(`${API_URL}/statistics?search=${search}&start_time=${startTime}&end_time=${endTime}&skip=${skip}&limit=${limit}&order=${order}${status ? `&status=${status}` : ``}${errorType ? `&error_type=${errorType}` : ``}${monthKey ? `&month_key=${monthKey}` : ``}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
