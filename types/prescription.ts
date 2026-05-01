@@ -77,5 +77,5 @@ export type DetectionList = {
 }
 
 export type OrderDrugWithMatch = OrderDrug & {
-  match_type: "matched" | "missing" | "extra";
+  match_type: "MATCHED" | "MISSING" | "EXTRA";
 };

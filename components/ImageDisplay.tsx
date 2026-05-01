@@ -1,6 +1,4 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-
 
 export default function ImageDisplay({ capturedImage, className }: { capturedImage: string | null, className?: string }) {
 

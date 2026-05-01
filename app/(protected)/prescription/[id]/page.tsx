@@ -40,9 +40,9 @@ export default function PrescriptionDetail() {
 
             return {
             ...od,
-            match_type: detected?.match_type === "matched"
-                ? "matched"
-                : "missing"
+            match_type: detected?.match_type === "MATCHED"
+                ? "MATCHED"
+                : "MISSING"
             };
         });
     };
