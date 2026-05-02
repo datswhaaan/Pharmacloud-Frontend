@@ -12,15 +12,24 @@ type WebcamDisplayProps = {
   deviceId?: string;
   onCapture?: (file: File) => void;
   className?: string;
+  imageUrl?: string;
 };
 
 const WebcamDisplay = forwardRef<WebcamCaptureHandle, WebcamDisplayProps>(
-  ({ deviceId, onCapture, className }, ref) => {
+  ({ deviceId, onCapture, className, imageUrl }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
+    
+    const displayImage = imageUrl || capturedImage;
+
+    useEffect(() => {
+      if (imageUrl) {
+        setCapturedImage(null);
+      }
+    }, [imageUrl]);
 
     useEffect(() => {
       startWebcam();
@@ -92,9 +101,9 @@ const WebcamDisplay = forwardRef<WebcamCaptureHandle, WebcamDisplayProps>(
     return (
       <div className={`position-relative rounded-xl ${className}`}>
         <>
-          {capturedImage ? (
+          {displayImage ? (
             <img
-              src={capturedImage}
+              src={displayImage}
               className="w-full h-full object-cover rounded-xl"
             />
           ) : (

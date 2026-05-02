@@ -61,6 +61,10 @@ export async function inferDetectionResult({
     const response = await fetch(`${API_URL}/detection/${order_id}/infer`, {
         method: "POST",
         body: formData,
+        headers: {
+            "Accept": "application/json",
+            ...(token && { Authorization: token }),
+        },
     });
 
     const data = await response.json();

@@ -183,7 +183,7 @@ export default function Detection() {
           onClose={() => setShowReasonModal(false)}
           onConfirm={() => {
             setShowReasonModal(false);
-            handleSubmit("approved"); // หรือ flow ที่ต้องการ
+            handleSubmit("approved");
           }}
         />
       )}
@@ -199,9 +199,9 @@ export default function Detection() {
                 deviceId={deviceId}
                 className="aspect-3/4 h-full min-h-0"
                 onCapture={(file) => {
-                  console.log("Captured file: ", file);
                   handleCapture(file);
                 }}
+                imageUrl={detectionResult?.image_url}
               />
 
               <WebcamDisplay
