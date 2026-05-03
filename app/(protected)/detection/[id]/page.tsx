@@ -118,9 +118,7 @@ export default function Detection() {
   };
 
   const handleSubmit = async (status: "APPROVED" | "REJECTED") => {
-    console.log("status: ", status)
     if (!detectionResult) return;
-    console.log("detection: ", detectionResult)
 
     const needReason = getDrugsNeedingReason();
     const missingReason = needReason.some(
