@@ -36,7 +36,8 @@ export default function Detection() {
   const [extraQtyMap, setExtraQtyMap] = useState<Record<string, number>>({});
   const [reasonMap, setReasonMap] = useState<Record<string, DrugError>>({});
   const [showReasonModal, setShowReasonModal] = useState(false);
-  
+  const [status, setStatus] = useState<"APPROVED" | "REJECTED">("APPROVED");
+
   useEffect(() => {
       if (!id) return;
 
@@ -116,8 +117,10 @@ export default function Detection() {
     return result;
   };
 
-  const handleSubmit = async (status: "approved" | "rejected") => {
+  const handleSubmit = async (status: "APPROVED" | "REJECTED") => {
+    console.log("status: ", status)
     if (!detectionResult) return;
+    console.log("detection: ", detectionResult)
 
     const needReason = getDrugsNeedingReason();
     const missingReason = needReason.some(
@@ -183,7 +186,7 @@ export default function Detection() {
           onClose={() => setShowReasonModal(false)}
           onConfirm={() => {
             setShowReasonModal(false);
-            handleSubmit("approved");
+            handleSubmit(status);
           }}
         />
       )}
@@ -326,7 +329,8 @@ export default function Detection() {
           <Button 
             className="bg-green-500 text-white hover:bg-green-600" 
             onClick={() => {
-              handleSubmit("approved");
+              setStatus("APPROVED");
+              handleSubmit(status);
             }}
           >
             <div className="flex items-center gap-2">
@@ -336,8 +340,8 @@ export default function Detection() {
           <Button 
             className="bg-red-500 text-white hover:bg-red-600" 
             onClick={() => {
-              handleSubmit("rejected");
-              router.push("/detection"); 
+              setStatus("REJECTED");
+              handleSubmit(status);
             }}
           >
             <div className="flex items-center gap-2">
