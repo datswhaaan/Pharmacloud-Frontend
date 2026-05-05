@@ -26,6 +26,7 @@ export async function updateDetectionResult({
     detection_id,
     status,
     drug_list,
+    is_edited
 }: DetectionUpdateParams) {
     const response = await fetch(`${API_URL}/detection/${detection_id}`, {
         method: "PUT",
@@ -38,6 +39,7 @@ export async function updateDetectionResult({
             detection_id,
             status,
             drug_list,
+            is_edited
         }),
     });
 

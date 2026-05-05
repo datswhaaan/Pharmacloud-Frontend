@@ -35,8 +35,8 @@ export default function DrugDetail() {
                         images={drugData.images}
                         renderUploadModal={({ onUploaded, onClose }) => (
                             <UploadImageModal 
-                                trade={drugData.names.trade} // ส่งค่าจาก Page เข้าไปตรงๆ
-                                onUploaded={onUploaded} // รับค่าจาก ImageSection กลับไปจัดการ
+                                trade={drugData.names.trade}
+                                onUploaded={onUploaded}
                                 onClose={onClose}
                             />
                         )}

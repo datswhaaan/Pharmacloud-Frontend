@@ -7,6 +7,7 @@ type Props = {
   title?: boolean;
   withCard?: boolean;
   detection?: boolean;
+  status?: string;
 };
 
 export default function DrugList({
@@ -14,6 +15,7 @@ export default function DrugList({
   title = true,
   withCard = true,
   detection = false,
+  status
 }: Props) {
   
   if (!drugs?.length) {
@@ -44,7 +46,7 @@ export default function DrugList({
               <p>{drug.item_common_name}</p>
 
               <div className="flex items-center gap-2">
-                {isMissing && !detection && (
+                {isMissing && !detection && status === "REJECTED" && (
                   <Badges varient="prescription" />
                 )}
                 <p>

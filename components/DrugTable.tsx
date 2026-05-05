@@ -28,7 +28,7 @@ export default function DrugTable({
         },
         {
             key: "name",
-            label: "ชื่อทั่วไป",
+            label: "ชื่อสามัญ",
             render: (d) => d.drug_common_name,
         },
         {

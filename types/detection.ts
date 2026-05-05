@@ -8,6 +8,7 @@ export type DetectionUpdateParams = {
     detection_id: string;
     status: string;
     drug_list: DetectedDrugInfo[];
+    is_edited: boolean;
 }
 
 export type DetectionInferParams = {

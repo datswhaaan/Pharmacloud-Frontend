@@ -56,6 +56,7 @@ export default function PrescriptionDetail() {
                     detectionData.order_drugs || [],
                     detectionData.detections[page - 1]?.drug_list || []
                 )}
+                status={detectionData.detections[page - 1]?.status}
             />
             <DetectionResult 
                 detectionData={detectionData.detections}

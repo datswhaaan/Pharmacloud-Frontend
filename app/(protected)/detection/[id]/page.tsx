@@ -36,7 +36,7 @@ export default function Detection() {
   const [extraQtyMap, setExtraQtyMap] = useState<Record<string, number>>({});
   const [reasonMap, setReasonMap] = useState<Record<string, DrugError>>({});
   const [showReasonModal, setShowReasonModal] = useState(false);
-  const [status, setStatus] = useState<"APPROVED" | "REJECTED">("APPROVED");
+  const [status, setStatus] = useState<"APPROVED" | "REJECTED" | "CANCELLED">("APPROVED");
 
   useEffect(() => {
       if (!id) return;
@@ -116,18 +116,48 @@ export default function Detection() {
 
     return result;
   };
+  
+  const computeIsEdited = () => {
+    if (!detectionResult) return false;
 
-  const handleSubmit = async (status: "APPROVED" | "REJECTED") => {
+    return detectionResult.ordered_drugs.some((drug) => {
+      const isChecked = !!checkedDrugs[drug.t_order_drug_id];
+
+      const detected = detectionResult.drug_list.find(
+        (d) => d.t_order_drug_id === drug.t_order_drug_id
+      );
+
+      // AI บอก MATCHED + HIGH แต่ user ไม่ติ๊ก
+      if (
+        drug.match_type === "MATCHED" &&
+        detected?.confidence_level === "HIGH" &&
+        !isChecked
+      ) {
+        return true;
+      }
+
+      // AI บอก MISSING แต่ user ดันติ๊ก
+      if (drug.match_type === "MISSING" && isChecked) {
+        return true;
+      }
+
+      return false;
+    });
+  };
+
+  const handleSubmit = async (status: "APPROVED" | "REJECTED" | "CANCELLED") => {
     if (!detectionResult) return;
+    
+    if (status !== "CANCELLED") {
+      const needReason = getDrugsNeedingReason();
+      const missingReason = needReason.some(
+        (drug) => !reasonMap[drug.detection_item_id]
+      );
 
-    const needReason = getDrugsNeedingReason();
-    const missingReason = needReason.some(
-      (drug) => !reasonMap[drug.detection_item_id]
-    );
-
-    if (missingReason) {
-      setShowReasonModal(true);
-      return;
+      if (missingReason) {
+        setShowReasonModal(true);
+        return;
+      }
     }
 
     try {
@@ -136,10 +166,13 @@ export default function Detection() {
         error_type: reasonMap[item.detection_item_id] || null,
       }));
 
+      const isEdited = computeIsEdited();
+
       await updateDetectionResult({
         detection_id: detectionResult.detection_id,
         status,
         drug_list: payload,
+        is_edited: isEdited,
       });
 
     } catch (err) {
@@ -185,6 +218,7 @@ export default function Detection() {
           onConfirm={() => {
             setShowReasonModal(false);
             handleSubmit(status);
+            router.push("/detection"); 
           }}
         />
       )}
@@ -349,6 +383,7 @@ export default function Detection() {
           <Button
             className="bg-primary-gray border border-gray-500 text-gray-500 hover:bg-gray-100" 
             onClick={() => {
+              setStatus("CANCELLED");
               router.push("/detection"); 
             }}
           >

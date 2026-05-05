@@ -7,7 +7,7 @@ export default function Entry() {
             <div className="flex gap-8">
                 <SystemSelectionButton system="pharmasee"/>
                 <SystemSelectionButton system="pharmacast"/>
-                <SystemSelectionButton system="pharmasee"/>
+                <SystemSelectionButton system="pharmasure"/>
             </div>
         </div>
     )

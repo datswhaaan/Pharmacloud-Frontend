@@ -12,6 +12,7 @@ import { VIEW_TYPE_OPTIONS, LIGHTING_OPTIONS, POSITION_OPTIONS } from '@/compone
 import { uploadDrugImages } from "@/lib/api/drug";
 import { ImageInput } from '@/types/drug';
 import { DrugImages } from "@/types/drug";
+import { useNotification } from '@/providers/notification-provider';
 
 interface FileUploadProps {
   onClose: () => void;
@@ -26,28 +27,46 @@ export default function UploadImageModal({
 } : FileUploadProps) {
     const { id } = useParams();
     const [images, setImages] = useState<ImageInput[]>([]);
-    const [customTradeName, setCustomTradeName] = useState(trade);
-    const [useDefaultName, setUseDefaultName] = useState(true);
+    const [useDefaultName, setUseDefaultName] = useState(!!trade);
+    const [customTradeName, setCustomTradeName] = useState(trade ?? "");
+    const { showNotification } = useNotification();
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
+    const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {
+        rejectedFiles.forEach((file) => {
+            showNotification(`ไฟล์ ${file.file.name} ไม่รองรับ`, "error");
+        });
+
         setImages((prev) => {
             const existingNames = new Set(prev.map(f => f.file.name));
 
             const newFiles = acceptedFiles
-            .filter((f) => !existingNames.has(f.name))
-            .map((file, index) => ({
-                file,
-                preview: URL.createObjectURL(file),
-                view_type: "front",
-                lighting: "bright",
-                position: 1,
-            }));
+                .filter((f) => {
+                    if (existingNames.has(f.name)) {
+                        showNotification(`ไฟล์ ${f.name} ถูกเลือกแล้ว`, "warning");
+                        return false;
+                    }
+                    return true;
+                })
+                .map((file) => ({
+                    file,
+                    preview: URL.createObjectURL(file),
+                    view_type: "front",
+                    lighting: "bright",
+                    position: 1,
+                }));
 
             return [...prev, ...newFiles];
         });
     }, []);
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        accept: {
+            "image/jpeg": [],
+            "image/png": [],
+            "image/webp": [],
+        }
+    });
 
     const removeFile = (index: number) => {
         setImages((prev) =>
@@ -68,8 +87,19 @@ export default function UploadImageModal({
 
         
     const handleFilesUploaded = async () => {
+        const finalName = useDefaultName ? trade : customTradeName;
+
+        if (!finalName || finalName.trim() === "") {
+            showNotification("กรุณากรอกชื่อทางการค้า", "error");
+            return;
+        }
+
         try {
-            const uploaded = await uploadDrugImages(String(id), images, customTradeName);
+            const uploaded = await uploadDrugImages(
+                String(id),
+                images,
+                finalName
+            );
 
             onUploaded(uploaded);
             setImages([]);
@@ -77,9 +107,8 @@ export default function UploadImageModal({
 
         } catch (err) {
             console.error(err);
-            alert("อัปโหลดไม่สำเร็จ");
+            showNotification("อัปโหลดไม่สำเร็จ", "error");
         }
-
     };
 
     return (
@@ -118,14 +147,16 @@ export default function UploadImageModal({
                                     disabled={useDefaultName}
                                     value={useDefaultName ? trade : customTradeName}
                                     onChange={(e) => setCustomTradeName(e.target.value)}
-                                    className="w-full rounded-md ring-1 ring-secondary shadow-sm px-5 py-2 text-sm
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500
-                                    disabled:text-gray-400"
+                                    className={`w-full rounded-md ring-1 mx-2 px-5 py-2 text-sm
+                                        focus:outline-none focus:ring-2
+                                        ${!useDefaultName && !customTradeName ? "ring-red-400" : "ring-secondary"}
+                                    `}
                                 />
                                 <label className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
                                         checked={useDefaultName}
+                                        disabled={!trade}
                                         onChange={(e) => setUseDefaultName(e.target.checked)}
                                     />
                                     <span>ใช้ชื่อตามในระบบ</span>
@@ -198,9 +229,12 @@ export default function UploadImageModal({
                     <div className="flex w-full justify-end gap-2 mt-6">
                     
                         <Button
-                            disabled={images.length === 0}
+                            disabled={
+                                images.length === 0 ||
+                                (!useDefaultName && !customTradeName.trim())
+                            }
                             onClick={handleFilesUploaded}
-                            >
+                        >
                             อัปโหลด
                         </Button>
 
